@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,17 +21,34 @@ namespace RoutePlanner
         public MainForm()
         {
             InitializeComponent();
+            //metroDateTimeDepartureStart.Value = DateTime.Now.AddDays(1);
+            //metroDateTimeDepartureEnd.Value = DateTime.Now.AddDays(2);
+            metroDateTimeDepartureStart.Value = new DateTime(2022, 07, 04, 0, 0, 0);
+            metroDateTimeDepartureEnd.Value = new DateTime(2022, 07, 05, 0, 0, 0);
+            //metroTextBoxW0.Text = "41,780715, -83,560378";
+            metroTextBoxW0.Text = "42,339544, -83,090409";
+            metroTextBoxW1.Text = "42,912429, -78,885757";
+            
+                
+            UpdateEstimatedAltVariantsCount();
         }
 
-        //public List<Location> responseList;
+
         public List<XmlDocument> responseXmlDocList;
         static string key = "ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9";
-
+        DateTime dateTimeStart = new DateTime();
+        DateTime dateTimeEnd = new DateTime();
+        TimeSpan dateTimeDelta = new TimeSpan();
+        //string dateTimeStartStr;
+        int alternativeVariantsCount = 0;
+        int recommendedAltVariantsCount = 1000;
 
         private async void buttonSearch_Click(object sender, EventArgs e)
         {
             Console.WriteLine("*************************Test***********************");
-
+            richTextBox1.Clear();
+            buttonSearch.Enabled = false;
+            buttonSearch.Text = "Wait...";
             AltVariantsCollection alternativeVariants = new AltVariantsCollection();
             responseXmlDocList = new List<XmlDocument>();
             //string wp0 = "39.951916,-75.150118";
@@ -42,37 +60,47 @@ namespace RoutePlanner
             //string wp0 = "41,929006, -83,386938";
             //string wp1 = "42,912397, -78,885736";
 
-            string wp0 = metroTextBoxW1.Text;
-            string wp1 = metroTextBoxW2.Text;
+            string wp0 = metroTextBoxW0.Text;
+            string wp1 = metroTextBoxW1.Text;
 
             string dateTime = "07/04/2022%200:00:00";
 
-            DateTime dateTimeStart = new DateTime();
-            DateTime dateTimeEnd = new DateTime();
+            UpdateEstimatedAltVariantsCount();
 
-            dateTimeStart = metroDateTimeDepartureStart.Value;
-            dateTimeStart.AddHours()
+            dateTimeStart = metroDateTimeDepartureStart.Value.Date;
 
-            dateTimeEnd = metroDateTimeDepartureEnd.Value;
+            dateTimeStart = dateTimeStart.AddHours(Convert.ToDouble(numericUpDownDepStartHr.Value));
+            dateTimeStart = dateTimeStart.AddMinutes(Convert.ToDouble(numericUpDownDepStartMin.Value));
+            dateTimeStart = dateTimeStart.AddSeconds(Convert.ToDouble(numericUpDownDepStartSec.Value));
+
+            dateTimeEnd = metroDateTimeDepartureEnd.Value.Date;
+            dateTimeEnd = dateTimeEnd.AddHours(Convert.ToDouble(numericUpDownDepEndHr.Value));
+            dateTimeEnd = dateTimeEnd.AddMinutes(Convert.ToDouble(numericUpDownDepEndMin.Value));
+            dateTimeEnd = dateTimeEnd.AddSeconds(Convert.ToDouble(numericUpDownDepEndSec.Value));
+
+            dateTimeDelta = dateTimeEnd.Subtract(dateTimeStart);
+            alternativeVariantsCount = Convert.ToInt32( Math.Round( (dateTimeDelta.Ticks/ 10000000/60) / numericUpDownInterval.Value,0));
 
 
-            for (int i = 0; i < 24*2; i++)
+            for (int i = 0; i < alternativeVariantsCount; i++)
             {
-                TimeSpan t2 = TimeSpan.FromMinutes(i*30);
-                string answer2 = string.Format("{0:D2}:{1:D2}:{2:D2}",t2.Hours,t2.Minutes,t2.Seconds);
+                DateTime dateTimeTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
 
-                dateTime = $"07/04/2022%20{answer2}";
+                string dateTimeTempStr = dateTimeTemp.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
+                //Console.WriteLine($"dateTimeTempStr {dateTimeTempStr}");
+
                 var url = $"https://dev.virtualearth.net/REST/V1/Routes/Driving" +
                     $"?wp.0={wp0}" +
                     $"&wp.1={wp1}" +
                     $"&optmz=timeWithTraffic" +
                     $"&timeType=Departure" +
-                    $"&dateTime={dateTime}" +
+                    $"&dateTime={dateTimeTempStr}" +
                     $"&output=xml" +
                     $"&key={key}";
+                //Console.WriteLine($"URL: {url}");
 
 
-                XmlElement xRoot=null;
+                XmlElement xRoot =null;
                 int numberOfTries = 5;
 
                 for (int j = 1; j <= numberOfTries+1; j++)
@@ -88,7 +116,7 @@ namespace RoutePlanner
                         xRoot = response.DocumentElement;
                         responseXmlDocList.Add(response);
 
-                        Console.WriteLine("Response is get successfully");
+                        //Console.WriteLine("Response is get successfully");
                         break;
                     }
                     catch (Exception)
@@ -97,8 +125,7 @@ namespace RoutePlanner
                     }
                 }
 
-                //Console.WriteLine($"URL: {url}");
-                Console.WriteLine("Reading XML started");
+                //Console.WriteLine("Reading XML started");
 
                 if (xRoot != null)
                 {
@@ -145,16 +172,17 @@ namespace RoutePlanner
                                                         if (item4.Name == "TravelDurationTraffic")
                                                         {
                                                             XmlNode TravelDurationTraffic = item4;
-                                                            string date = dateTime.Substring(0, 10);
-                                                            string time = dateTime.Substring(13);
-                                                            TimeSpan t = TimeSpan.FromSeconds(Convert.ToInt32(TravelDurationTraffic.InnerText));
+                                                            TimeSpan timeTravel = TimeSpan.FromSeconds(Convert.ToInt32(TravelDurationTraffic.InnerText));
 
-                                                            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
-                                                                            t.Hours,
-                                                                            t.Minutes,
-                                                                            t.Seconds);
-                                                            Console.WriteLine($"TravelDurationTraffic #{i}: {date} {time}: " + answer);
-                                                            richTextBox1.Text += $"TravelDurationTraffic #{i}: {date} {time}: " + answer + Environment.NewLine;
+                                                            string timeTravelStr = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
+                                                                            timeTravel.Hours,
+                                                                            timeTravel.Minutes,
+                                                                            timeTravel.Seconds);
+
+                                                            Console.WriteLine($"TravelDurationTraffic #{i}: " +
+                                                                $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr);
+                                                            richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
+                                                                $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr + Environment.NewLine;
 
 
 
@@ -199,10 +227,13 @@ namespace RoutePlanner
                         }
                     }
                 }
-                Console.WriteLine("Reading XML finished");
+                //Console.WriteLine("Reading XML finished");
+                buttonSearch.Enabled = true;
+                buttonSearch.Text = "Search";
+
             }
 
-            
+
 
 
 
@@ -298,6 +329,46 @@ namespace RoutePlanner
 
         }
 
+        public void UpdateEstimatedAltVariantsCount()
+        {
+            dateTimeStart = metroDateTimeDepartureStart.Value.Date;
+
+            dateTimeStart = dateTimeStart.AddHours(Convert.ToDouble(numericUpDownDepStartHr.Value));
+            dateTimeStart = dateTimeStart.AddMinutes(Convert.ToDouble(numericUpDownDepStartMin.Value));
+            dateTimeStart = dateTimeStart.AddSeconds(Convert.ToDouble(numericUpDownDepStartSec.Value));
+            //dateTimeStartStr = dateTimeStart.ToString("G", CultureInfo.GetCultureInfo("es-ES"));
+
+            dateTimeEnd = metroDateTimeDepartureEnd.Value.Date;
+            dateTimeEnd = dateTimeEnd.AddHours(Convert.ToDouble(numericUpDownDepEndHr.Value));
+            dateTimeEnd = dateTimeEnd.AddMinutes(Convert.ToDouble(numericUpDownDepEndMin.Value));
+            dateTimeEnd = dateTimeEnd.AddSeconds(Convert.ToDouble(numericUpDownDepEndSec.Value));
+
+            //Console.WriteLine($"{dateTimeStart.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}");
+
+            dateTimeDelta = dateTimeEnd.Subtract(dateTimeStart);
+            alternativeVariantsCount = Convert.ToInt32(Math.Floor((dateTimeDelta.Ticks / 10000000 / 60) / numericUpDownInterval.Value));
+
+            if (alternativeVariantsCount > 0)
+            {
+                if (alternativeVariantsCount > recommendedAltVariantsCount)
+                {
+                    metroLabelEstimatedAltVariantsCount.Text = $"{alternativeVariantsCount}\n(>{recommendedAltVariantsCount} is not recommended)";
+                }
+                else
+                {
+                    metroLabelEstimatedAltVariantsCount.Text = alternativeVariantsCount.ToString();
+                }
+                buttonSearch.Enabled = true ;
+            }
+            else
+            {
+
+                metroLabelEstimatedAltVariantsCount.Text = "Should be more than 0";
+                buttonSearch.Enabled = false;
+            }
+
+        }
+
         public static XmlDocument GetXmlResponse(string requestUrl)
         {
             try
@@ -353,39 +424,75 @@ namespace RoutePlanner
             }
         }
 
-        private void numericUpDown4_ValueChanged(object sender, EventArgs e)
+        //Departure End
+        private void numericUpDownDepEndHr_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        private void numericUpDownDepEndMin_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        private void numericUpDownDepEndSec_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        //Departure Start
+        private void numericUpDownDepStartHr_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        private void numericUpDownDepStartMin_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        private void numericUpDownDepStartSec_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        //Date Time picker
+        private void metroDateTimeDepartureEnd_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        private void metroDateTimeDepartureStart_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        //interval
+        private void numericUpDownInterval_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEstimatedAltVariantsCount();
+        }
+
+        //coefficients
+        private void numericUpDownF1_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void numericUpDown5_ValueChanged(object sender, EventArgs e)
+        private void numericUpDownF2_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void numericUpDown6_ValueChanged(object sender, EventArgs e)
+        private void numericUpDownF3_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void metroDateTime2_ValueChanged(object sender, EventArgs e)
+
+        private void numericUpDownDepStartHr_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-
-        }
-
-        private void numericUpDown7_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDown8_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void metroDateTime3_ValueChanged(object sender, EventArgs e)
-        {
-
+            UpdateEstimatedAltVariantsCount();
         }
 
 
