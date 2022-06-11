@@ -34,7 +34,7 @@ namespace RoutePlanner
                 if (altVar.evaluationCoutryChange > evaluationCoutryChangeMax) evaluationCoutryChangeMax = altVar.evaluationCoutryChange;
             }
 
-            Console.WriteLine(evaluationDelayTimeMax);
+            //Console.WriteLine(evaluationDelayTimeMax);
             foreach (AlternativeVariant altVar in this)
             {
                 if (evaluationDelayTimeMax != 0)
@@ -47,32 +47,47 @@ namespace RoutePlanner
             {
                 if (altVar.evaluationDelayTime > evaluationDelayTimeMax) evaluationDelayTimeMax = altVar.evaluationDelayTime;
             }
-            Console.WriteLine(evaluationDelayTimeMax);
+            //Console.WriteLine(evaluationDelayTimeMax);
 
             foreach (AlternativeVariant altVar in this)
             {
                 if (evaluationDepartureTimeMax!=0)
                 {
                     altVar.evaluationDeparuteTime *= (max / evaluationDepartureTimeMax);
+                    altVar.evaluationDeparuteTime = max-altVar.evaluationDeparuteTime;
                 }
                 if (evaluationDelayTimeMax!=0)
                 {
                     altVar.evaluationDelayTime *= (max / evaluationDelayTimeMax);
+                    altVar.evaluationDelayTime = max - altVar.evaluationDelayTime;
                 }
                 if (evaluationCoutryChangeMax!=0)
                 {
                     altVar.evaluationCoutryChange *= (max / evaluationCoutryChangeMax);
+                    altVar.evaluationCoutryChange = max - altVar.evaluationCoutryChange;
                 }
             }
 
             return this;
         }
 
-        public AltVariantsCollection EvaluateTotal()
+        public AltVariantsCollection EvaluateTotal(double coefF1, double coefF2, double coefF3)
         {
+
+            Console.WriteLine($"{coefF1} {coefF2} {coefF3}");
+            coefF1 /= 100;
+            coefF2 /= 100;
+            coefF3 /= 100;
+            Console.WriteLine($"{coefF1} {coefF2} {coefF3}");
             foreach (AlternativeVariant altVar in this)
             {
-                altVar.evaluationTotal = (altVar.evaluationDeparuteTime + altVar.evaluationDelayTime + altVar.evaluationCoutryChange)/3;
+
+                //Console.WriteLine($"{altVar.evaluationDeparuteTime} {altVar.evaluationDelayTime} {altVar.evaluationCoutryChange}");
+                altVar.evaluationDeparuteTime *= coefF1;
+                altVar.evaluationDelayTime *= coefF2;
+                altVar.evaluationCoutryChange *= coefF3;
+                altVar.evaluationTotal = (altVar.evaluationDeparuteTime + altVar.evaluationDelayTime + altVar.evaluationCoutryChange);
+                altVar.evaluationTotal = Math.Round(altVar.evaluationTotal, 2);
             }
             return this;
         }

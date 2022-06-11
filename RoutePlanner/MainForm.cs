@@ -61,19 +61,9 @@ namespace RoutePlanner
             buttonSearch.Text = "Wait...";
             alternativeVariantsList = new AltVariantsCollection();
             responseXmlDocList = new List<XmlDocument>();
-            //string wp0 = "39.951916,-75.150118";
-            //string wp0 = "50.485068, 30.457412";
-            //string wp1 = "40.745702,-73.847184";
-            //string wp1 = "49.832458, 23.978329";
-
-            //string wp0 = "41,838011, -83,540048";
-            //string wp0 = "41,929006, -83,386938";
-            //string wp1 = "42,912397, -78,885736";
 
             string wp0 = metroTextBoxW0.Text;
             string wp1 = metroTextBoxW1.Text;
-
-            string dateTime = "07/04/2022%200:00:00";
 
             UpdateEstimatedAltVariantsCount();
 
@@ -110,7 +100,6 @@ namespace RoutePlanner
                     $"&key={key}";
                 //Console.WriteLine($"URL: {url}");
 
-
                 XmlElement xRoot =null;
                 int numberOfTries = 5;
 
@@ -126,7 +115,6 @@ namespace RoutePlanner
                         XmlDocument response = GetXmlResponse(url);
                         xRoot = response.DocumentElement;
                         responseXmlDocList.Add(response);
-
                         //Console.WriteLine("Response is get successfully");
                         break;
                     }
@@ -143,12 +131,6 @@ namespace RoutePlanner
                     // обход всех узлов в корневом элементе
                     foreach (XmlElement xnode in xRoot)
                     {
-                        if (xnode.Name == "Copyright")
-                        {
-                            XmlNode copynode = xnode;
-                            //Console.WriteLine("Copyright: " + copynode.InnerText);
-                        }
-
                         if (xnode.Name == "ResourceSets")
                         {
                             XmlNode ResourceSets = xnode;
@@ -391,7 +373,7 @@ namespace RoutePlanner
         {
             DataGridViewRow row;
             alternativeVariantsList = alternativeVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
-            alternativeVariantsList = alternativeVariantsList.EvaluateTotal();
+            alternativeVariantsList = alternativeVariantsList.EvaluateTotal(trackBarF1.Value,trackBarF2.Value,trackBarF3.Value);
             for (int i = 0; i < alternativeVariantsList.Count; i++)
             {
                 row = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
@@ -442,23 +424,6 @@ namespace RoutePlanner
                 buttonSearch.Enabled = false;
             }
 
-        }
-
-        public AltVariantsCollection NormalizeAltVarCollection(AltVariantsCollection rawCollection, double min, double max)
-        {
-            AltVariantsCollection normCollection = rawCollection;
-            List<double> delayTimeList = new List<double>();
-            foreach (AlternativeVariant altVar in normCollection)
-            {
-                delayTimeList.Add(altVar.evaluationDelayTime);
-            }
-
-            foreach (AlternativeVariant altVar in normCollection)
-            {
-                altVar.evaluationDelayTime-= delayTimeList.Min();
-            }
-
-            return normCollection;
         }
 
         public void UpdateExtraPoints()
