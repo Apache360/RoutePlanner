@@ -232,16 +232,16 @@ namespace RoutePlanner
 
             }
 
-            AlternativeVariant altVarBest = alternativeVariantsList.FindBest();
-            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
-            metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("U",CultureInfo.GetCultureInfo("en-US"));
-            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToLongDateString();
-            UpdateMapView(altVarBest, wp0, wp1);
+            
 
             buttonSearch.Enabled = true;
             buttonSearch.Text = "Search";
             UpdateDataGridView();
-
+            AlternativeVariant altVarBest = alternativeVariantsList.FindBest();
+            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToLongDateString();
+            UpdateMapView(altVarBest, wp0, wp1);
 
 
 
@@ -371,6 +371,38 @@ namespace RoutePlanner
             for (int i = 2; i < dataGridViewProfitMatrix.Columns.Count; i++)
             {
                 dataGridViewProfitMatrix.Columns[i].Width = 80;
+            }
+
+
+            //dataGridViewCostMatrix.Dock = DockStyle.Fill;
+
+
+            dataGridViewRawMatrix.ColumnCount = 5;
+
+            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridViewRawMatrix.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewProfitMatrix.Font, FontStyle.Bold);
+
+            //dataGridViewCostMatrix.Name = "altVarDataGridView";
+            //dataGridViewCostMatrix.Location = new System.Drawing.Point(8, 8);
+            //dataGridViewCostMatrix.Size = new Size(400, 250);
+            //dataGridViewCostMatrix.AutoSizeRowsMode =DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            //dataGridViewCostMatrix.ColumnHeadersBorderStyle =DataGridViewHeaderBorderStyle.Single;
+            //dataGridViewCostMatrix.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            //dataGridViewCostMatrix.GridColor = Color.Black;
+            //dataGridViewCostMatrix.RowHeadersVisible = false;
+
+            dataGridViewRawMatrix.Columns[0].Name = "Id";
+            dataGridViewRawMatrix.Columns[1].Name = "Departure Time";
+            dataGridViewRawMatrix.Columns[2].Name = "Travel Time";
+            dataGridViewRawMatrix.Columns[3].Name = "Delay Time";
+            dataGridViewRawMatrix.Columns[4].Name = "Border Crossing";
+
+            dataGridViewRawMatrix.Columns[0].Width = 40;
+            dataGridViewRawMatrix.Columns[1].Width = 130;
+            for (int i = 2; i < dataGridViewRawMatrix.Columns.Count; i++)
+            {
+                dataGridViewRawMatrix.Columns[i].Width = 100;
             }
 
 

@@ -74,11 +74,11 @@ namespace RoutePlanner
         public AltVariantsCollection EvaluateTotal(double coefF1, double coefF2, double coefF3)
         {
 
-            Console.WriteLine($"{coefF1} {coefF2} {coefF3}");
+            //Console.WriteLine($"{coefF1} {coefF2} {coefF3}");
             coefF1 /= 100;
             coefF2 /= 100;
             coefF3 /= 100;
-            Console.WriteLine($"{coefF1} {coefF2} {coefF3}");
+            //Console.WriteLine($"{coefF1} {coefF2} {coefF3}");
             foreach (AlternativeVariant altVar in this)
             {
 
@@ -98,8 +98,19 @@ namespace RoutePlanner
             AlternativeVariant altVarBest= new AlternativeVariant();
             foreach (AlternativeVariant altVar in this)
             {
-                if (evaluationTotalMax < altVar.evaluationTotal) evaluationTotalMax = altVar.evaluationTotal;
-                altVarBest = altVar;
+
+                //Console.WriteLine(altVar.id);
+                //Console.WriteLine(altVar.deparuteTime.ToLocalTime().ToString("U"));
+                //Console.WriteLine(altVar.deparuteTime.ToUniversalTime().ToString("U"));
+                Console.WriteLine(evaluationTotalMax);
+                Console.WriteLine(altVar.evaluationTotal);
+
+                if (evaluationTotalMax < altVar.evaluationTotal)
+                {
+                    Console.WriteLine(altVar.evaluationTotal);
+                    evaluationTotalMax = altVar.evaluationTotal;
+                    altVarBest = altVar;
+                }
             }
             return altVarBest;
         }

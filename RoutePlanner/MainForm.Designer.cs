@@ -79,6 +79,8 @@ namespace RoutePlanner
             this.pictureBoxMapView = new System.Windows.Forms.PictureBox();
             this.tabPageCentralProfitMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
+            this.tabPageCentralRawMatrix = new System.Windows.Forms.TabPage();
+            this.dataGridViewRawMatrix = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
@@ -103,6 +105,8 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMapView)).BeginInit();
             this.tabPageCentralProfitMatrix.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProfitMatrix)).BeginInit();
+            this.tabPageCentralRawMatrix.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRawMatrix)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSearch
@@ -691,6 +695,7 @@ namespace RoutePlanner
             // 
             this.tabControlCentralMap.Controls.Add(this.tabPageCentralMapView);
             this.tabControlCentralMap.Controls.Add(this.tabPageCentralProfitMatrix);
+            this.tabControlCentralMap.Controls.Add(this.tabPageCentralRawMatrix);
             this.tabControlCentralMap.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControlCentralMap.Location = new System.Drawing.Point(3, 3);
             this.tabControlCentralMap.Name = "tabControlCentralMap";
@@ -737,6 +742,25 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix.Size = new System.Drawing.Size(552, 452);
             this.dataGridViewProfitMatrix.TabIndex = 0;
             // 
+            // tabPageCentralRawMatrix
+            // 
+            this.tabPageCentralRawMatrix.Controls.Add(this.dataGridViewRawMatrix);
+            this.tabPageCentralRawMatrix.Location = new System.Drawing.Point(4, 26);
+            this.tabPageCentralRawMatrix.Name = "tabPageCentralRawMatrix";
+            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(564, 461);
+            this.tabPageCentralRawMatrix.TabIndex = 2;
+            this.tabPageCentralRawMatrix.Text = "Raw Matrix";
+            this.tabPageCentralRawMatrix.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewRawMatrix
+            // 
+            this.dataGridViewRawMatrix.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridViewRawMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewRawMatrix.Location = new System.Drawing.Point(6, 4);
+            this.dataGridViewRawMatrix.Name = "dataGridViewRawMatrix";
+            this.dataGridViewRawMatrix.Size = new System.Drawing.Size(552, 452);
+            this.dataGridViewRawMatrix.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -775,6 +799,8 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMapView)).EndInit();
             this.tabPageCentralProfitMatrix.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProfitMatrix)).EndInit();
+            this.tabPageCentralRawMatrix.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRawMatrix)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -831,6 +857,8 @@ namespace RoutePlanner
         private MetroFramework.Controls.MetroLabel metroLabel10;
         private System.Windows.Forms.PictureBox pictureBoxMapView;
         private System.Windows.Forms.DataGridView dataGridViewProfitMatrix;
+        private System.Windows.Forms.TabPage tabPageCentralRawMatrix;
+        private System.Windows.Forms.DataGridView dataGridViewRawMatrix;
     }
 }
 
