@@ -15,6 +15,10 @@ namespace RoutePlanner
         public double evaluationCoutryChange { get; set; }
         public double evaluationTotal { get; set; }
 
+        public AlternativeVariant()
+        {
+        }
+
         public AlternativeVariant(int id, DateTime deparuteTime, double evaluationDeparuteTime, double evaluationDelayTime, double evaluationCoutryChange)
         {
             this.id = id;

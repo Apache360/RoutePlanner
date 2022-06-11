@@ -91,5 +91,17 @@ namespace RoutePlanner
             }
             return this;
         }
+
+        public AlternativeVariant FindBest()
+        {
+            double evaluationTotalMax = Double.MinValue;
+            AlternativeVariant altVarBest= new AlternativeVariant();
+            foreach (AlternativeVariant altVar in this)
+            {
+                if (evaluationTotalMax < altVar.evaluationTotal) evaluationTotalMax = altVar.evaluationTotal;
+                altVarBest = altVar;
+            }
+            return altVarBest;
+        }
     }
 }

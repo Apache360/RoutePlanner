@@ -48,6 +48,7 @@ namespace RoutePlanner
         int alternativeVariantsCount = 0;
         int recommendedAltVariantsCount = 1000;
         AltVariantsCollection alternativeVariantsList;
+        AltVariantsCollection alternativeVariantsListRaw;
         //AltVariantsCollection alternativeVariantsListNorm;
 
         private async void buttonSearch_Click(object sender, EventArgs e)
@@ -60,6 +61,7 @@ namespace RoutePlanner
             buttonSearch.Enabled = false;
             buttonSearch.Text = "Wait...";
             alternativeVariantsList = new AltVariantsCollection();
+            alternativeVariantsListRaw = new AltVariantsCollection();
             responseXmlDocList = new List<XmlDocument>();
 
             string wp0 = metroTextBoxW0.Text;
@@ -86,6 +88,7 @@ namespace RoutePlanner
             {
                 DateTime dateTimeTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
                 alternativeVariantsList.Add(new AlternativeVariant(i,dateTimeTemp, i, 0, 0));
+                alternativeVariantsListRaw.Add(new AlternativeVariant(i,dateTimeTemp, i, 0, 0));
 
                 string dateTimeTempStr = dateTimeTemp.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
                 //Console.WriteLine($"dateTimeTempStr {dateTimeTempStr}");
@@ -178,6 +181,7 @@ namespace RoutePlanner
                                                                 $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr + Environment.NewLine;
                                                             richTextBox1.Refresh();
                                                             alternativeVariantsList[i].evaluationDelayTime = timeTravel.Ticks/10000000;
+                                                            alternativeVariantsListRaw[i].evaluationDelayTime = timeTravel.Ticks/10000000;
 
 
                                                         }
@@ -198,6 +202,7 @@ namespace RoutePlanner
                                                                             {
                                                                                 Console.WriteLine("CountryChange!");
                                                                                 alternativeVariantsList[i].evaluationCoutryChange += 1;
+                                                                                alternativeVariantsListRaw[i].evaluationCoutryChange += 1;
                                                                             }
                                                                         }
                                                                         catch (Exception)
@@ -226,8 +231,12 @@ namespace RoutePlanner
 
 
             }
-            pictureBoxMapView.Load("https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?wp.0=39.951916,-75.150118&wp.1=40.745702,-73.847184&optmz=timeWithTraffic&timeType=Departure&dateTime=8:45:00&key=ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9");
 
+            AlternativeVariant altVarBest = alternativeVariantsList.FindBest();
+            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+            metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("U",CultureInfo.GetCultureInfo("en-US"));
+            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToLongDateString();
+            UpdateMapView(altVarBest, wp0, wp1);
 
             buttonSearch.Enabled = true;
             buttonSearch.Text = "Search";
@@ -439,6 +448,19 @@ namespace RoutePlanner
             {
                 buttonSearch.Enabled = true;
             }
+        }
+
+        public void UpdateMapView(AlternativeVariant altVarBest, string wp0, string wp1)
+        {
+            string dateTimeDeparture = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
+            pictureBoxMapView.Load($"https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?" +
+                $"wp.0={wp0}" +
+                $"&wp.1={wp1}" +
+                $"&optmz=timeWithTraffic" +
+                $"&timeType=Departure" +
+                $"&dateTime={dateTimeDeparture}" +
+                $"&key={key}");
+
         }
 
         public static XmlDocument GetXmlResponse(string requestUrl)

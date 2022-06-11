@@ -683,9 +683,9 @@ namespace RoutePlanner
             this.metroLabel10.AutoSize = true;
             this.metroLabel10.Location = new System.Drawing.Point(7, 507);
             this.metroLabel10.Name = "metroLabel10";
-            this.metroLabel10.Size = new System.Drawing.Size(122, 19);
+            this.metroLabel10.Size = new System.Drawing.Size(181, 19);
             this.metroLabel10.TabIndex = 8;
-            this.metroLabel10.Text = "The best Departure";
+            this.metroLabel10.Text = "The best date time departure";
             // 
             // tabControlCentralMap
             // 
