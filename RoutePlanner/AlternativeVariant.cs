@@ -12,6 +12,7 @@ namespace RoutePlanner
         public DateTime deparuteTime { get; set; }
         public double evaluationDeparuteTime { get; set; }
         public double evaluationDelayTime { get; set; }
+        public double evaluationTravelTime { get; set; }
         public double evaluationCoutryChange { get; set; }
         public double evaluationTotal { get; set; }
 
@@ -25,7 +26,7 @@ namespace RoutePlanner
             this.deparuteTime = deparuteTime;
             //this.evaluationDeparuteTime = deparuteTime.Ticks/10000000; // in raw: total seconds for departure
             this.evaluationDeparuteTime = evaluationDeparuteTime; // in raw: total seconds for departure
-            this.evaluationDelayTime = evaluationDelayTime; // in raw: seconds for delay time
+            this.evaluationTravelTime = evaluationDelayTime; // in raw: seconds for delay time
             this.evaluationCoutryChange = evaluationCoutryChange; // in raw: count of crossing the country border
         }
     }

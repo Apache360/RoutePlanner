@@ -16,33 +16,37 @@ namespace RoutePlanner
         public AltVariantsCollection Normalize(int intervalMin,  double min=0, double max=100)
         {
             double evaluationDepartureTimeMin= double.MaxValue;
-            double evaluationDelayTimeMin= double.MaxValue;
+            double evaluationTravelTimeMin= double.MaxValue;
             double evaluationCoutryChangeMin = double.MaxValue;
 
             double evaluationDepartureTimeMax = double.MinValue;
-            double evaluationDelayTimeMax = double.MinValue;
+            double evaluationTravelTimeMax = double.MinValue;
             double evaluationCoutryChangeMax = double.MinValue;
 
             foreach (AlternativeVariant altVar in this)
             {
                 if (altVar.evaluationDeparuteTime < evaluationDepartureTimeMin) evaluationDepartureTimeMin = altVar.evaluationDeparuteTime;
-                if (altVar.evaluationDelayTime < evaluationDelayTimeMin) evaluationDelayTimeMin = altVar.evaluationDelayTime;
+                if (altVar.evaluationTravelTime < evaluationTravelTimeMin) evaluationTravelTimeMin = altVar.evaluationTravelTime;
                 if (altVar.evaluationCoutryChange < evaluationCoutryChangeMin) evaluationCoutryChangeMin = altVar.evaluationCoutryChange;
 
                 if (altVar.evaluationDeparuteTime > evaluationDepartureTimeMax) evaluationDepartureTimeMax = altVar.evaluationDeparuteTime;
-                if (altVar.evaluationDelayTime > evaluationDelayTimeMax) evaluationDelayTimeMax = altVar.evaluationDelayTime;
+                if (altVar.evaluationTravelTime > evaluationTravelTimeMax) evaluationTravelTimeMax = altVar.evaluationTravelTime;
                 if (altVar.evaluationCoutryChange > evaluationCoutryChangeMax) evaluationCoutryChangeMax = altVar.evaluationCoutryChange;
             }
 
             //Console.WriteLine(evaluationDelayTimeMax);
             foreach (AlternativeVariant altVar in this)
             {
-                if (evaluationDelayTimeMax != 0)
+                if (evaluationTravelTimeMax != 0)
                 {
-                    altVar.evaluationDelayTime -= evaluationDelayTimeMin;
+
+                    altVar.evaluationDelayTime = altVar.evaluationTravelTime - evaluationTravelTimeMin;
+                    //altVar.evaluationDelayTime -= evaluationTravelTimeMin;
                 }
             }
-            evaluationDelayTimeMax = double.MinValue;
+            //evaluationTravelTimeMax = double.MinValue;
+            double evaluationDelayTimeMax = double.MinValue;
+
             foreach (AlternativeVariant altVar in this)
             {
                 if (altVar.evaluationDelayTime > evaluationDelayTimeMax) evaluationDelayTimeMax = altVar.evaluationDelayTime;
@@ -56,7 +60,7 @@ namespace RoutePlanner
                     altVar.evaluationDeparuteTime *= (max / evaluationDepartureTimeMax);
                     altVar.evaluationDeparuteTime = max-altVar.evaluationDeparuteTime;
                 }
-                if (evaluationDelayTimeMax!=0)
+                if (evaluationDelayTimeMax != 0)
                 {
                     altVar.evaluationDelayTime *= (max / evaluationDelayTimeMax);
                     altVar.evaluationDelayTime = max - altVar.evaluationDelayTime;
@@ -68,6 +72,26 @@ namespace RoutePlanner
                 }
             }
 
+            return this;
+        }
+
+        public AltVariantsCollection GetDelayTime ()
+        {
+            //double evaluationTravelTimeMax = double.MinValue;
+            double evaluationTravelTimeMin = double.MaxValue;
+            foreach (AlternativeVariant altVar in this)
+            {
+                if (altVar.evaluationTravelTime < evaluationTravelTimeMin) evaluationTravelTimeMin = altVar.evaluationTravelTime;
+            }
+
+            //Console.WriteLine(evaluationDelayTimeMax);
+            foreach (AlternativeVariant altVar in this)
+            {
+                if (evaluationTravelTimeMin != 0)
+                {
+                    altVar.evaluationDelayTime = altVar.evaluationTravelTime- evaluationTravelTimeMin;
+                }
+            }
             return this;
         }
 
@@ -98,16 +122,9 @@ namespace RoutePlanner
             AlternativeVariant altVarBest= new AlternativeVariant();
             foreach (AlternativeVariant altVar in this)
             {
-
-                //Console.WriteLine(altVar.id);
-                //Console.WriteLine(altVar.deparuteTime.ToLocalTime().ToString("U"));
-                //Console.WriteLine(altVar.deparuteTime.ToUniversalTime().ToString("U"));
-                Console.WriteLine(evaluationTotalMax);
-                Console.WriteLine(altVar.evaluationTotal);
-
                 if (evaluationTotalMax < altVar.evaluationTotal)
                 {
-                    Console.WriteLine(altVar.evaluationTotal);
+                    //Console.WriteLine(altVar.evaluationTotal);
                     evaluationTotalMax = altVar.evaluationTotal;
                     altVarBest = altVar;
                 }

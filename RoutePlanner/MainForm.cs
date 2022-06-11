@@ -180,8 +180,8 @@ namespace RoutePlanner
                                                             richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
                                                                 $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr + Environment.NewLine;
                                                             richTextBox1.Refresh();
-                                                            alternativeVariantsList[i].evaluationDelayTime = timeTravel.Ticks/10000000;
-                                                            alternativeVariantsListRaw[i].evaluationDelayTime = timeTravel.Ticks/10000000;
+                                                            alternativeVariantsList[i].evaluationTravelTime = timeTravel.Ticks/10000000;
+                                                            alternativeVariantsListRaw[i].evaluationTravelTime = timeTravel.Ticks/10000000;
 
 
                                                         }
@@ -241,7 +241,7 @@ namespace RoutePlanner
             //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
             metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToLongDateString();
-            UpdateMapView(altVarBest, wp0, wp1);
+            UpdateMapView(altVarBest, wp0, wp1); 
 
 
 
@@ -376,12 +376,12 @@ namespace RoutePlanner
 
             //dataGridViewCostMatrix.Dock = DockStyle.Fill;
 
-
+            //
             dataGridViewRawMatrix.ColumnCount = 5;
 
             //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
             //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dataGridViewRawMatrix.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewProfitMatrix.Font, FontStyle.Bold);
+            dataGridViewRawMatrix.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewRawMatrix.Font, FontStyle.Bold);
 
             //dataGridViewCostMatrix.Name = "altVarDataGridView";
             //dataGridViewCostMatrix.Location = new System.Drawing.Point(8, 8);
@@ -412,20 +412,36 @@ namespace RoutePlanner
 
         public void UpdateDataGridView()
         {
-            DataGridViewRow row;
+            DataGridViewRow rowProfit;
             alternativeVariantsList = alternativeVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
             alternativeVariantsList = alternativeVariantsList.EvaluateTotal(trackBarF1.Value,trackBarF2.Value,trackBarF3.Value);
             for (int i = 0; i < alternativeVariantsList.Count; i++)
             {
-                row = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
-                row.Cells[0].Value = alternativeVariantsList[i].id;
-                row.Cells[1].Value = alternativeVariantsList[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
-                row.Cells[2].Value = alternativeVariantsList[i].evaluationDeparuteTime;
-                row.Cells[3].Value = alternativeVariantsList[i].evaluationDelayTime;
-                row.Cells[4].Value = alternativeVariantsList[i].evaluationCoutryChange;
-                row.Cells[5].Value = alternativeVariantsList[i].evaluationTotal;
-                dataGridViewProfitMatrix.Rows.Add(row);
+                rowProfit = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
+                rowProfit.Cells[0].Value = alternativeVariantsList[i].id;
+                rowProfit.Cells[1].Value = alternativeVariantsList[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                rowProfit.Cells[2].Value = alternativeVariantsList[i].evaluationDeparuteTime;
+                rowProfit.Cells[3].Value = alternativeVariantsList[i].evaluationDelayTime;
+                rowProfit.Cells[4].Value = alternativeVariantsList[i].evaluationCoutryChange;
+                rowProfit.Cells[5].Value = alternativeVariantsList[i].evaluationTotal;
+                dataGridViewProfitMatrix.Rows.Add(rowProfit);
             }
+            
+            DataGridViewRow rowRaw;
+            alternativeVariantsListRaw = alternativeVariantsListRaw.GetDelayTime();
+            for (int i = 0; i < alternativeVariantsListRaw.Count; i++)
+            {
+                //rowRaw = new DataGridViewRow();
+                rowRaw = (DataGridViewRow)dataGridViewRawMatrix.Rows[i].Clone();
+                rowRaw.Cells[0].Value = alternativeVariantsListRaw[i].id;
+                rowRaw.Cells[1].Value = alternativeVariantsListRaw[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                rowRaw.Cells[2].Value = TimeSpan.FromSeconds( alternativeVariantsListRaw[i].evaluationTravelTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[3].Value = TimeSpan.FromSeconds( alternativeVariantsListRaw[i].evaluationDelayTime).ToString(@"hh\:mm\:ss");
+                //rowRaw.Cells[3].Value = alternativeVariantsListRaw[i].evaluationDelayTime;
+                rowRaw.Cells[4].Value = alternativeVariantsListRaw[i].evaluationCoutryChange;
+                dataGridViewRawMatrix.Rows.Add(rowRaw);
+            }
+
         }
 
         public void UpdateEstimatedAltVariantsCount()
