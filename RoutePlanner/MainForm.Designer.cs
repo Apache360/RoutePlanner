@@ -76,9 +76,9 @@ namespace RoutePlanner
             this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
             this.tabControlCentralMap = new System.Windows.Forms.TabControl();
             this.tabPageCentralMapView = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tabPageCentralCostMatrix = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.pictureBoxMapView = new System.Windows.Forms.PictureBox();
+            this.tabPageCentralProfitMatrix = new System.Windows.Forms.TabPage();
+            this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
@@ -100,9 +100,9 @@ namespace RoutePlanner
             this.panel3.SuspendLayout();
             this.tabControlCentralMap.SuspendLayout();
             this.tabPageCentralMapView.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.tabPageCentralCostMatrix.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMapView)).BeginInit();
+            this.tabPageCentralProfitMatrix.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProfitMatrix)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSearch
@@ -509,6 +509,7 @@ namespace RoutePlanner
             this.trackBarF3.Size = new System.Drawing.Size(230, 45);
             this.trackBarF3.TabIndex = 10;
             this.trackBarF3.Value = 33;
+            this.trackBarF3.ValueChanged += new System.EventHandler(this.trackBarF3_ValueChanged);
             // 
             // metroLabel13
             // 
@@ -550,6 +551,7 @@ namespace RoutePlanner
             this.trackBarF2.Size = new System.Drawing.Size(230, 45);
             this.trackBarF2.TabIndex = 6;
             this.trackBarF2.Value = 33;
+            this.trackBarF2.ValueChanged += new System.EventHandler(this.trackBarF2_ValueChanged);
             // 
             // metroLabel12
             // 
@@ -591,6 +593,7 @@ namespace RoutePlanner
             this.trackBarF1.Size = new System.Drawing.Size(230, 45);
             this.trackBarF1.TabIndex = 2;
             this.trackBarF1.Value = 34;
+            this.trackBarF1.ValueChanged += new System.EventHandler(this.trackBarF1_ValueChanged);
             // 
             // metroLabelExtraPoints
             // 
@@ -687,7 +690,7 @@ namespace RoutePlanner
             // tabControlCentralMap
             // 
             this.tabControlCentralMap.Controls.Add(this.tabPageCentralMapView);
-            this.tabControlCentralMap.Controls.Add(this.tabPageCentralCostMatrix);
+            this.tabControlCentralMap.Controls.Add(this.tabPageCentralProfitMatrix);
             this.tabControlCentralMap.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControlCentralMap.Location = new System.Drawing.Point(3, 3);
             this.tabControlCentralMap.Name = "tabControlCentralMap";
@@ -697,7 +700,7 @@ namespace RoutePlanner
             // 
             // tabPageCentralMapView
             // 
-            this.tabPageCentralMapView.Controls.Add(this.pictureBox1);
+            this.tabPageCentralMapView.Controls.Add(this.pictureBoxMapView);
             this.tabPageCentralMapView.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralMapView.Name = "tabPageCentralMapView";
             this.tabPageCentralMapView.Padding = new System.Windows.Forms.Padding(3);
@@ -706,32 +709,33 @@ namespace RoutePlanner
             this.tabPageCentralMapView.Text = "Map View";
             this.tabPageCentralMapView.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pictureBoxMapView
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(7, 7);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(551, 398);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxMapView.Location = new System.Drawing.Point(7, 7);
+            this.pictureBoxMapView.Name = "pictureBoxMapView";
+            this.pictureBoxMapView.Size = new System.Drawing.Size(551, 426);
+            this.pictureBoxMapView.TabIndex = 0;
+            this.pictureBoxMapView.TabStop = false;
             // 
-            // tabPageCentralCostMatrix
+            // tabPageCentralProfitMatrix
             // 
-            this.tabPageCentralCostMatrix.Controls.Add(this.dataGridView1);
-            this.tabPageCentralCostMatrix.Location = new System.Drawing.Point(4, 26);
-            this.tabPageCentralCostMatrix.Name = "tabPageCentralCostMatrix";
-            this.tabPageCentralCostMatrix.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCentralCostMatrix.Size = new System.Drawing.Size(564, 461);
-            this.tabPageCentralCostMatrix.TabIndex = 1;
-            this.tabPageCentralCostMatrix.Text = "Cost Matrix";
-            this.tabPageCentralCostMatrix.UseVisualStyleBackColor = true;
+            this.tabPageCentralProfitMatrix.Controls.Add(this.dataGridViewProfitMatrix);
+            this.tabPageCentralProfitMatrix.Location = new System.Drawing.Point(4, 26);
+            this.tabPageCentralProfitMatrix.Name = "tabPageCentralProfitMatrix";
+            this.tabPageCentralProfitMatrix.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCentralProfitMatrix.Size = new System.Drawing.Size(564, 461);
+            this.tabPageCentralProfitMatrix.TabIndex = 1;
+            this.tabPageCentralProfitMatrix.Text = "Profit Matrix";
+            this.tabPageCentralProfitMatrix.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridViewProfitMatrix
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 6);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(552, 507);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridViewProfitMatrix.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridViewProfitMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewProfitMatrix.Location = new System.Drawing.Point(6, 3);
+            this.dataGridViewProfitMatrix.Name = "dataGridViewProfitMatrix";
+            this.dataGridViewProfitMatrix.Size = new System.Drawing.Size(552, 452);
+            this.dataGridViewProfitMatrix.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -768,9 +772,9 @@ namespace RoutePlanner
             this.panel3.PerformLayout();
             this.tabControlCentralMap.ResumeLayout(false);
             this.tabPageCentralMapView.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.tabPageCentralCostMatrix.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMapView)).EndInit();
+            this.tabPageCentralProfitMatrix.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProfitMatrix)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -822,11 +826,11 @@ namespace RoutePlanner
         private MetroFramework.Controls.MetroLabel metroLabel11;
         private System.Windows.Forms.TabControl tabControlCentralMap;
         private System.Windows.Forms.TabPage tabPageCentralMapView;
-        private System.Windows.Forms.TabPage tabPageCentralCostMatrix;
+        private System.Windows.Forms.TabPage tabPageCentralProfitMatrix;
         private MetroFramework.Controls.MetroTextBox metroTextBoxBestDeparture;
         private MetroFramework.Controls.MetroLabel metroLabel10;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.PictureBox pictureBoxMapView;
+        private System.Windows.Forms.DataGridView dataGridViewProfitMatrix;
     }
 }
 

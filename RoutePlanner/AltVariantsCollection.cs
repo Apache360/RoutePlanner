@@ -8,26 +8,73 @@ namespace RoutePlanner
 {
     public class AltVariantsCollection : List<AlternativeVariant>
     {
-        public AltVariantsCollection GetLocalValues(AltVariantsCollection collection)
+        public AltVariantsCollection()
         {
-            double evaluationDeparuteTimeMin= double.MaxValue;
-            //double evaluationDeparuteTimeMax=0;
+
+        }
+
+        public AltVariantsCollection Normalize(int intervalMin,  double min=0, double max=100)
+        {
+            double evaluationDepartureTimeMin= double.MaxValue;
             double evaluationDelayTimeMin= double.MaxValue;
-            //double evaluationDelayTimeMax=0;
-            foreach (var altVar in collection)
+            double evaluationCoutryChangeMin = double.MaxValue;
+
+            double evaluationDepartureTimeMax = double.MinValue;
+            double evaluationDelayTimeMax = double.MinValue;
+            double evaluationCoutryChangeMax = double.MinValue;
+
+            foreach (AlternativeVariant altVar in this)
             {
-                if (altVar.evaluationDeparuteTime < evaluationDeparuteTimeMin) evaluationDeparuteTimeMin = altVar.evaluationDeparuteTime;
-                //if (altVar.evaluationDeparuteTime > evaluationDeparuteTimeMax) evaluationDeparuteTimeMax = altVar.evaluationDeparuteTime;
+                if (altVar.evaluationDeparuteTime < evaluationDepartureTimeMin) evaluationDepartureTimeMin = altVar.evaluationDeparuteTime;
                 if (altVar.evaluationDelayTime < evaluationDelayTimeMin) evaluationDelayTimeMin = altVar.evaluationDelayTime;
-                //if (altVar.evaluationDelayTime > evaluationDelayTimeMax) evaluationDelayTimeMax = altVar.evaluationDelayTime;
+                if (altVar.evaluationCoutryChange < evaluationCoutryChangeMin) evaluationCoutryChangeMin = altVar.evaluationCoutryChange;
+
+                if (altVar.evaluationDeparuteTime > evaluationDepartureTimeMax) evaluationDepartureTimeMax = altVar.evaluationDeparuteTime;
+                if (altVar.evaluationDelayTime > evaluationDelayTimeMax) evaluationDelayTimeMax = altVar.evaluationDelayTime;
+                if (altVar.evaluationCoutryChange > evaluationCoutryChangeMax) evaluationCoutryChangeMax = altVar.evaluationCoutryChange;
             }
 
-            foreach (var altVar in collection)
+            Console.WriteLine(evaluationDelayTimeMax);
+            foreach (AlternativeVariant altVar in this)
             {
-                altVar.evaluationDeparuteTime -= evaluationDeparuteTimeMin;
-                altVar.evaluationDelayTime -= evaluationDelayTimeMin;
+                if (evaluationDelayTimeMax != 0)
+                {
+                    altVar.evaluationDelayTime -= evaluationDelayTimeMin;
+                }
             }
-            return collection;
+            evaluationDelayTimeMax = double.MinValue;
+            foreach (AlternativeVariant altVar in this)
+            {
+                if (altVar.evaluationDelayTime > evaluationDelayTimeMax) evaluationDelayTimeMax = altVar.evaluationDelayTime;
+            }
+            Console.WriteLine(evaluationDelayTimeMax);
+
+            foreach (AlternativeVariant altVar in this)
+            {
+                if (evaluationDepartureTimeMax!=0)
+                {
+                    altVar.evaluationDeparuteTime *= (max / evaluationDepartureTimeMax);
+                }
+                if (evaluationDelayTimeMax!=0)
+                {
+                    altVar.evaluationDelayTime *= (max / evaluationDelayTimeMax);
+                }
+                if (evaluationCoutryChangeMax!=0)
+                {
+                    altVar.evaluationCoutryChange *= (max / evaluationCoutryChangeMax);
+                }
+            }
+
+            return this;
+        }
+
+        public AltVariantsCollection EvaluateTotal()
+        {
+            foreach (AlternativeVariant altVar in this)
+            {
+                altVar.evaluationTotal = (altVar.evaluationDeparuteTime + altVar.evaluationDelayTime + altVar.evaluationCoutryChange)/3;
+            }
+            return this;
         }
     }
 }

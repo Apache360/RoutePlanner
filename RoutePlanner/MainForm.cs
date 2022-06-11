@@ -1,4 +1,5 @@
 ﻿using BingMapsRESTToolkit;
+using Microsoft.PowerBI.Api.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace RoutePlanner
@@ -26,11 +28,14 @@ namespace RoutePlanner
             metroDateTimeDepartureStart.Value = new DateTime(2022, 07, 04, 0, 0, 0);
             metroDateTimeDepartureEnd.Value = new DateTime(2022, 07, 05, 0, 0, 0);
             //metroTextBoxW0.Text = "41,780715, -83,560378";
-            metroTextBoxW0.Text = "42,339544, -83,090409";
-            metroTextBoxW1.Text = "42,912429, -78,885757";
-            
-                
+            //metroTextBoxW0.Text = "42,339544, -83,090409";
+            //metroTextBoxW1.Text = "42,912429, -78,885757";
+            metroTextBoxW0.Text = "3835 Luna Pier Rd, Erie, Мічиган 48133, Сполучені Штати";
+            metroTextBoxW1.Text = "19 18th St, Буффало, Нью-Йорк 14213, Сполучені Штати";
+
+            SetUpDataGridView();
             UpdateEstimatedAltVariantsCount();
+            
         }
 
 
@@ -42,14 +47,19 @@ namespace RoutePlanner
         //string dateTimeStartStr;
         int alternativeVariantsCount = 0;
         int recommendedAltVariantsCount = 1000;
+        AltVariantsCollection alternativeVariantsList;
+        //AltVariantsCollection alternativeVariantsListNorm;
 
         private async void buttonSearch_Click(object sender, EventArgs e)
         {
             Console.WriteLine("*************************Test***********************");
             richTextBox1.Clear();
+            dataGridViewProfitMatrix.Rows.Clear();
+            dataGridViewProfitMatrix.Refresh();
+
             buttonSearch.Enabled = false;
             buttonSearch.Text = "Wait...";
-            AltVariantsCollection alternativeVariants = new AltVariantsCollection();
+            alternativeVariantsList = new AltVariantsCollection();
             responseXmlDocList = new List<XmlDocument>();
             //string wp0 = "39.951916,-75.150118";
             //string wp0 = "50.485068, 30.457412";
@@ -85,6 +95,7 @@ namespace RoutePlanner
             for (int i = 0; i < alternativeVariantsCount; i++)
             {
                 DateTime dateTimeTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
+                alternativeVariantsList.Add(new AlternativeVariant(i,dateTimeTemp, i, 0, 0));
 
                 string dateTimeTempStr = dateTimeTemp.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
                 //Console.WriteLine($"dateTimeTempStr {dateTimeTempStr}");
@@ -183,7 +194,8 @@ namespace RoutePlanner
                                                                 $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr);
                                                             richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
                                                                 $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr + Environment.NewLine;
-
+                                                            richTextBox1.Refresh();
+                                                            alternativeVariantsList[i].evaluationDelayTime = timeTravel.Ticks/10000000;
 
 
                                                         }
@@ -203,6 +215,7 @@ namespace RoutePlanner
                                                                             if (item6.Name == "Warning" && item6.Attributes["warningType"].Value == "CountryChange")
                                                                             {
                                                                                 Console.WriteLine("CountryChange!");
+                                                                                alternativeVariantsList[i].evaluationCoutryChange += 1;
                                                                             }
                                                                         }
                                                                         catch (Exception)
@@ -227,11 +240,16 @@ namespace RoutePlanner
                         }
                     }
                 }
-                //Console.WriteLine("Reading XML finished");
-                buttonSearch.Enabled = true;
-                buttonSearch.Text = "Search";
+
+
 
             }
+            pictureBoxMapView.Load("https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?wp.0=39.951916,-75.150118&wp.1=40.745702,-73.847184&optmz=timeWithTraffic&timeType=Departure&dateTime=8:45:00&key=ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9");
+
+
+            buttonSearch.Enabled = true;
+            buttonSearch.Text = "Search";
+            UpdateDataGridView();
 
 
 
@@ -329,6 +347,64 @@ namespace RoutePlanner
 
         }
 
+
+        public void SetUpDataGridView()
+        {
+            dataGridViewProfitMatrix.ColumnCount = 6;
+
+            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridViewProfitMatrix.ColumnHeadersDefaultCellStyle.Font =new Font(dataGridViewProfitMatrix.Font, FontStyle.Bold);
+
+            //dataGridViewCostMatrix.Name = "altVarDataGridView";
+            //dataGridViewCostMatrix.Location = new System.Drawing.Point(8, 8);
+            //dataGridViewCostMatrix.Size = new Size(400, 250);
+            //dataGridViewCostMatrix.AutoSizeRowsMode =DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            //dataGridViewCostMatrix.ColumnHeadersBorderStyle =DataGridViewHeaderBorderStyle.Single;
+            //dataGridViewCostMatrix.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            //dataGridViewCostMatrix.GridColor = Color.Black;
+            //dataGridViewCostMatrix.RowHeadersVisible = false;
+
+            dataGridViewProfitMatrix.Columns[0].Name = "Id";
+            dataGridViewProfitMatrix.Columns[1].Name = "Departure Time";
+            dataGridViewProfitMatrix.Columns[2].Name = "F1 Evaluation (Departure Time)";
+            dataGridViewProfitMatrix.Columns[3].Name = "F2 Evaluation (Delay Time)";
+            dataGridViewProfitMatrix.Columns[4].Name = "F3 Evaluation (Border Crossing)";
+            dataGridViewProfitMatrix.Columns[5].Name = "Total Evaluation";
+
+            dataGridViewProfitMatrix.Columns[5].DefaultCellStyle.Font =
+                new Font(dataGridViewProfitMatrix.DefaultCellStyle.Font, FontStyle.Regular);
+
+            dataGridViewProfitMatrix.Columns[0].Width = 40;
+            dataGridViewProfitMatrix.Columns[1].Width = 130;
+            for (int i = 2; i < dataGridViewProfitMatrix.Columns.Count; i++)
+            {
+                dataGridViewProfitMatrix.Columns[i].Width = 80;
+            }
+
+
+            //dataGridViewCostMatrix.Dock = DockStyle.Fill;
+
+        }
+
+        public void UpdateDataGridView()
+        {
+            DataGridViewRow row;
+            alternativeVariantsList = alternativeVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
+            alternativeVariantsList = alternativeVariantsList.EvaluateTotal();
+            for (int i = 0; i < alternativeVariantsList.Count; i++)
+            {
+                row = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
+                row.Cells[0].Value = alternativeVariantsList[i].id;
+                row.Cells[1].Value = alternativeVariantsList[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                row.Cells[2].Value = alternativeVariantsList[i].evaluationDeparuteTime;
+                row.Cells[3].Value = alternativeVariantsList[i].evaluationDelayTime;
+                row.Cells[4].Value = alternativeVariantsList[i].evaluationCoutryChange;
+                row.Cells[5].Value = alternativeVariantsList[i].evaluationTotal;
+                dataGridViewProfitMatrix.Rows.Add(row);
+            }
+        }
+
         public void UpdateEstimatedAltVariantsCount()
         {
             dateTimeStart = metroDateTimeDepartureStart.Value.Date;
@@ -362,11 +438,42 @@ namespace RoutePlanner
             }
             else
             {
-
                 metroLabelEstimatedAltVariantsCount.Text = "Should be more than 0";
                 buttonSearch.Enabled = false;
             }
 
+        }
+
+        public AltVariantsCollection NormalizeAltVarCollection(AltVariantsCollection rawCollection, double min, double max)
+        {
+            AltVariantsCollection normCollection = rawCollection;
+            List<double> delayTimeList = new List<double>();
+            foreach (AlternativeVariant altVar in normCollection)
+            {
+                delayTimeList.Add(altVar.evaluationDelayTime);
+            }
+
+            foreach (AlternativeVariant altVar in normCollection)
+            {
+                altVar.evaluationDelayTime-= delayTimeList.Min();
+            }
+
+            return normCollection;
+        }
+
+        public void UpdateExtraPoints()
+        {
+            var extraPoints = 100 - trackBarF1.Value - trackBarF2.Value - trackBarF3.Value;
+            metroLabelExtraPoints.Text = extraPoints.ToString();
+            if (extraPoints!=0)
+            {
+                buttonSearch.Enabled = false;
+                metroLabelExtraPoints.Text += " (Should be 0)";
+            }
+            else
+            {
+                buttonSearch.Enabled = true;
+            }
         }
 
         public static XmlDocument GetXmlResponse(string requestUrl)
@@ -476,23 +583,38 @@ namespace RoutePlanner
         //coefficients
         private void numericUpDownF1_ValueChanged(object sender, EventArgs e)
         {
-
+            trackBarF1.Value = Convert.ToInt32( numericUpDownF1.Value);
+            UpdateExtraPoints();
         }
 
         private void numericUpDownF2_ValueChanged(object sender, EventArgs e)
         {
-
+            trackBarF2.Value = Convert.ToInt32(numericUpDownF2.Value);
+            UpdateExtraPoints();
         }
 
         private void numericUpDownF3_ValueChanged(object sender, EventArgs e)
         {
-
+            trackBarF3.Value = Convert.ToInt32(numericUpDownF3.Value);
+            UpdateExtraPoints();
         }
 
-
-        private void numericUpDownDepStartHr_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void trackBarF1_ValueChanged(object sender, EventArgs e)
         {
-            UpdateEstimatedAltVariantsCount();
+            numericUpDownF1.Value = trackBarF1.Value;
+            UpdateExtraPoints();
+        }
+
+        private void trackBarF2_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownF2.Value = trackBarF2.Value;
+            UpdateExtraPoints();
+        }
+
+        private void trackBarF3_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownF3.Value = trackBarF3.Value;
+            UpdateExtraPoints();
         }
 
 
