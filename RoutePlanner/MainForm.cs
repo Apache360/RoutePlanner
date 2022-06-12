@@ -50,6 +50,9 @@ namespace RoutePlanner
         AltVariantsCollection alternativeVariantsList;
         AltVariantsCollection alternativeVariantsListRaw;
         //AltVariantsCollection alternativeVariantsListNorm;
+        string wp0;
+        string wp1;
+        AlternativeVariant altVarBest;
 
         private async void buttonSearch_Click(object sender, EventArgs e)
         {
@@ -64,8 +67,8 @@ namespace RoutePlanner
             alternativeVariantsListRaw = new AltVariantsCollection();
             responseXmlDocList = new List<XmlDocument>();
 
-            string wp0 = metroTextBoxW0.Text;
-            string wp1 = metroTextBoxW1.Text;
+            wp0 = metroTextBoxW0.Text;
+            wp1 = metroTextBoxW1.Text;
 
             UpdateEstimatedAltVariantsCount();
 
@@ -237,7 +240,7 @@ namespace RoutePlanner
             buttonSearch.Enabled = true;
             buttonSearch.Text = "Search";
             UpdateDataGridView();
-            AlternativeVariant altVarBest = alternativeVariantsList.FindBest();
+            altVarBest = alternativeVariantsList.FindBest();
             //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
             metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToLongDateString();
@@ -501,9 +504,16 @@ namespace RoutePlanner
         public void UpdateMapView(AlternativeVariant altVarBest, string wp0, string wp1)
         {
             string dateTimeDeparture = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
+            int mapWidth;
+            int mapHeight;
+            if (pictureBoxMapView.Width > 400) mapWidth = pictureBoxMapView.Width;
+            else mapWidth = 400;
+            if (pictureBoxMapView.Height>400) mapHeight = pictureBoxMapView.Height;
+            else mapHeight = 400;
             pictureBoxMapView.Load($"https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?" +
                 $"wp.0={wp0}" +
                 $"&wp.1={wp1}" +
+                $"&mapsize={mapWidth},{mapHeight}" +
                 $"&optmz=timeWithTraffic" +
                 $"&timeType=Departure" +
                 $"&dateTime={dateTimeDeparture}" +
@@ -650,6 +660,20 @@ namespace RoutePlanner
         {
             numericUpDownF3.Value = trackBarF3.Value;
             UpdateExtraPoints();
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine(tabControlCentral.Size);
+            Console.WriteLine(panelCentral.Size);
+            Console.WriteLine(pictureBoxMapView.Size);
+            tabControlCentral.Size = panelCentral.Size;
+            tabControlCentral.Size = new Size(width: panelCentral.Size.Width-9, height: panelCentral.Size.Height - 67);
+            pictureBoxMapView.Size = new Size(width: tabPageCentralMapView.Size.Width, height: tabPageCentralMapView.Size.Height);
+            metroLabelBestTime.Location = new System.Drawing.Point(7, tabControlCentral.Height+15);
+            metroTextBoxBestDeparture.Location = new System.Drawing.Point(7, tabControlCentral.Height+32);
+            UpdateMapView(altVarBest, wp0, wp1);
+
         }
 
 

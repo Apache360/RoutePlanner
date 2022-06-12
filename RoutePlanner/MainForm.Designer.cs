@@ -31,7 +31,7 @@ namespace RoutePlanner
         {
             this.buttonSearch = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelLeft = new System.Windows.Forms.Panel();
             this.tabControlLeftPane = new System.Windows.Forms.TabControl();
             this.tabPageLeftPaneGeneral = new System.Windows.Forms.TabPage();
             this.metroLabelEstimatedAltVariantsCount = new MetroFramework.Controls.MetroLabel();
@@ -70,18 +70,18 @@ namespace RoutePlanner
             this.metroLabelExtraPoints = new MetroFramework.Controls.MetroLabel();
             this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
             this.tabPageLeftPaneExtra = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelRight = new System.Windows.Forms.Panel();
+            this.panelCentral = new System.Windows.Forms.Panel();
             this.metroTextBoxBestDeparture = new MetroFramework.Controls.MetroTextBox();
-            this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
-            this.tabControlCentralMap = new System.Windows.Forms.TabControl();
+            this.metroLabelBestTime = new MetroFramework.Controls.MetroLabel();
+            this.tabControlCentral = new System.Windows.Forms.TabControl();
             this.tabPageCentralMapView = new System.Windows.Forms.TabPage();
             this.pictureBoxMapView = new System.Windows.Forms.PictureBox();
             this.tabPageCentralProfitMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
             this.tabPageCentralRawMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewRawMatrix = new System.Windows.Forms.DataGridView();
-            this.panel1.SuspendLayout();
+            this.panelLeft.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInterval)).BeginInit();
@@ -98,9 +98,9 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownF1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF1)).BeginInit();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.tabControlCentralMap.SuspendLayout();
+            this.panelRight.SuspendLayout();
+            this.panelCentral.SuspendLayout();
+            this.tabControlCentral.SuspendLayout();
             this.tabPageCentralMapView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMapView)).BeginInit();
             this.tabPageCentralProfitMatrix.SuspendLayout();
@@ -123,22 +123,22 @@ namespace RoutePlanner
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(6, 12);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 26);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(305, 482);
+            this.richTextBox1.Size = new System.Drawing.Size(171, 468);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             // 
-            // panel1
+            // panelLeft
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.tabControlLeftPane);
-            this.panel1.Controls.Add(this.buttonSearch);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(310, 564);
-            this.panel1.TabIndex = 2;
+            this.panelLeft.BackColor = System.Drawing.Color.White;
+            this.panelLeft.Controls.Add(this.tabControlLeftPane);
+            this.panelLeft.Controls.Add(this.buttonSearch);
+            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelLeft.Location = new System.Drawing.Point(0, 0);
+            this.panelLeft.Name = "panelLeft";
+            this.panelLeft.Size = new System.Drawing.Size(310, 561);
+            this.panelLeft.TabIndex = 2;
             // 
             // tabControlLeftPane
             // 
@@ -146,10 +146,10 @@ namespace RoutePlanner
             this.tabControlLeftPane.Controls.Add(this.tabPageLeftPaneWeight);
             this.tabControlLeftPane.Controls.Add(this.tabPageLeftPaneExtra);
             this.tabControlLeftPane.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabControlLeftPane.Location = new System.Drawing.Point(3, 3);
+            this.tabControlLeftPane.Location = new System.Drawing.Point(3, 0);
             this.tabControlLeftPane.Name = "tabControlLeftPane";
             this.tabControlLeftPane.SelectedIndex = 0;
-            this.tabControlLeftPane.Size = new System.Drawing.Size(300, 491);
+            this.tabControlLeftPane.Size = new System.Drawing.Size(304, 494);
             this.tabControlLeftPane.TabIndex = 12;
             // 
             // tabPageLeftPaneGeneral
@@ -469,7 +469,7 @@ namespace RoutePlanner
             this.tabPageLeftPaneWeight.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneWeight.Name = "tabPageLeftPaneWeight";
             this.tabPageLeftPaneWeight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLeftPaneWeight.Size = new System.Drawing.Size(292, 461);
+            this.tabPageLeftPaneWeight.Size = new System.Drawing.Size(296, 464);
             this.tabPageLeftPaneWeight.TabIndex = 1;
             this.tabPageLeftPaneWeight.Text = "Weight of conditions";
             // 
@@ -628,27 +628,27 @@ namespace RoutePlanner
             this.tabPageLeftPaneExtra.TabIndex = 2;
             this.tabPageLeftPaneExtra.Text = "Extra properties";
             // 
-            // panel2
+            // panelRight
             // 
-            this.panel2.BackColor = System.Drawing.Color.Honeydew;
-            this.panel2.Controls.Add(this.richTextBox1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(891, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(323, 564);
-            this.panel2.TabIndex = 3;
+            this.panelRight.BackColor = System.Drawing.Color.Honeydew;
+            this.panelRight.Controls.Add(this.richTextBox1);
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelRight.Location = new System.Drawing.Point(1007, 0);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(177, 561);
+            this.panelRight.TabIndex = 3;
             // 
-            // panel3
+            // panelCentral
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.metroTextBoxBestDeparture);
-            this.panel3.Controls.Add(this.metroLabel10);
-            this.panel3.Controls.Add(this.tabControlCentralMap);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(310, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(581, 564);
-            this.panel3.TabIndex = 4;
+            this.panelCentral.BackColor = System.Drawing.Color.White;
+            this.panelCentral.Controls.Add(this.metroTextBoxBestDeparture);
+            this.panelCentral.Controls.Add(this.metroLabelBestTime);
+            this.panelCentral.Controls.Add(this.tabControlCentral);
+            this.panelCentral.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelCentral.Location = new System.Drawing.Point(310, 0);
+            this.panelCentral.Name = "panelCentral";
+            this.panelCentral.Size = new System.Drawing.Size(697, 561);
+            this.panelCentral.TabIndex = 4;
             // 
             // metroTextBoxBestDeparture
             // 
@@ -656,7 +656,7 @@ namespace RoutePlanner
             // 
             // 
             this.metroTextBoxBestDeparture.CustomButton.Image = null;
-            this.metroTextBoxBestDeparture.CustomButton.Location = new System.Drawing.Point(546, 1);
+            this.metroTextBoxBestDeparture.CustomButton.Location = new System.Drawing.Point(658, 1);
             this.metroTextBoxBestDeparture.CustomButton.Name = "";
             this.metroTextBoxBestDeparture.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.metroTextBoxBestDeparture.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -676,32 +676,32 @@ namespace RoutePlanner
             this.metroTextBoxBestDeparture.SelectionLength = 0;
             this.metroTextBoxBestDeparture.SelectionStart = 0;
             this.metroTextBoxBestDeparture.ShortcutsEnabled = true;
-            this.metroTextBoxBestDeparture.Size = new System.Drawing.Size(568, 23);
+            this.metroTextBoxBestDeparture.Size = new System.Drawing.Size(680, 23);
             this.metroTextBoxBestDeparture.TabIndex = 9;
             this.metroTextBoxBestDeparture.UseSelectable = true;
             this.metroTextBoxBestDeparture.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.metroTextBoxBestDeparture.WaterMarkFont = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             // 
-            // metroLabel10
+            // metroLabelBestTime
             // 
-            this.metroLabel10.AutoSize = true;
-            this.metroLabel10.Location = new System.Drawing.Point(7, 507);
-            this.metroLabel10.Name = "metroLabel10";
-            this.metroLabel10.Size = new System.Drawing.Size(181, 19);
-            this.metroLabel10.TabIndex = 8;
-            this.metroLabel10.Text = "The best date time departure";
+            this.metroLabelBestTime.AutoSize = true;
+            this.metroLabelBestTime.Location = new System.Drawing.Point(7, 507);
+            this.metroLabelBestTime.Name = "metroLabelBestTime";
+            this.metroLabelBestTime.Size = new System.Drawing.Size(181, 19);
+            this.metroLabelBestTime.TabIndex = 8;
+            this.metroLabelBestTime.Text = "The best date time departure";
             // 
-            // tabControlCentralMap
+            // tabControlCentral
             // 
-            this.tabControlCentralMap.Controls.Add(this.tabPageCentralMapView);
-            this.tabControlCentralMap.Controls.Add(this.tabPageCentralProfitMatrix);
-            this.tabControlCentralMap.Controls.Add(this.tabPageCentralRawMatrix);
-            this.tabControlCentralMap.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabControlCentralMap.Location = new System.Drawing.Point(3, 3);
-            this.tabControlCentralMap.Name = "tabControlCentralMap";
-            this.tabControlCentralMap.SelectedIndex = 0;
-            this.tabControlCentralMap.Size = new System.Drawing.Size(572, 491);
-            this.tabControlCentralMap.TabIndex = 0;
+            this.tabControlCentral.Controls.Add(this.tabPageCentralMapView);
+            this.tabControlCentral.Controls.Add(this.tabPageCentralProfitMatrix);
+            this.tabControlCentral.Controls.Add(this.tabPageCentralRawMatrix);
+            this.tabControlCentral.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tabControlCentral.Location = new System.Drawing.Point(3, 0);
+            this.tabControlCentral.Name = "tabControlCentral";
+            this.tabControlCentral.SelectedIndex = 0;
+            this.tabControlCentral.Size = new System.Drawing.Size(688, 494);
+            this.tabControlCentral.TabIndex = 0;
             // 
             // tabPageCentralMapView
             // 
@@ -709,16 +709,16 @@ namespace RoutePlanner
             this.tabPageCentralMapView.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralMapView.Name = "tabPageCentralMapView";
             this.tabPageCentralMapView.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCentralMapView.Size = new System.Drawing.Size(564, 461);
+            this.tabPageCentralMapView.Size = new System.Drawing.Size(680, 464);
             this.tabPageCentralMapView.TabIndex = 0;
             this.tabPageCentralMapView.Text = "Map View";
             this.tabPageCentralMapView.UseVisualStyleBackColor = true;
             // 
             // pictureBoxMapView
             // 
-            this.pictureBoxMapView.Location = new System.Drawing.Point(7, 7);
+            this.pictureBoxMapView.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxMapView.Name = "pictureBoxMapView";
-            this.pictureBoxMapView.Size = new System.Drawing.Size(551, 426);
+            this.pictureBoxMapView.Size = new System.Drawing.Size(680, 464);
             this.pictureBoxMapView.TabIndex = 0;
             this.pictureBoxMapView.TabStop = false;
             // 
@@ -728,7 +728,7 @@ namespace RoutePlanner
             this.tabPageCentralProfitMatrix.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralProfitMatrix.Name = "tabPageCentralProfitMatrix";
             this.tabPageCentralProfitMatrix.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCentralProfitMatrix.Size = new System.Drawing.Size(564, 461);
+            this.tabPageCentralProfitMatrix.Size = new System.Drawing.Size(680, 464);
             this.tabPageCentralProfitMatrix.TabIndex = 1;
             this.tabPageCentralProfitMatrix.Text = "Profit Matrix";
             this.tabPageCentralProfitMatrix.UseVisualStyleBackColor = true;
@@ -739,7 +739,7 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewProfitMatrix.Location = new System.Drawing.Point(6, 3);
             this.dataGridViewProfitMatrix.Name = "dataGridViewProfitMatrix";
-            this.dataGridViewProfitMatrix.Size = new System.Drawing.Size(552, 452);
+            this.dataGridViewProfitMatrix.Size = new System.Drawing.Size(535, 444);
             this.dataGridViewProfitMatrix.TabIndex = 0;
             // 
             // tabPageCentralRawMatrix
@@ -747,7 +747,7 @@ namespace RoutePlanner
             this.tabPageCentralRawMatrix.Controls.Add(this.dataGridViewRawMatrix);
             this.tabPageCentralRawMatrix.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralRawMatrix.Name = "tabPageCentralRawMatrix";
-            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(564, 461);
+            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(547, 464);
             this.tabPageCentralRawMatrix.TabIndex = 2;
             this.tabPageCentralRawMatrix.Text = "Raw Matrix";
             this.tabPageCentralRawMatrix.UseVisualStyleBackColor = true;
@@ -758,21 +758,22 @@ namespace RoutePlanner
             this.dataGridViewRawMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewRawMatrix.Location = new System.Drawing.Point(6, 4);
             this.dataGridViewRawMatrix.Name = "dataGridViewRawMatrix";
-            this.dataGridViewRawMatrix.Size = new System.Drawing.Size(552, 452);
+            this.dataGridViewRawMatrix.Size = new System.Drawing.Size(541, 444);
             this.dataGridViewRawMatrix.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1214, 564);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.Controls.Add(this.panelCentral);
+            this.Controls.Add(this.panelRight);
+            this.Controls.Add(this.panelLeft);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "MainForm";
             this.Text = "RoutePlanner";
-            this.panel1.ResumeLayout(false);
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
+            this.panelLeft.ResumeLayout(false);
             this.tabControlLeftPane.ResumeLayout(false);
             this.tabPageLeftPaneGeneral.ResumeLayout(false);
             this.tabPageLeftPaneGeneral.PerformLayout();
@@ -791,10 +792,10 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownF1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF1)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.tabControlCentralMap.ResumeLayout(false);
+            this.panelRight.ResumeLayout(false);
+            this.panelCentral.ResumeLayout(false);
+            this.panelCentral.PerformLayout();
+            this.tabControlCentral.ResumeLayout(false);
             this.tabPageCentralMapView.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMapView)).EndInit();
             this.tabPageCentralProfitMatrix.ResumeLayout(false);
@@ -809,9 +810,9 @@ namespace RoutePlanner
 
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panelLeft;
+        private System.Windows.Forms.Panel panelRight;
+        private System.Windows.Forms.Panel panelCentral;
         private System.Windows.Forms.NumericUpDown numericUpDownDepStartMin;
         private System.Windows.Forms.TabControl tabControlLeftPane;
         private System.Windows.Forms.TabPage tabPageLeftPaneGeneral;
@@ -850,11 +851,11 @@ namespace RoutePlanner
         private MetroFramework.Controls.MetroLabel metroLabel12;
         private System.Windows.Forms.NumericUpDown numericUpDownF1;
         private MetroFramework.Controls.MetroLabel metroLabel11;
-        private System.Windows.Forms.TabControl tabControlCentralMap;
+        private System.Windows.Forms.TabControl tabControlCentral;
         private System.Windows.Forms.TabPage tabPageCentralMapView;
         private System.Windows.Forms.TabPage tabPageCentralProfitMatrix;
         private MetroFramework.Controls.MetroTextBox metroTextBoxBestDeparture;
-        private MetroFramework.Controls.MetroLabel metroLabel10;
+        private MetroFramework.Controls.MetroLabel metroLabelBestTime;
         private System.Windows.Forms.PictureBox pictureBoxMapView;
         private System.Windows.Forms.DataGridView dataGridViewProfitMatrix;
         private System.Windows.Forms.TabPage tabPageCentralRawMatrix;
