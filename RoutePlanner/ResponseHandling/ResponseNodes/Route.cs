@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,13 @@ namespace RoutePlanner.ResponseHandling.ResponseNodes
         public TimeSpan travelDurationTraffic;
         public string travelDurationTrafficStr;
         public string travelMode;
+        public DateTime departureTime;
         public RouteLeg routeLeg;
 
         public override string ToString()
         {
             string travelDurationTemp = travelDuration.ToString("c");
+            string departureTimeTemp = departureTime.ToString("G", CultureInfo.GetCultureInfo("es-ES"));
             return $"Route:" +
                 $"\n\tdistanceUnit: {distanceUnit}" +
                 $"\n\tdurationUnit: {durationUnit}" +
@@ -27,6 +30,7 @@ namespace RoutePlanner.ResponseHandling.ResponseNodes
                 $"\n\ttravelDuration: {travelDurationTemp}" +
                 $"\n\ttravelDurationTraffic: {travelDurationTrafficStr}" +
                 $"\n\ttravelMode: {travelMode}" +
+                $"\n\tdepartureTime: {departureTimeTemp}" +
                 $"{routeLeg}";
         }
     }

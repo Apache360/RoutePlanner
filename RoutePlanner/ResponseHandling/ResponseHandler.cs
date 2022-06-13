@@ -25,7 +25,7 @@ namespace RoutePlanner.ResponseHandling
                 }
                 try
                 {
-                    Console.WriteLine("Getting response...");
+                    //Console.WriteLine("Getting response...");
                     XmlDocument response = GetXmlResponse(url);
                     xRoot = response.DocumentElement;
                     //Console.WriteLine("Response is get successfully");
@@ -70,7 +70,7 @@ namespace RoutePlanner.ResponseHandling
             }
         }
 
-        public static Response ReadResponse(XmlElement xRoot)
+        public static Response ReadResponse(XmlElement xRoot, DateTime departureTime)
         {
             Response response = new Response();
             NumberFormatInfo provider = new NumberFormatInfo();
@@ -103,6 +103,7 @@ namespace RoutePlanner.ResponseHandling
                                             {
                                                 XmlNode Route = nodeInResources;
                                                 response.resourceSets.resourseSet.resources.route = new Route();
+                                                response.resourceSets.resourseSet.resources.route.departureTime = departureTime;
                                                 foreach (XmlNode nodeInRoute in Route.ChildNodes)
                                                 {
                                                     if (nodeInRoute.Name == "DistanceUnit")
@@ -149,6 +150,7 @@ namespace RoutePlanner.ResponseHandling
                                                     {
                                                         response.resourceSets.resourseSet.resources.route.travelMode = nodeInRoute.InnerText;
                                                     }
+
                                                     if (nodeInRoute.Name == "RouteLeg")
                                                     {
                                                         XmlNode RouteLeg = nodeInRoute;

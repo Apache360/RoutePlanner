@@ -27,12 +27,16 @@ namespace RoutePlanner
             //metroDateTimeDepartureStart.Value = DateTime.Now.AddDays(1);
             //metroDateTimeDepartureEnd.Value = DateTime.Now.AddDays(2);
             metroDateTimeDepartureStart.Value = new DateTime(2022, 07, 04, 0, 0, 0);
+            numericUpDownDepStartHr.Value = 6;
+            numericUpDownDepStartMin.Value =45;
             metroDateTimeDepartureEnd.Value = new DateTime(2022, 07, 05, 0, 0, 0);
             //metroTextBoxW0.Text = "41,780715, -83,560378";
             //metroTextBoxW0.Text = "42,339544, -83,090409";
             //metroTextBoxW1.Text = "42,912429, -78,885757";
-            metroTextBoxW0.Text = "3835 Luna Pier Rd, Erie, Мічиган 48133, Сполучені Штати";
-            metroTextBoxW1.Text = "19 18th St, Буффало, Нью-Йорк 14213, Сполучені Штати";
+            //metroTextBoxW0.Text = "3835 Luna Pier Rd, Erie, Мічиган 48133, Сполучені Штати";
+            //metroTextBoxW1.Text = "19 18th St, Буффало, Нью-Йорк 14213, Сполучені Штати";
+            metroTextBoxW0.Text = "39.951916,-75.150118";
+            metroTextBoxW1.Text = "40.745702,-73.847184";
 
             SetUpDataGridView();
             UpdateEstimatedAltVariantsCount();
@@ -110,17 +114,17 @@ namespace RoutePlanner
                     $"&dateTime={dateTimeTempStr}" +
                     $"&output=xml" +
                     $"&key={key}";
-                //Console.WriteLine($"URL: {url}");
+                Console.WriteLine($"URL: {url}");
 
 
                 XmlElement xRoot =ResponseHandler.GetResponse(url);
                 ResponseHandling.ResponseNodes.Response responseRaw;
-                responseRaw = ResponseHandler.ReadResponse(xRoot);
+                responseRaw = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
                 //Console.WriteLine(responseRaw);
 
-                Console.WriteLine($"TravelDurationTraffic #{i}: " +
-                    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
-                    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}");
+                //Console.WriteLine($"TravelDurationTraffic #{i}: " +
+                //    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
+                //    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}");
 
                 richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
                     $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
@@ -135,8 +139,9 @@ namespace RoutePlanner
                 //altVariantsList[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
 
                 ResponseHandling.ResponseNodes.Response responseOptz;
-                responseOptz = ResponseHandler.ReadResponse(xRoot);
+                responseOptz = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
                 responseOptz = routeOptimization.Optimize(responseRaw);
+                Console.WriteLine("STOP!");
             }
 
             
