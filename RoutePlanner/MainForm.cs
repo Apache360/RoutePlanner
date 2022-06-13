@@ -1,6 +1,7 @@
 ﻿using BingMapsRESTToolkit;
 using Microsoft.PowerBI.Api.Models;
 using Newtonsoft.Json;
+using RoutePlanner.ResponseHandling;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,23 +39,26 @@ namespace RoutePlanner
             
         }
 
-
-        public List<XmlDocument> responseXmlDocList;
-        static string key = "ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9";
+        static readonly string key = "ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9";
         DateTime dateTimeStart = new DateTime();
         DateTime dateTimeEnd = new DateTime();
         TimeSpan dateTimeDelta = new TimeSpan();
-        //string dateTimeStartStr;
         int alternativeVariantsCount = 0;
-        int recommendedAltVariantsCount = 1000;
-        AltVariantsCollection alternativeVariantsList;
-        AltVariantsCollection alternativeVariantsListRaw;
-        //AltVariantsCollection alternativeVariantsListNorm;
+        readonly int recommendedAltVariantsCount = 1000;
+
+        AltVariantsCollection altVariantsListRaw;
+        AltVariantsCollection altVariantsListRawOptz;
+        AltVariantsCollection altVariantsList;
+
         string wp0;
         string wp1;
         AlternativeVariant altVarBest;
+        RouteOptimization routeOptimization;
+        ResponseHandler responseHandler;
 
-        private async void buttonSearch_Click(object sender, EventArgs e)
+        List<ResponseHandling.ResponseNodes.Response> responseRawList;
+
+        private async void ButtonSearch_Click(object sender, EventArgs e)
         {
             Console.WriteLine("*************************Test***********************");
             richTextBox1.Clear();
@@ -63,9 +67,10 @@ namespace RoutePlanner
 
             buttonSearch.Enabled = false;
             buttonSearch.Text = "Wait...";
-            alternativeVariantsList = new AltVariantsCollection();
-            alternativeVariantsListRaw = new AltVariantsCollection();
-            responseXmlDocList = new List<XmlDocument>();
+            altVariantsListRaw = new AltVariantsCollection();
+            altVariantsListRawOptz = new AltVariantsCollection();
+            altVariantsList = new AltVariantsCollection();
+            responseHandler = new ResponseHandler();
 
             wp0 = metroTextBoxW0.Text;
             wp1 = metroTextBoxW1.Text;
@@ -86,15 +91,16 @@ namespace RoutePlanner
             dateTimeDelta = dateTimeEnd.Subtract(dateTimeStart);
             alternativeVariantsCount = Convert.ToInt32( Math.Round( (dateTimeDelta.Ticks/ 10000000/60) / numericUpDownInterval.Value,0));
 
+            routeOptimization = new RouteOptimization();
 
             for (int i = 0; i < alternativeVariantsCount; i++)
             {
-                DateTime dateTimeTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
-                alternativeVariantsList.Add(new AlternativeVariant(i,dateTimeTemp, i, 0, 0));
-                alternativeVariantsListRaw.Add(new AlternativeVariant(i,dateTimeTemp, i, 0, 0));
+                DateTime dateTimeDepartureTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
+                altVariantsList.Add(new AlternativeVariant(i,dateTimeDepartureTemp, i, 0, 0));
+                altVariantsListRaw.Add(new AlternativeVariant(i,dateTimeDepartureTemp, i, 0, 0));
+                altVariantsListRawOptz.Add(new AlternativeVariant(i,dateTimeDepartureTemp, i, 0, 0));
 
-                string dateTimeTempStr = dateTimeTemp.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
-                //Console.WriteLine($"dateTimeTempStr {dateTimeTempStr}");
+                string dateTimeTempStr = dateTimeDepartureTemp.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
 
                 var url = $"https://dev.virtualearth.net/REST/V1/Routes/Driving" +
                     $"?wp.0={wp0}" +
@@ -106,133 +112,31 @@ namespace RoutePlanner
                     $"&key={key}";
                 //Console.WriteLine($"URL: {url}");
 
-                XmlElement xRoot =null;
-                int numberOfTries = 5;
 
-                for (int j = 1; j <= numberOfTries+1; j++)
-                {
-                    if (j>numberOfTries)
-                    {
-                        Console.WriteLine($"Error. Can't get the response.");
-                    }
-                    try
-                    {
-                        Console.WriteLine("Getting response...");
-                        XmlDocument response = GetXmlResponse(url);
-                        xRoot = response.DocumentElement;
-                        responseXmlDocList.Add(response);
-                        //Console.WriteLine("Response is get successfully");
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine($"Error. Can't get the response. Try {j}/{numberOfTries}.");
-                    }
-                }
+                XmlElement xRoot =ResponseHandler.GetResponse(url);
+                ResponseHandling.ResponseNodes.Response responseRaw;
+                responseRaw = ResponseHandler.ReadResponse(xRoot);
+                //Console.WriteLine(responseRaw);
 
-                //Console.WriteLine("Reading XML started");
+                Console.WriteLine($"TravelDurationTraffic #{i}: " +
+                    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
+                    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}");
 
-                if (xRoot != null)
-                {
-                    // обход всех узлов в корневом элементе
-                    foreach (XmlElement xnode in xRoot)
-                    {
-                        if (xnode.Name == "ResourceSets")
-                        {
-                            XmlNode ResourceSets = xnode;
-                            foreach (XmlNode item in ResourceSets.ChildNodes)
-                            {
-                                if (item.Name == "ResourceSet")
-                                {
-                                    XmlNode ResourceSet = item;
-                                    foreach (XmlNode item2 in ResourceSet.ChildNodes)
-                                    {
-                                        if (item2.Name == "Resources")
-                                        {
-                                            XmlNode Resources = item2;
+                richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
+                    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
+                    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
+                    $"{Environment.NewLine}";
+                richTextBox1.Refresh();
 
-                                            foreach (XmlNode item3 in Resources.ChildNodes)
-                                            {
-                                                if (item3.Name == "Route")
-                                                {
-                                                    XmlNode Route = item3;
-                                                    foreach (XmlNode item4 in Route.ChildNodes)
-                                                    {
-                                                        if (item4.Name == "TravelDistance")
-                                                        {
-                                                            XmlNode TravelDistance = item4;
-                                                            //Console.WriteLine("TravelDistance: " + TravelDistance.InnerText);
-                                                        }
-                                                        if (item4.Name == "TravelDuration")
-                                                        {
-                                                            XmlNode TravelDuration = item4;
-                                                            //Console.WriteLine("TravelDuration: " + TravelDuration.InnerText);
-                                                        }
-                                                        if (item4.Name == "TravelDurationTraffic")
-                                                        {
-                                                            XmlNode TravelDurationTraffic = item4;
-                                                            TimeSpan timeTravel = TimeSpan.FromSeconds(Convert.ToInt32(TravelDurationTraffic.InnerText));
+                altVariantsListRaw[i].evaluationTravelTime = responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
+                //altVariantsList[i].evaluationTravelTime = responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
 
-                                                            string timeTravelStr = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
-                                                                            timeTravel.Hours,
-                                                                            timeTravel.Minutes,
-                                                                            timeTravel.Seconds);
+                altVariantsListRaw[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
+                //altVariantsList[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
 
-                                                            Console.WriteLine($"TravelDurationTraffic #{i}: " +
-                                                                $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr);
-                                                            richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
-                                                                $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr + Environment.NewLine;
-                                                            richTextBox1.Refresh();
-                                                            alternativeVariantsList[i].evaluationTravelTime = timeTravel.Ticks/10000000;
-                                                            alternativeVariantsListRaw[i].evaluationTravelTime = timeTravel.Ticks/10000000;
-
-
-                                                        }
-                                                        ///
-                                                        if (item4.Name == "RouteLeg")
-                                                        {
-                                                            XmlNode RouteLeg = item4;
-                                                            foreach (XmlNode item5 in RouteLeg.ChildNodes)
-                                                            {
-                                                                if (item5.Name == "ItineraryItem")
-                                                                {
-                                                                    XmlNode ItineraryItem = item5;
-                                                                    foreach (XmlNode item6 in ItineraryItem.ChildNodes)
-                                                                    {
-                                                                        try
-                                                                        {
-                                                                            if (item6.Name == "Warning" && item6.Attributes["warningType"].Value == "CountryChange")
-                                                                            {
-                                                                                Console.WriteLine("CountryChange!");
-                                                                                alternativeVariantsList[i].evaluationCoutryChange += 1;
-                                                                                alternativeVariantsListRaw[i].evaluationCoutryChange += 1;
-                                                                            }
-                                                                        }
-                                                                        catch (Exception)
-                                                                        {
-                                                                            Console.WriteLine("No CountryChange!");
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-
-                                                }
-                                            }
-
-                                        }
-                                    }
-
-                                }
-                            }
-
-                        }
-                    }
-                }
-
-
-
+                ResponseHandling.ResponseNodes.Response responseOptz;
+                responseOptz = ResponseHandler.ReadResponse(xRoot);
+                responseOptz = routeOptimization.Optimize(responseRaw);
             }
 
             
@@ -240,10 +144,8 @@ namespace RoutePlanner
             buttonSearch.Enabled = true;
             buttonSearch.Text = "Search";
             UpdateDataGridView();
-            altVarBest = alternativeVariantsList.FindBest();
-            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+            altVarBest = altVariantsList.FindBest();
             metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
-            //metroTextBoxBestDeparture.Text = altVarBest.deparuteTime.ToLongDateString();
             UpdateMapView(altVarBest, wp0, wp1); 
 
 
@@ -416,32 +318,32 @@ namespace RoutePlanner
         public void UpdateDataGridView()
         {
             DataGridViewRow rowProfit;
-            alternativeVariantsList = alternativeVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
-            alternativeVariantsList = alternativeVariantsList.EvaluateTotal(trackBarF1.Value,trackBarF2.Value,trackBarF3.Value);
-            for (int i = 0; i < alternativeVariantsList.Count; i++)
+            altVariantsList = altVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
+            altVariantsList = altVariantsList.EvaluateTotal(trackBarF1.Value,trackBarF2.Value,trackBarF3.Value);
+            for (int i = 0; i < altVariantsList.Count; i++)
             {
                 rowProfit = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
-                rowProfit.Cells[0].Value = alternativeVariantsList[i].id;
-                rowProfit.Cells[1].Value = alternativeVariantsList[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
-                rowProfit.Cells[2].Value = alternativeVariantsList[i].evaluationDeparuteTime;
-                rowProfit.Cells[3].Value = alternativeVariantsList[i].evaluationDelayTime;
-                rowProfit.Cells[4].Value = alternativeVariantsList[i].evaluationCoutryChange;
-                rowProfit.Cells[5].Value = alternativeVariantsList[i].evaluationTotal;
+                rowProfit.Cells[0].Value = altVariantsList[i].id;
+                rowProfit.Cells[1].Value = altVariantsList[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                rowProfit.Cells[2].Value = altVariantsList[i].evaluationDeparuteTime;
+                rowProfit.Cells[3].Value = altVariantsList[i].evaluationDelayTime;
+                rowProfit.Cells[4].Value = altVariantsList[i].evaluationCoutryChange;
+                rowProfit.Cells[5].Value = altVariantsList[i].evaluationTotal;
                 dataGridViewProfitMatrix.Rows.Add(rowProfit);
             }
             
             DataGridViewRow rowRaw;
-            alternativeVariantsListRaw = alternativeVariantsListRaw.GetDelayTime();
-            for (int i = 0; i < alternativeVariantsListRaw.Count; i++)
+            altVariantsListRaw = altVariantsListRaw.GetDelayTime();
+            for (int i = 0; i < altVariantsListRaw.Count; i++)
             {
                 //rowRaw = new DataGridViewRow();
                 rowRaw = (DataGridViewRow)dataGridViewRawMatrix.Rows[i].Clone();
-                rowRaw.Cells[0].Value = alternativeVariantsListRaw[i].id;
-                rowRaw.Cells[1].Value = alternativeVariantsListRaw[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
-                rowRaw.Cells[2].Value = TimeSpan.FromSeconds( alternativeVariantsListRaw[i].evaluationTravelTime).ToString(@"hh\:mm\:ss");
-                rowRaw.Cells[3].Value = TimeSpan.FromSeconds( alternativeVariantsListRaw[i].evaluationDelayTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[0].Value = altVariantsListRaw[i].id;
+                rowRaw.Cells[1].Value = altVariantsListRaw[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                rowRaw.Cells[2].Value = TimeSpan.FromSeconds( altVariantsListRaw[i].evaluationTravelTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[3].Value = TimeSpan.FromSeconds( altVariantsListRaw[i].evaluationDelayTime).ToString(@"hh\:mm\:ss");
                 //rowRaw.Cells[3].Value = alternativeVariantsListRaw[i].evaluationDelayTime;
-                rowRaw.Cells[4].Value = alternativeVariantsListRaw[i].evaluationCoutryChange;
+                rowRaw.Cells[4].Value = altVariantsListRaw[i].evaluationCoutryChange;
                 dataGridViewRawMatrix.Rows.Add(rowRaw);
             }
 
@@ -521,26 +423,6 @@ namespace RoutePlanner
 
         }
 
-        public static XmlDocument GetXmlResponse(string requestUrl)
-        {
-            try
-            {
-                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(response.GetResponseStream());
-                return (xmlDoc);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-                Console.Read();
-                return null;
-            }
-        }
 
         /// <summary>  
         /// Display each "entry" in the Bing Spatial Data Services Atom (XML) response.  
