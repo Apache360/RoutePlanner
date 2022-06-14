@@ -67,8 +67,6 @@ namespace RoutePlanner
             this.numericUpDownF1 = new System.Windows.Forms.NumericUpDown();
             this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
             this.trackBarF1 = new System.Windows.Forms.TrackBar();
-            this.metroLabelExtraPoints = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
             this.tabPageLeftPaneExtra = new System.Windows.Forms.TabPage();
             this.panelRight = new System.Windows.Forms.Panel();
             this.panelCentral = new System.Windows.Forms.Panel();
@@ -123,9 +121,9 @@ namespace RoutePlanner
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 26);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 32);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(171, 468);
+            this.richTextBox1.Size = new System.Drawing.Size(175, 468);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             // 
@@ -178,7 +176,7 @@ namespace RoutePlanner
             this.tabPageLeftPaneGeneral.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneGeneral.Name = "tabPageLeftPaneGeneral";
             this.tabPageLeftPaneGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLeftPaneGeneral.Size = new System.Drawing.Size(292, 461);
+            this.tabPageLeftPaneGeneral.Size = new System.Drawing.Size(296, 464);
             this.tabPageLeftPaneGeneral.TabIndex = 0;
             this.tabPageLeftPaneGeneral.Text = "General";
             // 
@@ -464,8 +462,6 @@ namespace RoutePlanner
             this.tabPageLeftPaneWeight.Controls.Add(this.numericUpDownF1);
             this.tabPageLeftPaneWeight.Controls.Add(this.metroLabel11);
             this.tabPageLeftPaneWeight.Controls.Add(this.trackBarF1);
-            this.tabPageLeftPaneWeight.Controls.Add(this.metroLabelExtraPoints);
-            this.tabPageLeftPaneWeight.Controls.Add(this.metroLabel9);
             this.tabPageLeftPaneWeight.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneWeight.Name = "tabPageLeftPaneWeight";
             this.tabPageLeftPaneWeight.Padding = new System.Windows.Forms.Padding(3);
@@ -490,7 +486,7 @@ namespace RoutePlanner
             this.numericUpDownF3.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownF3.TabIndex = 12;
             this.numericUpDownF3.Value = new decimal(new int[] {
-            33,
+            100,
             0,
             0,
             0});
@@ -512,7 +508,7 @@ namespace RoutePlanner
             this.trackBarF3.Name = "trackBarF3";
             this.trackBarF3.Size = new System.Drawing.Size(230, 45);
             this.trackBarF3.TabIndex = 10;
-            this.trackBarF3.Value = 33;
+            this.trackBarF3.Value = 100;
             this.trackBarF3.ValueChanged += new System.EventHandler(this.trackBarF3_ValueChanged);
             // 
             // metroLabel13
@@ -532,7 +528,7 @@ namespace RoutePlanner
             this.numericUpDownF2.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownF2.TabIndex = 8;
             this.numericUpDownF2.Value = new decimal(new int[] {
-            33,
+            100,
             0,
             0,
             0});
@@ -554,7 +550,7 @@ namespace RoutePlanner
             this.trackBarF2.Name = "trackBarF2";
             this.trackBarF2.Size = new System.Drawing.Size(230, 45);
             this.trackBarF2.TabIndex = 6;
-            this.trackBarF2.Value = 33;
+            this.trackBarF2.Value = 100;
             this.trackBarF2.ValueChanged += new System.EventHandler(this.trackBarF2_ValueChanged);
             // 
             // metroLabel12
@@ -574,7 +570,7 @@ namespace RoutePlanner
             this.numericUpDownF1.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownF1.TabIndex = 4;
             this.numericUpDownF1.Value = new decimal(new int[] {
-            34,
+            100,
             0,
             0,
             0});
@@ -596,35 +592,15 @@ namespace RoutePlanner
             this.trackBarF1.Name = "trackBarF1";
             this.trackBarF1.Size = new System.Drawing.Size(230, 45);
             this.trackBarF1.TabIndex = 2;
-            this.trackBarF1.Value = 34;
+            this.trackBarF1.Value = 100;
             this.trackBarF1.ValueChanged += new System.EventHandler(this.trackBarF1_ValueChanged);
-            // 
-            // metroLabelExtraPoints
-            // 
-            this.metroLabelExtraPoints.AutoSize = true;
-            this.metroLabelExtraPoints.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabelExtraPoints.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.metroLabelExtraPoints.Location = new System.Drawing.Point(39, 386);
-            this.metroLabelExtraPoints.Name = "metroLabelExtraPoints";
-            this.metroLabelExtraPoints.Size = new System.Drawing.Size(17, 19);
-            this.metroLabelExtraPoints.TabIndex = 1;
-            this.metroLabelExtraPoints.Text = "0";
-            // 
-            // metroLabel9
-            // 
-            this.metroLabel9.AutoSize = true;
-            this.metroLabel9.Location = new System.Drawing.Point(39, 367);
-            this.metroLabel9.Name = "metroLabel9";
-            this.metroLabel9.Size = new System.Drawing.Size(77, 19);
-            this.metroLabel9.TabIndex = 0;
-            this.metroLabel9.Text = "Extra points";
             // 
             // tabPageLeftPaneExtra
             // 
             this.tabPageLeftPaneExtra.BackColor = System.Drawing.Color.White;
             this.tabPageLeftPaneExtra.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneExtra.Name = "tabPageLeftPaneExtra";
-            this.tabPageLeftPaneExtra.Size = new System.Drawing.Size(292, 461);
+            this.tabPageLeftPaneExtra.Size = new System.Drawing.Size(296, 464);
             this.tabPageLeftPaneExtra.TabIndex = 2;
             this.tabPageLeftPaneExtra.Text = "Extra properties";
             // 
@@ -633,9 +609,9 @@ namespace RoutePlanner
             this.panelRight.BackColor = System.Drawing.Color.Honeydew;
             this.panelRight.Controls.Add(this.richTextBox1);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelRight.Location = new System.Drawing.Point(1007, 0);
+            this.panelRight.Location = new System.Drawing.Point(1003, 0);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(177, 561);
+            this.panelRight.Size = new System.Drawing.Size(181, 561);
             this.panelRight.TabIndex = 3;
             // 
             // panelCentral
@@ -647,7 +623,7 @@ namespace RoutePlanner
             this.panelCentral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCentral.Location = new System.Drawing.Point(310, 0);
             this.panelCentral.Name = "panelCentral";
-            this.panelCentral.Size = new System.Drawing.Size(697, 561);
+            this.panelCentral.Size = new System.Drawing.Size(693, 561);
             this.panelCentral.TabIndex = 4;
             // 
             // metroTextBoxBestDeparture
@@ -656,7 +632,7 @@ namespace RoutePlanner
             // 
             // 
             this.metroTextBoxBestDeparture.CustomButton.Image = null;
-            this.metroTextBoxBestDeparture.CustomButton.Location = new System.Drawing.Point(658, 1);
+            this.metroTextBoxBestDeparture.CustomButton.Location = new System.Drawing.Point(221, 1);
             this.metroTextBoxBestDeparture.CustomButton.Name = "";
             this.metroTextBoxBestDeparture.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.metroTextBoxBestDeparture.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -676,7 +652,7 @@ namespace RoutePlanner
             this.metroTextBoxBestDeparture.SelectionLength = 0;
             this.metroTextBoxBestDeparture.SelectionStart = 0;
             this.metroTextBoxBestDeparture.ShortcutsEnabled = true;
-            this.metroTextBoxBestDeparture.Size = new System.Drawing.Size(680, 23);
+            this.metroTextBoxBestDeparture.Size = new System.Drawing.Size(243, 23);
             this.metroTextBoxBestDeparture.TabIndex = 9;
             this.metroTextBoxBestDeparture.UseSelectable = true;
             this.metroTextBoxBestDeparture.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -747,7 +723,7 @@ namespace RoutePlanner
             this.tabPageCentralRawMatrix.Controls.Add(this.dataGridViewRawMatrix);
             this.tabPageCentralRawMatrix.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralRawMatrix.Name = "tabPageCentralRawMatrix";
-            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(547, 464);
+            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(680, 464);
             this.tabPageCentralRawMatrix.TabIndex = 2;
             this.tabPageCentralRawMatrix.Text = "Raw Matrix";
             this.tabPageCentralRawMatrix.UseVisualStyleBackColor = true;
@@ -836,8 +812,6 @@ namespace RoutePlanner
         private System.Windows.Forms.NumericUpDown numericUpDownInterval;
         private MetroFramework.Controls.MetroLabel metroLabelEstimatedAltVariantsCount;
         private MetroFramework.Controls.MetroLabel metroLabel7;
-        private MetroFramework.Controls.MetroLabel metroLabelExtraPoints;
-        private MetroFramework.Controls.MetroLabel metroLabel9;
         private System.Windows.Forms.NumericUpDown numericUpDownDepStartHr;
         private System.Windows.Forms.TrackBar trackBarF1;
         private MetroFramework.Controls.MetroLabel metroLabel15;

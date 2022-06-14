@@ -15,27 +15,20 @@ namespace RoutePlanner.ResponseHandling
         public static XmlElement GetResponse(string url)
         {
             XmlElement xRoot = null;
-            int numberOfTries = 5;
+            XmlDocument response = null;
 
-            for (int j = 1; j <= numberOfTries + 1; j++)
+            Console.WriteLine("Getting response...");
+            int triesCount =10;
+            for (int i = 0; i < 10; i++)
             {
-                if (j > numberOfTries)
+                response = GetXmlResponse(url);
+                if (response!=null)
                 {
-                    Console.WriteLine($"Error. Can't get the response.");
-                }
-                try
-                {
-                    //Console.WriteLine("Getting response...");
-                    XmlDocument response = GetXmlResponse(url);
-                    xRoot = response.DocumentElement;
-                    //Console.WriteLine("Response is get successfully");
                     break;
                 }
-                catch (Exception)
-                {
-                    Console.WriteLine($"Error. Can't get the response. Try {j}/{numberOfTries}.");
-                }
+                Console.WriteLine($"Error. Getting response again... Try {i+1}/{triesCount}");
             }
+            xRoot = response.DocumentElement;
             return xRoot;
         }
 
@@ -89,22 +82,22 @@ namespace RoutePlanner.ResponseHandling
                         {
                             if (nodeInResourceSets.Name == "ResourceSet")
                             {
-                                XmlNode ResourceSet = nodeInResourceSets;
+                                XmlNode resourceSet = nodeInResourceSets;
                                 response.resourceSets.resourseSet = new ResourseSet();
-                                foreach (XmlNode nodeInResourceSet in ResourceSet.ChildNodes)
+                                foreach (XmlNode nodeInResourceSet in resourceSet.ChildNodes)
                                 {
                                     if (nodeInResourceSet.Name == "Resources")
                                     {
-                                        XmlNode Resources = nodeInResourceSet;
+                                        XmlNode resources = nodeInResourceSet;
                                         response.resourceSets.resourseSet.resources = new Resources();
-                                        foreach (XmlNode nodeInResources in Resources.ChildNodes)
+                                        foreach (XmlNode nodeInResources in resources.ChildNodes)
                                         {
                                             if (nodeInResources.Name == "Route")
                                             {
-                                                XmlNode Route = nodeInResources;
+                                                XmlNode route = nodeInResources;
                                                 response.resourceSets.resourseSet.resources.route = new Route();
                                                 response.resourceSets.resourseSet.resources.route.departureTime = departureTime;
-                                                foreach (XmlNode nodeInRoute in Route.ChildNodes)
+                                                foreach (XmlNode nodeInRoute in route.ChildNodes)
                                                 {
                                                     if (nodeInRoute.Name == "DistanceUnit")
                                                     {
@@ -125,8 +118,8 @@ namespace RoutePlanner.ResponseHandling
                                                     }
                                                     if (nodeInRoute.Name == "TravelDurationTraffic")
                                                     {
-                                                        XmlNode TravelDurationTraffic = nodeInRoute;
-                                                        TimeSpan travelDurationTraffic = TimeSpan.FromSeconds(Convert.ToInt32(TravelDurationTraffic.InnerText));
+                                                        XmlNode travelDurationTrafficNode = nodeInRoute;
+                                                        TimeSpan travelDurationTraffic = TimeSpan.FromSeconds(Convert.ToInt32(travelDurationTrafficNode.InnerText));
                                                         response.resourceSets.resourseSet.resources.route.travelDurationTraffic = travelDurationTraffic;
 
                                                         string travelDurationTrafficStr = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
@@ -134,17 +127,6 @@ namespace RoutePlanner.ResponseHandling
                                                                         travelDurationTraffic.Minutes,
                                                                         travelDurationTraffic.Seconds);
                                                         response.resourceSets.resourseSet.resources.route.travelDurationTrafficStr = travelDurationTrafficStr;
-
-
-                                                        //Console.WriteLine($"TravelDurationTraffic #{i}: " +
-                                                        //    $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr);
-                                                        //richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
-                                                        //    $"{dateTimeTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " + timeTravelStr + Environment.NewLine;
-                                                        //richTextBox1.Refresh();
-                                                        //alternativeVariantsList[i].evaluationTravelTime = timeTravel.Ticks / 10000000;
-                                                        //alternativeVariantsListRaw[i].evaluationTravelTime = timeTravel.Ticks / 10000000;
-
-
                                                     }
                                                     if (nodeInRoute.Name == "TravelMode")
                                                     {
@@ -153,11 +135,11 @@ namespace RoutePlanner.ResponseHandling
 
                                                     if (nodeInRoute.Name == "RouteLeg")
                                                     {
-                                                        XmlNode RouteLeg = nodeInRoute;
+                                                        XmlNode routeLeg = nodeInRoute;
                                                         response.resourceSets.resourseSet.resources.route.routeLeg = new RouteLeg();
                                                         response.resourceSets.resourseSet.resources.route.routeLeg.itineraryItems = new List<ItineraryItem>();
 
-                                                        foreach (XmlNode nodeInRouteLeg in RouteLeg.ChildNodes)
+                                                        foreach (XmlNode nodeInRouteLeg in routeLeg.ChildNodes)
                                                         {
                                                             if (nodeInRouteLeg.Name == "TravelDistance")
                                                             {
@@ -189,9 +171,9 @@ namespace RoutePlanner.ResponseHandling
                                                             }
                                                             if (nodeInRouteLeg.Name == "ItineraryItem")
                                                             {
-                                                                XmlNode ItineraryItem = nodeInRouteLeg;
+                                                                XmlNode itineraryItem = nodeInRouteLeg;
                                                                 ItineraryItem itineraryItemTemp = new ItineraryItem();
-                                                                foreach (XmlNode nodeInItineraryItem in ItineraryItem.ChildNodes)
+                                                                foreach (XmlNode nodeInItineraryItem in itineraryItem.ChildNodes)
                                                                 {
                                                                     if (nodeInItineraryItem.Name == "TravelMode")
                                                                     {
@@ -221,30 +203,22 @@ namespace RoutePlanner.ResponseHandling
                                                                     {
                                                                         itineraryItemTemp.countryChangeCount += 1;
                                                                         //Console.WriteLine("CountryChange!");
-                                                                        //alternativeVariantsList[i].evaluationCoutryChange += 1;
-                                                                        //alternativeVariantsListRaw[i].evaluationCoutryChange += 1;
                                                                     }
                                                                 }
-
                                                                 response.resourceSets.resourseSet.resources.route.routeLeg.itineraryItems.Add(itineraryItemTemp);
                                                             }
                                                         }
                                                     }
                                                 }
-
                                             }
                                         }
-
                                     }
                                 }
-
                             }
                         }
-
                     }
                 }
             }
-
             return response;
         }
     }

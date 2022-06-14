@@ -110,7 +110,7 @@ namespace RoutePlanner
                 altVar.evaluationDeparuteTime *= coefF1;
                 altVar.evaluationDelayTime *= coefF2;
                 altVar.evaluationCoutryChange *= coefF3;
-                altVar.evaluationTotal = (altVar.evaluationDeparuteTime + altVar.evaluationDelayTime + altVar.evaluationCoutryChange);
+                altVar.evaluationTotal = (altVar.evaluationDeparuteTime + altVar.evaluationDelayTime + altVar.evaluationCoutryChange)/3;
                 altVar.evaluationTotal = Math.Round(altVar.evaluationTotal, 2);
             }
             return this;
@@ -130,6 +130,24 @@ namespace RoutePlanner
                 }
             }
             return altVarBest;
+        }
+
+        public AltVariantsCollection Clone(AltVariantsCollection collectionOrigin)
+        {
+            AltVariantsCollection collection = new AltVariantsCollection();
+            foreach (AlternativeVariant altVariantOrigin in collectionOrigin)
+            {
+                AlternativeVariant altVariant = new AlternativeVariant();
+                altVariant.id = altVariantOrigin.id;
+                altVariant.deparuteTime = altVariantOrigin.deparuteTime;
+                altVariant.evaluationDeparuteTime = altVariantOrigin.evaluationDeparuteTime;
+                altVariant.evaluationDelayTime = altVariantOrigin.evaluationDelayTime;
+                altVariant.evaluationTravelTime = altVariantOrigin.evaluationTravelTime;
+                altVariant.evaluationCoutryChange = altVariantOrigin.evaluationCoutryChange;
+                altVariant.evaluationTotal = altVariantOrigin.evaluationTotal;
+                collection.Add(altVariant);
+            }
+            return collection;
         }
     }
 }
