@@ -42,7 +42,7 @@ namespace RoutePlanner
 
             SetUpDataGridView();
             UpdateEstimatedAltVariantsCount();
-            
+            SetUpRulesDataGridView();
         }
 
         static readonly string key = "ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9";
@@ -61,6 +61,8 @@ namespace RoutePlanner
         AlternativeVariant altVarBest;
         RouteOptimization routeOptimization;
         ResponseHandler responseHandler;
+
+        public List<DepartureTimeRule> departureTimeRules;
 
         private async void ButtonSearch_Click(object sender, EventArgs e)
         {
@@ -159,7 +161,7 @@ namespace RoutePlanner
             
             buttonSearch.Enabled = true;
             buttonSearch.Text = "Search";
-            UpdateDataGridView();
+            UpdateRawMatrixDataGridView();
             altVarBest = altVariantsList.FindBest();
             metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             UpdateMapView(altVarBest, wp0, wp1); 
@@ -335,7 +337,29 @@ namespace RoutePlanner
 
         }
 
-        public void UpdateDataGridView()
+        public void SetUpRulesDataGridView()
+        {
+            departureTimeRules = new List<DepartureTimeRule>();
+            dataGridViewRules.CellClick += dataGridViewRules_CellClick;
+        }
+
+        public void UpdateRulesDataGridView()
+        {
+            dataGridViewRules.Rows.Clear();
+            DataGridViewRow rowRaw;
+
+            foreach (DepartureTimeRule rule in departureTimeRules)
+            {
+                //rowRaw = new DataGridViewRow();
+                rowRaw = (DataGridViewRow)dataGridViewRules.Rows[0].Clone();
+
+                rowRaw.Cells[0].Value = rule.id;
+                rowRaw.Cells[1].Value = $"c:{rule.ruleCoefficient}, etc";
+                dataGridViewRules.Rows.Add(rowRaw);
+            }
+        }
+
+        public void UpdateRawMatrixDataGridView()
         {
             DataGridViewRow rowProfit;
             altVariantsList = altVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
@@ -549,6 +573,22 @@ namespace RoutePlanner
             numericUpDownF3.Value = trackBarF3.Value;
         }
 
+        private void dataGridViewRules_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Edit
+            if (e.ColumnIndex == dataGridViewRules.Columns[2].Index)
+            {
+                //Do something with your button. e.RowIndex
+                Console.WriteLine($"rule edited {e.RowIndex}");
+            }
+            //Remove
+            if (e.ColumnIndex == dataGridViewRules.Columns[3].Index)
+            {
+                //Do something with your button. e.RowIndex
+                Console.WriteLine($"rule deleted {e.RowIndex}");
+            }
+        }
+
         private void MainForm_SizeChanged(object sender, EventArgs e)
         {
             Console.WriteLine(tabControlCentral.Size);
@@ -563,54 +603,17 @@ namespace RoutePlanner
 
         }
 
+        private void buttonAddRule_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("add rule window opened");
+            DepartureTimeRuleWindow departureTimeRuleWindow = new DepartureTimeRuleWindow(this);
+            departureTimeRuleWindow.ShowDialog();
+        }
 
-
-
-        //private void Search(RouteRequest request)
-        //{
-        //    //Process the request by using the ServiceManager.
-
-        //    var _response = request.Execute();
-
-        //    if (_response != null &&
-        //        _response.Result.ResourceSets != null &&
-        //        _response.Result.ResourceSets.Length > 0 &&
-        //        _response.Result.ResourceSets[0].Resources != null &&
-        //        _response.Result.ResourceSets[0].Resources.Length > 0)
-        //    {
-        //        responseList.Add(_response.Result.ResourceSets[0].Resources[0] as Route);
-
-        //        Console.WriteLine(responseList[0].ToString());
-        //        Console.WriteLine("*************************Test2***********************");
-
-        //        richTextBox1.Text += "ActualStart.Coordinates[0]: " + responseList[0].RouteLegs[0].ActualStart.Coordinates[0];
-        //        richTextBox1.Text += "ActualStart.Coordinates[1]: " + responseList[0].RouteLegs[0].ActualStart.Coordinates[1];
-        //        //Do something with the result.
-        //    }
-        //}
-
-        //private async Task SearchAsync(RouteRequest request)
-        //{
-        //    //Process the request by using the ServiceManager.
-
-        //    var _response = await request.Execute();
-
-        //    if (_response != null &&
-        //        _response.ResourceSets != null &&
-        //        _response.ResourceSets.Length > 0 &&
-        //        _response.ResourceSets[0].Resources != null &&
-        //        _response.ResourceSets[0].Resources.Length > 0)
-        //    {
-        //        responseList.Add(_response.ResourceSets[0].Resources[0] as Route);
-
-        //        Console.WriteLine(responseList[0].ToString());
-        //        Console.WriteLine("*************************Test2***********************");
-
-        //        richTextBox1.Text += "ActualStart.Coordinates[0]: " + responseList[0].RouteLegs[0].ActualStart.Coordinates[0];
-        //        richTextBox1.Text += "ActualStart.Coordinates[1]: " + responseList[0].RouteLegs[0].ActualStart.Coordinates[1];
-        //        //Do something with the result.
-        //    }
-        //}
-
+        public void AddRule(DepartureTimeRule departureTimeRule)
+        {
+            departureTimeRules.Add(departureTimeRule);
+            UpdateRulesDataGridView();
+        }
     }
 }

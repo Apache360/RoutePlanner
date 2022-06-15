@@ -79,6 +79,12 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
             this.tabPageCentralRawMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewRawMatrix = new System.Windows.Forms.DataGridView();
+            this.dataGridViewRules = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.buttonAddRule = new System.Windows.Forms.Button();
             this.panelLeft.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
@@ -96,6 +102,7 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownF1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF1)).BeginInit();
+            this.tabPageLeftPaneExtra.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelCentral.SuspendLayout();
             this.tabControlCentral.SuspendLayout();
@@ -105,6 +112,7 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProfitMatrix)).BeginInit();
             this.tabPageCentralRawMatrix.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRawMatrix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRules)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSearch
@@ -598,6 +606,8 @@ namespace RoutePlanner
             // tabPageLeftPaneExtra
             // 
             this.tabPageLeftPaneExtra.BackColor = System.Drawing.Color.White;
+            this.tabPageLeftPaneExtra.Controls.Add(this.buttonAddRule);
+            this.tabPageLeftPaneExtra.Controls.Add(this.dataGridViewRules);
             this.tabPageLeftPaneExtra.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneExtra.Name = "tabPageLeftPaneExtra";
             this.tabPageLeftPaneExtra.Size = new System.Drawing.Size(296, 464);
@@ -737,6 +747,53 @@ namespace RoutePlanner
             this.dataGridViewRawMatrix.Size = new System.Drawing.Size(541, 444);
             this.dataGridViewRawMatrix.TabIndex = 1;
             // 
+            // dataGridViewRules
+            // 
+            this.dataGridViewRules.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewRules.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4});
+            this.dataGridViewRules.Location = new System.Drawing.Point(5, 39);
+            this.dataGridViewRules.Name = "dataGridViewRules";
+            this.dataGridViewRules.Size = new System.Drawing.Size(287, 301);
+            this.dataGridViewRules.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Id";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 30;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Rule";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 130;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "✍";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 40;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "🗑️";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 40;
+            // 
+            // buttonAddRule
+            // 
+            this.buttonAddRule.Location = new System.Drawing.Point(173, 346);
+            this.buttonAddRule.Name = "buttonAddRule";
+            this.buttonAddRule.Size = new System.Drawing.Size(119, 33);
+            this.buttonAddRule.TabIndex = 1;
+            this.buttonAddRule.Text = "Add";
+            this.buttonAddRule.UseVisualStyleBackColor = true;
+            this.buttonAddRule.Click += new System.EventHandler(this.buttonAddRule_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -768,6 +825,7 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownF1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarF1)).EndInit();
+            this.tabPageLeftPaneExtra.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelCentral.ResumeLayout(false);
             this.panelCentral.PerformLayout();
@@ -778,6 +836,7 @@ namespace RoutePlanner
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProfitMatrix)).EndInit();
             this.tabPageCentralRawMatrix.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRawMatrix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRules)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -834,6 +893,12 @@ namespace RoutePlanner
         private System.Windows.Forms.DataGridView dataGridViewProfitMatrix;
         private System.Windows.Forms.TabPage tabPageCentralRawMatrix;
         private System.Windows.Forms.DataGridView dataGridViewRawMatrix;
+        private System.Windows.Forms.Button buttonAddRule;
+        private System.Windows.Forms.DataGridView dataGridViewRules;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewButtonColumn Column3;
+        private System.Windows.Forms.DataGridViewButtonColumn Column4;
     }
 }
 

@@ -125,6 +125,13 @@
   <ItemGroup>
     <Compile Include="AlternativeVariant.cs" />
     <Compile Include="AltVariantsCollection.cs" />
+    <Compile Include="DepartureTimeRule.cs" />
+    <Compile Include="DepartureTimeRuleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DepartureTimeRuleWindow.Designer.cs">
+      <DependentUpon>DepartureTimeRuleWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResponseHandling\ResponseNodes\ItineraryItem.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -145,6 +152,9 @@
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DepartureTimeRuleWindow.resx">
+      <DependentUpon>DepartureTimeRuleWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

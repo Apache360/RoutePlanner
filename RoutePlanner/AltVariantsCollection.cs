@@ -106,7 +106,6 @@ namespace RoutePlanner
             foreach (AlternativeVariant altVar in this)
             {
 
-                //Console.WriteLine($"{altVar.evaluationDeparuteTime} {altVar.evaluationDelayTime} {altVar.evaluationCoutryChange}");
                 altVar.evaluationDeparuteTime *= coefF1;
                 altVar.evaluationDelayTime *= coefF2;
                 altVar.evaluationCoutryChange *= coefF3;
