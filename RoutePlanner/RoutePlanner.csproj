@@ -126,6 +126,7 @@
     <Compile Include="AlternativeVariant.cs" />
     <Compile Include="AltVariantsCollection.cs" />
     <Compile Include="DepartureTimeRule.cs" />
+    <Compile Include="DepartureTimeRuleHandler.cs" />
     <Compile Include="DepartureTimeRuleWindow.cs">
       <SubType>Form</SubType>
     </Compile>

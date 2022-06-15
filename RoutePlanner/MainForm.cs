@@ -157,15 +157,16 @@ namespace RoutePlanner
                 Console.WriteLine("Done!"+i);
             }
 
-            
-            
-            buttonSearch.Enabled = true;
-            buttonSearch.Text = "Search";
+
+            UpdateAltVariantsList();
+            altVariantsList = DepartureTimeRuleHandler.CalculateDepartureTimeRules(altVariantsList, departureTimeRules);
             UpdateRawMatrixDataGridView();
             altVarBest = altVariantsList.FindBest();
             metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
-            UpdateMapView(altVarBest, wp0, wp1); 
+            UpdateMapView(altVarBest, wp0, wp1);
 
+            buttonSearch.Enabled = true;
+            buttonSearch.Text = "Search";
 
 
 
@@ -359,11 +360,15 @@ namespace RoutePlanner
             }
         }
 
+        public void UpdateAltVariantsList() 
+        {
+            altVariantsList = altVariantsList.Normalize(Convert.ToInt32(numericUpDownInterval.Value), 0, 100);
+            altVariantsList = altVariantsList.EvaluateTotal(trackBarF1.Value, trackBarF2.Value, trackBarF3.Value);
+        }
+
         public void UpdateRawMatrixDataGridView()
         {
             DataGridViewRow rowProfit;
-            altVariantsList = altVariantsList.Normalize(Convert.ToInt32( numericUpDownInterval.Value), 0,100);
-            altVariantsList = altVariantsList.EvaluateTotal(trackBarF1.Value,trackBarF2.Value,trackBarF3.Value);
             for (int i = 0; i < altVariantsList.Count; i++)
             {
                 rowProfit = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
