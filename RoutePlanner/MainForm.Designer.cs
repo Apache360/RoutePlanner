@@ -29,7 +29,7 @@ namespace RoutePlanner
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.richTextBoxDebug = new System.Windows.Forms.RichTextBox();
             this.panelLeft = new System.Windows.Forms.Panel();
@@ -71,9 +71,6 @@ namespace RoutePlanner
             this.tabPageLeftPaneExtra = new System.Windows.Forms.TabPage();
             this.buttonAddRule = new System.Windows.Forms.Button();
             this.dataGridViewRules = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelRight = new System.Windows.Forms.Panel();
             this.metroLabelTimeLeft = new MetroFramework.Controls.MetroLabel();
             this.metroLabelElapsedTime = new MetroFramework.Controls.MetroLabel();
@@ -88,6 +85,9 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
             this.tabPageCentralRawMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewRawMatrix = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelLeft.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
@@ -122,9 +122,9 @@ namespace RoutePlanner
             // 
             this.buttonSearch.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonSearch.ForeColor = System.Drawing.Color.Black;
-            this.buttonSearch.Location = new System.Drawing.Point(7, 500);
+            this.buttonSearch.Location = new System.Drawing.Point(7, 446);
             this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(292, 56);
+            this.buttonSearch.Size = new System.Drawing.Size(275, 56);
             this.buttonSearch.TabIndex = 0;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = true;
@@ -134,7 +134,7 @@ namespace RoutePlanner
             // 
             this.richTextBoxDebug.Location = new System.Drawing.Point(3, 32);
             this.richTextBoxDebug.Name = "richTextBoxDebug";
-            this.richTextBoxDebug.Size = new System.Drawing.Size(175, 468);
+            this.richTextBoxDebug.Size = new System.Drawing.Size(175, 408);
             this.richTextBoxDebug.TabIndex = 1;
             this.richTextBoxDebug.Text = "";
             // 
@@ -146,7 +146,7 @@ namespace RoutePlanner
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(310, 561);
+            this.panelLeft.Size = new System.Drawing.Size(289, 511);
             this.panelLeft.TabIndex = 2;
             // 
             // tabControlLeftPane
@@ -158,7 +158,7 @@ namespace RoutePlanner
             this.tabControlLeftPane.Location = new System.Drawing.Point(3, 0);
             this.tabControlLeftPane.Name = "tabControlLeftPane";
             this.tabControlLeftPane.SelectedIndex = 0;
-            this.tabControlLeftPane.Size = new System.Drawing.Size(304, 494);
+            this.tabControlLeftPane.Size = new System.Drawing.Size(283, 440);
             this.tabControlLeftPane.TabIndex = 12;
             // 
             // tabPageLeftPaneGeneral
@@ -187,7 +187,7 @@ namespace RoutePlanner
             this.tabPageLeftPaneGeneral.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneGeneral.Name = "tabPageLeftPaneGeneral";
             this.tabPageLeftPaneGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLeftPaneGeneral.Size = new System.Drawing.Size(296, 464);
+            this.tabPageLeftPaneGeneral.Size = new System.Drawing.Size(275, 410);
             this.tabPageLeftPaneGeneral.TabIndex = 0;
             this.tabPageLeftPaneGeneral.Text = "General";
             // 
@@ -195,7 +195,7 @@ namespace RoutePlanner
             // 
             this.metroLabelEstimatedAltVariantsCount.AutoSize = true;
             this.metroLabelEstimatedAltVariantsCount.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabelEstimatedAltVariantsCount.Location = new System.Drawing.Point(39, 405);
+            this.metroLabelEstimatedAltVariantsCount.Location = new System.Drawing.Point(39, 384);
             this.metroLabelEstimatedAltVariantsCount.Name = "metroLabelEstimatedAltVariantsCount";
             this.metroLabelEstimatedAltVariantsCount.Size = new System.Drawing.Size(17, 19);
             this.metroLabelEstimatedAltVariantsCount.TabIndex = 19;
@@ -204,7 +204,7 @@ namespace RoutePlanner
             // metroLabel7
             // 
             this.metroLabel7.AutoSize = true;
-            this.metroLabel7.Location = new System.Drawing.Point(39, 386);
+            this.metroLabel7.Location = new System.Drawing.Point(39, 365);
             this.metroLabel7.Name = "metroLabel7";
             this.metroLabel7.Size = new System.Drawing.Size(178, 19);
             this.metroLabel7.TabIndex = 18;
@@ -213,7 +213,7 @@ namespace RoutePlanner
             // metroLabel6
             // 
             this.metroLabel6.AutoSize = true;
-            this.metroLabel6.Location = new System.Drawing.Point(39, 320);
+            this.metroLabel6.Location = new System.Drawing.Point(39, 299);
             this.metroLabel6.Name = "metroLabel6";
             this.metroLabel6.Size = new System.Drawing.Size(130, 19);
             this.metroLabel6.TabIndex = 17;
@@ -222,7 +222,7 @@ namespace RoutePlanner
             // numericUpDownInterval
             // 
             this.numericUpDownInterval.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownInterval.Location = new System.Drawing.Point(39, 342);
+            this.numericUpDownInterval.Location = new System.Drawing.Point(39, 321);
             this.numericUpDownInterval.Maximum = new decimal(new int[] {
             1440,
             0,
@@ -246,7 +246,7 @@ namespace RoutePlanner
             // numericUpDownDepEndSec
             // 
             this.numericUpDownDepEndSec.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownDepEndSec.Location = new System.Drawing.Point(166, 246);
+            this.numericUpDownDepEndSec.Location = new System.Drawing.Point(166, 225);
             this.numericUpDownDepEndSec.Maximum = new decimal(new int[] {
             59,
             0,
@@ -260,7 +260,7 @@ namespace RoutePlanner
             // metroLabel5
             // 
             this.metroLabel5.AutoSize = true;
-            this.metroLabel5.Location = new System.Drawing.Point(39, 224);
+            this.metroLabel5.Location = new System.Drawing.Point(39, 203);
             this.metroLabel5.Name = "metroLabel5";
             this.metroLabel5.Size = new System.Drawing.Size(95, 19);
             this.metroLabel5.TabIndex = 12;
@@ -269,7 +269,7 @@ namespace RoutePlanner
             // numericUpDownDepEndHr
             // 
             this.numericUpDownDepEndHr.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownDepEndHr.Location = new System.Drawing.Point(39, 246);
+            this.numericUpDownDepEndHr.Location = new System.Drawing.Point(39, 225);
             this.numericUpDownDepEndHr.Maximum = new decimal(new int[] {
             23,
             0,
@@ -283,7 +283,7 @@ namespace RoutePlanner
             // numericUpDownDepEndMin
             // 
             this.numericUpDownDepEndMin.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownDepEndMin.Location = new System.Drawing.Point(104, 246);
+            this.numericUpDownDepEndMin.Location = new System.Drawing.Point(104, 225);
             this.numericUpDownDepEndMin.Maximum = new decimal(new int[] {
             59,
             0,
@@ -296,7 +296,7 @@ namespace RoutePlanner
             // 
             // metroDateTimeDepartureEnd
             // 
-            this.metroDateTimeDepartureEnd.Location = new System.Drawing.Point(39, 275);
+            this.metroDateTimeDepartureEnd.Location = new System.Drawing.Point(39, 254);
             this.metroDateTimeDepartureEnd.MinimumSize = new System.Drawing.Size(0, 29);
             this.metroDateTimeDepartureEnd.Name = "metroDateTimeDepartureEnd";
             this.metroDateTimeDepartureEnd.Size = new System.Drawing.Size(200, 29);
@@ -306,7 +306,7 @@ namespace RoutePlanner
             // numericUpDownDepStartSec
             // 
             this.numericUpDownDepStartSec.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownDepStartSec.Location = new System.Drawing.Point(166, 142);
+            this.numericUpDownDepStartSec.Location = new System.Drawing.Point(166, 121);
             this.numericUpDownDepStartSec.Maximum = new decimal(new int[] {
             59,
             0,
@@ -320,7 +320,7 @@ namespace RoutePlanner
             // metroLabel4
             // 
             this.metroLabel4.AutoSize = true;
-            this.metroLabel4.Location = new System.Drawing.Point(39, 120);
+            this.metroLabel4.Location = new System.Drawing.Point(39, 99);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(99, 19);
             this.metroLabel4.TabIndex = 7;
@@ -329,7 +329,7 @@ namespace RoutePlanner
             // numericUpDownDepStartHr
             // 
             this.numericUpDownDepStartHr.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownDepStartHr.Location = new System.Drawing.Point(39, 142);
+            this.numericUpDownDepStartHr.Location = new System.Drawing.Point(39, 121);
             this.numericUpDownDepStartHr.Maximum = new decimal(new int[] {
             23,
             0,
@@ -343,7 +343,7 @@ namespace RoutePlanner
             // numericUpDownDepStartMin
             // 
             this.numericUpDownDepStartMin.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numericUpDownDepStartMin.Location = new System.Drawing.Point(104, 142);
+            this.numericUpDownDepStartMin.Location = new System.Drawing.Point(104, 121);
             this.numericUpDownDepStartMin.Maximum = new decimal(new int[] {
             59,
             0,
@@ -362,10 +362,11 @@ namespace RoutePlanner
             this.metroLabel3.Size = new System.Drawing.Size(94, 19);
             this.metroLabel3.TabIndex = 6;
             this.metroLabel3.Text = "Add way point";
+            this.metroLabel3.Visible = false;
             // 
             // metroDateTimeDepartureStart
             // 
-            this.metroDateTimeDepartureStart.Location = new System.Drawing.Point(39, 171);
+            this.metroDateTimeDepartureStart.Location = new System.Drawing.Point(39, 150);
             this.metroDateTimeDepartureStart.MinimumSize = new System.Drawing.Size(0, 29);
             this.metroDateTimeDepartureStart.Name = "metroDateTimeDepartureStart";
             this.metroDateTimeDepartureStart.Size = new System.Drawing.Size(200, 29);
@@ -379,6 +380,7 @@ namespace RoutePlanner
             this.metroButtonAddWP.TabIndex = 4;
             this.metroButtonAddWP.Text = "+";
             this.metroButtonAddWP.UseSelectable = true;
+            this.metroButtonAddWP.Visible = false;
             // 
             // metroTextBoxW1
             // 
@@ -476,9 +478,9 @@ namespace RoutePlanner
             this.tabPageLeftPaneWeight.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneWeight.Name = "tabPageLeftPaneWeight";
             this.tabPageLeftPaneWeight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLeftPaneWeight.Size = new System.Drawing.Size(296, 464);
+            this.tabPageLeftPaneWeight.Size = new System.Drawing.Size(275, 410);
             this.tabPageLeftPaneWeight.TabIndex = 1;
-            this.tabPageLeftPaneWeight.Text = "Weight of conditions";
+            this.tabPageLeftPaneWeight.Text = "Conditions weight";
             // 
             // metroLabel15
             // 
@@ -613,13 +615,13 @@ namespace RoutePlanner
             this.tabPageLeftPaneExtra.Controls.Add(this.dataGridViewRules);
             this.tabPageLeftPaneExtra.Location = new System.Drawing.Point(4, 26);
             this.tabPageLeftPaneExtra.Name = "tabPageLeftPaneExtra";
-            this.tabPageLeftPaneExtra.Size = new System.Drawing.Size(296, 464);
+            this.tabPageLeftPaneExtra.Size = new System.Drawing.Size(275, 410);
             this.tabPageLeftPaneExtra.TabIndex = 2;
             this.tabPageLeftPaneExtra.Text = "Extra properties";
             // 
             // buttonAddRule
             // 
-            this.buttonAddRule.Location = new System.Drawing.Point(173, 346);
+            this.buttonAddRule.Location = new System.Drawing.Point(153, 346);
             this.buttonAddRule.Name = "buttonAddRule";
             this.buttonAddRule.Size = new System.Drawing.Size(119, 33);
             this.buttonAddRule.TabIndex = 1;
@@ -637,28 +639,8 @@ namespace RoutePlanner
             this.Column4});
             this.dataGridViewRules.Location = new System.Drawing.Point(5, 39);
             this.dataGridViewRules.Name = "dataGridViewRules";
-            this.dataGridViewRules.Size = new System.Drawing.Size(287, 301);
+            this.dataGridViewRules.Size = new System.Drawing.Size(267, 301);
             this.dataGridViewRules.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 30;
-            // 
-            // Column2
-            // 
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Column2.HeaderText = "Rule";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 170;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "🗑️";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 40;
             // 
             // panelRight
             // 
@@ -670,14 +652,14 @@ namespace RoutePlanner
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.Location = new System.Drawing.Point(1003, 0);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(181, 561);
+            this.panelRight.Size = new System.Drawing.Size(181, 511);
             this.panelRight.TabIndex = 3;
             // 
-            // metroLabelEstimatedTime
+            // metroLabelTimeLeft
             // 
             this.metroLabelTimeLeft.AutoSize = true;
-            this.metroLabelTimeLeft.Location = new System.Drawing.Point(7, 532);
-            this.metroLabelTimeLeft.Name = "metroLabelEstimatedTime";
+            this.metroLabelTimeLeft.Location = new System.Drawing.Point(7, 471);
+            this.metroLabelTimeLeft.Name = "metroLabelTimeLeft";
             this.metroLabelTimeLeft.Size = new System.Drawing.Size(63, 19);
             this.metroLabelTimeLeft.TabIndex = 4;
             this.metroLabelTimeLeft.Text = "Time left:";
@@ -685,7 +667,7 @@ namespace RoutePlanner
             // metroLabelElapsedTime
             // 
             this.metroLabelElapsedTime.AutoSize = true;
-            this.metroLabelElapsedTime.Location = new System.Drawing.Point(7, 507);
+            this.metroLabelElapsedTime.Location = new System.Drawing.Point(7, 446);
             this.metroLabelElapsedTime.Name = "metroLabelElapsedTime";
             this.metroLabelElapsedTime.Size = new System.Drawing.Size(87, 19);
             this.metroLabelElapsedTime.TabIndex = 3;
@@ -707,9 +689,9 @@ namespace RoutePlanner
             this.panelCentral.Controls.Add(this.metroLabelBestTime);
             this.panelCentral.Controls.Add(this.tabControlCentral);
             this.panelCentral.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelCentral.Location = new System.Drawing.Point(310, 0);
+            this.panelCentral.Location = new System.Drawing.Point(289, 0);
             this.panelCentral.Name = "panelCentral";
-            this.panelCentral.Size = new System.Drawing.Size(693, 561);
+            this.panelCentral.Size = new System.Drawing.Size(714, 511);
             this.panelCentral.TabIndex = 4;
             // 
             // metroTextBoxBestDeparture
@@ -718,7 +700,7 @@ namespace RoutePlanner
             // 
             // 
             this.metroTextBoxBestDeparture.CustomButton.Image = null;
-            this.metroTextBoxBestDeparture.CustomButton.Location = new System.Drawing.Point(221, 1);
+            this.metroTextBoxBestDeparture.CustomButton.Location = new System.Drawing.Point(222, 1);
             this.metroTextBoxBestDeparture.CustomButton.Name = "";
             this.metroTextBoxBestDeparture.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.metroTextBoxBestDeparture.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -728,7 +710,7 @@ namespace RoutePlanner
             this.metroTextBoxBestDeparture.CustomButton.Visible = false;
             this.metroTextBoxBestDeparture.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
             this.metroTextBoxBestDeparture.Lines = new string[0];
-            this.metroTextBoxBestDeparture.Location = new System.Drawing.Point(7, 529);
+            this.metroTextBoxBestDeparture.Location = new System.Drawing.Point(7, 479);
             this.metroTextBoxBestDeparture.MaxLength = 32767;
             this.metroTextBoxBestDeparture.Name = "metroTextBoxBestDeparture";
             this.metroTextBoxBestDeparture.PasswordChar = '\0';
@@ -738,7 +720,7 @@ namespace RoutePlanner
             this.metroTextBoxBestDeparture.SelectionLength = 0;
             this.metroTextBoxBestDeparture.SelectionStart = 0;
             this.metroTextBoxBestDeparture.ShortcutsEnabled = true;
-            this.metroTextBoxBestDeparture.Size = new System.Drawing.Size(243, 23);
+            this.metroTextBoxBestDeparture.Size = new System.Drawing.Size(244, 23);
             this.metroTextBoxBestDeparture.TabIndex = 9;
             this.metroTextBoxBestDeparture.UseSelectable = true;
             this.metroTextBoxBestDeparture.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -747,7 +729,7 @@ namespace RoutePlanner
             // metroLabelBestTime
             // 
             this.metroLabelBestTime.AutoSize = true;
-            this.metroLabelBestTime.Location = new System.Drawing.Point(7, 507);
+            this.metroLabelBestTime.Location = new System.Drawing.Point(7, 457);
             this.metroLabelBestTime.Name = "metroLabelBestTime";
             this.metroLabelBestTime.Size = new System.Drawing.Size(181, 19);
             this.metroLabelBestTime.TabIndex = 8;
@@ -762,7 +744,7 @@ namespace RoutePlanner
             this.tabControlCentral.Location = new System.Drawing.Point(3, 0);
             this.tabControlCentral.Name = "tabControlCentral";
             this.tabControlCentral.SelectedIndex = 0;
-            this.tabControlCentral.Size = new System.Drawing.Size(688, 494);
+            this.tabControlCentral.Size = new System.Drawing.Size(708, 440);
             this.tabControlCentral.TabIndex = 0;
             // 
             // tabPageCentralMapView
@@ -771,7 +753,7 @@ namespace RoutePlanner
             this.tabPageCentralMapView.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralMapView.Name = "tabPageCentralMapView";
             this.tabPageCentralMapView.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCentralMapView.Size = new System.Drawing.Size(680, 464);
+            this.tabPageCentralMapView.Size = new System.Drawing.Size(700, 410);
             this.tabPageCentralMapView.TabIndex = 0;
             this.tabPageCentralMapView.Text = "Map View";
             this.tabPageCentralMapView.UseVisualStyleBackColor = true;
@@ -780,7 +762,7 @@ namespace RoutePlanner
             // 
             this.pictureBoxMapView.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxMapView.Name = "pictureBoxMapView";
-            this.pictureBoxMapView.Size = new System.Drawing.Size(680, 464);
+            this.pictureBoxMapView.Size = new System.Drawing.Size(700, 407);
             this.pictureBoxMapView.TabIndex = 0;
             this.pictureBoxMapView.TabStop = false;
             // 
@@ -790,7 +772,7 @@ namespace RoutePlanner
             this.tabPageCentralProfitMatrix.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralProfitMatrix.Name = "tabPageCentralProfitMatrix";
             this.tabPageCentralProfitMatrix.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCentralProfitMatrix.Size = new System.Drawing.Size(680, 464);
+            this.tabPageCentralProfitMatrix.Size = new System.Drawing.Size(700, 410);
             this.tabPageCentralProfitMatrix.TabIndex = 1;
             this.tabPageCentralProfitMatrix.Text = "Profit Matrix";
             this.tabPageCentralProfitMatrix.UseVisualStyleBackColor = true;
@@ -801,7 +783,7 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewProfitMatrix.Location = new System.Drawing.Point(6, 3);
             this.dataGridViewProfitMatrix.Name = "dataGridViewProfitMatrix";
-            this.dataGridViewProfitMatrix.Size = new System.Drawing.Size(535, 444);
+            this.dataGridViewProfitMatrix.Size = new System.Drawing.Size(694, 407);
             this.dataGridViewProfitMatrix.TabIndex = 0;
             // 
             // tabPageCentralRawMatrix
@@ -809,7 +791,7 @@ namespace RoutePlanner
             this.tabPageCentralRawMatrix.Controls.Add(this.dataGridViewRawMatrix);
             this.tabPageCentralRawMatrix.Location = new System.Drawing.Point(4, 26);
             this.tabPageCentralRawMatrix.Name = "tabPageCentralRawMatrix";
-            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(680, 464);
+            this.tabPageCentralRawMatrix.Size = new System.Drawing.Size(700, 410);
             this.tabPageCentralRawMatrix.TabIndex = 2;
             this.tabPageCentralRawMatrix.Text = "Raw Matrix";
             this.tabPageCentralRawMatrix.UseVisualStyleBackColor = true;
@@ -820,21 +802,42 @@ namespace RoutePlanner
             this.dataGridViewRawMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewRawMatrix.Location = new System.Drawing.Point(6, 4);
             this.dataGridViewRawMatrix.Name = "dataGridViewRawMatrix";
-            this.dataGridViewRawMatrix.Size = new System.Drawing.Size(541, 444);
+            this.dataGridViewRawMatrix.Size = new System.Drawing.Size(694, 406);
             this.dataGridViewRawMatrix.TabIndex = 1;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Id";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 30;
+            // 
+            // Column2
+            // 
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Column2.HeaderText = "Rule";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 155;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "🗑️";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 35;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.ClientSize = new System.Drawing.Size(1184, 511);
             this.Controls.Add(this.panelCentral);
             this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelLeft);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MinimumSize = new System.Drawing.Size(900, 550);
             this.Name = "MainForm";
             this.Text = "RoutePlanner";
-            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_SizeChanged);
             this.panelLeft.ResumeLayout(false);
             this.tabControlLeftPane.ResumeLayout(false);
             this.tabPageLeftPaneGeneral.ResumeLayout(false);
@@ -925,12 +928,12 @@ namespace RoutePlanner
         private System.Windows.Forms.DataGridView dataGridViewRawMatrix;
         private System.Windows.Forms.Button buttonAddRule;
         private System.Windows.Forms.DataGridView dataGridViewRules;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewButtonColumn Column4;
         private MetroFramework.Controls.MetroLabel metroLabel8;
         private MetroFramework.Controls.MetroLabel metroLabelElapsedTime;
         private MetroFramework.Controls.MetroLabel metroLabelTimeLeft;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewButtonColumn Column4;
     }
 }
 

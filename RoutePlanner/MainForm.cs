@@ -22,9 +22,6 @@ namespace RoutePlanner
             numericUpDownDepEndHr.Value = 0;
             numericUpDownDepEndMin.Value = 0;
             numericUpDownDepEndSec.Value = 0;
-            //metroTextBoxW0.Text = "41,780715, -83,560378";
-            //metroTextBoxW0.Text = "42,339544, -83,090409";
-            //metroTextBoxW1.Text = "42,912429, -78,885757";
             //metroTextBoxW0.Text = "3835 Luna Pier Rd, Erie, Мічиган 48133, Сполучені Штати";
             //metroTextBoxW1.Text = "19 18th St, Буффало, Нью-Йорк 14213, Сполучені Штати";
             metroTextBoxW0.Text = "39.951916,-75.150118";
@@ -59,7 +56,6 @@ namespace RoutePlanner
 
         private async void ButtonSearch_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("*************************Test***********************");
             richTextBoxDebug.Clear();
             dataGridViewProfitMatrix.Rows.Clear();
             dataGridViewProfitMatrix.Refresh();
@@ -120,10 +116,6 @@ namespace RoutePlanner
                 responseRaw = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
                 //Console.WriteLine(responseRaw);
 
-                //Console.WriteLine($"TravelDurationTraffic #{i}: " +
-                //    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
-                //    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}");
-
                 richTextBoxDebug.Text += $"#{i} Travel duration (raw): " +
                     $"{Environment.NewLine}   {dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
                     $"{Environment.NewLine}   {responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
@@ -145,7 +137,7 @@ namespace RoutePlanner
                 richTextBoxDebug.Refresh();
                 richTextBoxDebug.SelectionStart = richTextBoxDebug.Text.Length;
                 richTextBoxDebug.ScrollToCaret();
-                Console.WriteLine($"evaluationTravelTime {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.ToString("c")}");
+                Console.WriteLine($"#{i} evaluationTravelTime (optimized): {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.ToString("c")}");
 
                 altVariantsList[i].evaluationTravelTime = responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
                 altVariantsList[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptz);
@@ -155,7 +147,6 @@ namespace RoutePlanner
                 estimatedTime = TimeSpan.FromMilliseconds((stopwatch.Elapsed.TotalMilliseconds/(i+1))* (alternativeVariantsCount-i));
                 metroLabelTimeLeft.Text = $"Time left: {estimatedTime.ToString(@"hh\:mm\:ss", CultureInfo.GetCultureInfo("en-US"))}";
                 metroLabelTimeLeft.Refresh();
-                Console.WriteLine($"Done! {i}");
             }
 
             StopStopwatch();
@@ -364,14 +355,16 @@ namespace RoutePlanner
 
         public void UpdateMapView(AlternativeVariant altVarBest, string wp0, string wp1)
         {
-            string dateTimeDeparture = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
             int mapWidth;
             int mapHeight;
             if (pictureBoxMapView.Width > 400) mapWidth = pictureBoxMapView.Width;
             else mapWidth = 400;
             if (pictureBoxMapView.Height>400) mapHeight = pictureBoxMapView.Height;
             else mapHeight = 400;
-            pictureBoxMapView.Load($"https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?" +
+            if (altVarBest != null)
+            {
+                string dateTimeDeparture = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
+                pictureBoxMapView.Load($"https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?" +
                 $"wp.0={wp0}" +
                 $"&wp.1={wp1}" +
                 $"&mapsize={mapWidth},{mapHeight}" +
@@ -379,6 +372,7 @@ namespace RoutePlanner
                 $"&timeType=Departure" +
                 $"&dateTime={dateTimeDeparture}" +
                 $"&key={key}");
+            }
 
         }
 
@@ -480,12 +474,13 @@ namespace RoutePlanner
 
         private void MainForm_SizeChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(tabControlCentral.Size);
-            Console.WriteLine(panelCentral.Size);
-            Console.WriteLine(pictureBoxMapView.Size);
             tabControlCentral.Size = panelCentral.Size;
             tabControlCentral.Size = new Size(width: panelCentral.Size.Width-9, height: panelCentral.Size.Height - 67);
             pictureBoxMapView.Size = new Size(width: tabPageCentralMapView.Size.Width, height: tabPageCentralMapView.Size.Height);
+            dataGridViewProfitMatrix.Size = new Size(width: tabPageCentralProfitMatrix.Size.Width, height: tabPageCentralProfitMatrix.Size.Height);
+            dataGridViewRawMatrix.Size = new Size(width: tabPageCentralRawMatrix.Size.Width, height: tabPageCentralRawMatrix.Size.Height);
+            //dataGridViewProfitMatrix.Size = new Size(width: tabPageCentralMapView.Size.Width, height: tabPageCentralMapView.Size.Height);
+            //dataGridViewRawMatrix.Size = new Size(width: tabPageCentralMapView.Size.Width, height: tabPageCentralMapView.Size.Height);
             metroLabelBestTime.Location = new System.Drawing.Point(7, tabControlCentral.Height+15);
             metroTextBoxBestDeparture.Location = new System.Drawing.Point(7, tabControlCentral.Height+32);
             UpdateMapView(altVarBest, wp0, wp1);
@@ -494,7 +489,6 @@ namespace RoutePlanner
 
         private void buttonAddRule_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("add rule window opened");
             DepartureTimeRuleWindow departureTimeRuleWindow = new DepartureTimeRuleWindow(this);
             departureTimeRuleWindow.ShowDialog();
         }
