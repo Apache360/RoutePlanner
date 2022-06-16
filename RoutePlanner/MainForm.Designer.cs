@@ -31,7 +31,7 @@ namespace RoutePlanner
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonSearch = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxDebug = new System.Windows.Forms.RichTextBox();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.tabControlLeftPane = new System.Windows.Forms.TabControl();
             this.tabPageLeftPaneGeneral = new System.Windows.Forms.TabPage();
@@ -71,7 +71,13 @@ namespace RoutePlanner
             this.tabPageLeftPaneExtra = new System.Windows.Forms.TabPage();
             this.buttonAddRule = new System.Windows.Forms.Button();
             this.dataGridViewRules = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelRight = new System.Windows.Forms.Panel();
+            this.metroLabelTimeLeft = new MetroFramework.Controls.MetroLabel();
+            this.metroLabelElapsedTime = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.panelCentral = new System.Windows.Forms.Panel();
             this.metroTextBoxBestDeparture = new MetroFramework.Controls.MetroTextBox();
             this.metroLabelBestTime = new MetroFramework.Controls.MetroLabel();
@@ -82,9 +88,6 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
             this.tabPageCentralRawMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewRawMatrix = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelLeft.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
@@ -127,13 +130,13 @@ namespace RoutePlanner
             this.buttonSearch.UseVisualStyleBackColor = true;
             this.buttonSearch.Click += new System.EventHandler(this.ButtonSearch_Click);
             // 
-            // richTextBox1
+            // richTextBoxDebug
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 32);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(175, 468);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.richTextBoxDebug.Location = new System.Drawing.Point(3, 32);
+            this.richTextBoxDebug.Name = "richTextBoxDebug";
+            this.richTextBoxDebug.Size = new System.Drawing.Size(175, 468);
+            this.richTextBoxDebug.TabIndex = 1;
+            this.richTextBoxDebug.Text = "";
             // 
             // panelLeft
             // 
@@ -637,15 +640,65 @@ namespace RoutePlanner
             this.dataGridViewRules.Size = new System.Drawing.Size(287, 301);
             this.dataGridViewRules.TabIndex = 0;
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Id";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 30;
+            // 
+            // Column2
+            // 
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Column2.HeaderText = "Rule";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 170;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "🗑️";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 40;
+            // 
             // panelRight
             // 
-            this.panelRight.BackColor = System.Drawing.Color.Honeydew;
-            this.panelRight.Controls.Add(this.richTextBox1);
+            this.panelRight.BackColor = System.Drawing.Color.White;
+            this.panelRight.Controls.Add(this.metroLabelTimeLeft);
+            this.panelRight.Controls.Add(this.metroLabelElapsedTime);
+            this.panelRight.Controls.Add(this.metroLabel8);
+            this.panelRight.Controls.Add(this.richTextBoxDebug);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.Location = new System.Drawing.Point(1003, 0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Size = new System.Drawing.Size(181, 561);
             this.panelRight.TabIndex = 3;
+            // 
+            // metroLabelEstimatedTime
+            // 
+            this.metroLabelTimeLeft.AutoSize = true;
+            this.metroLabelTimeLeft.Location = new System.Drawing.Point(7, 532);
+            this.metroLabelTimeLeft.Name = "metroLabelEstimatedTime";
+            this.metroLabelTimeLeft.Size = new System.Drawing.Size(63, 19);
+            this.metroLabelTimeLeft.TabIndex = 4;
+            this.metroLabelTimeLeft.Text = "Time left:";
+            // 
+            // metroLabelElapsedTime
+            // 
+            this.metroLabelElapsedTime.AutoSize = true;
+            this.metroLabelElapsedTime.Location = new System.Drawing.Point(7, 507);
+            this.metroLabelElapsedTime.Name = "metroLabelElapsedTime";
+            this.metroLabelElapsedTime.Size = new System.Drawing.Size(87, 19);
+            this.metroLabelElapsedTime.TabIndex = 3;
+            this.metroLabelElapsedTime.Text = "Elapsed time:";
+            // 
+            // metroLabel8
+            // 
+            this.metroLabel8.AutoSize = true;
+            this.metroLabel8.Location = new System.Drawing.Point(7, 7);
+            this.metroLabel8.Name = "metroLabel8";
+            this.metroLabel8.Size = new System.Drawing.Size(51, 19);
+            this.metroLabel8.TabIndex = 2;
+            this.metroLabel8.Text = "Debug:";
             // 
             // panelCentral
             // 
@@ -770,26 +823,6 @@ namespace RoutePlanner
             this.dataGridViewRawMatrix.Size = new System.Drawing.Size(541, 444);
             this.dataGridViewRawMatrix.TabIndex = 1;
             // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 30;
-            // 
-            // Column2
-            // 
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Column2.HeaderText = "Rule";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 170;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "🗑️";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 40;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -824,6 +857,7 @@ namespace RoutePlanner
             this.tabPageLeftPaneExtra.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRules)).EndInit();
             this.panelRight.ResumeLayout(false);
+            this.panelRight.PerformLayout();
             this.panelCentral.ResumeLayout(false);
             this.panelCentral.PerformLayout();
             this.tabControlCentral.ResumeLayout(false);
@@ -840,7 +874,7 @@ namespace RoutePlanner
         #endregion
 
         private System.Windows.Forms.Button buttonSearch;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBoxDebug;
         private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.Panel panelRight;
         private System.Windows.Forms.Panel panelCentral;
@@ -894,6 +928,9 @@ namespace RoutePlanner
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewButtonColumn Column4;
+        private MetroFramework.Controls.MetroLabel metroLabel8;
+        private MetroFramework.Controls.MetroLabel metroLabelElapsedTime;
+        private MetroFramework.Controls.MetroLabel metroLabelTimeLeft;
     }
 }
 

@@ -17,7 +17,7 @@ namespace RoutePlanner.ResponseHandling
             XmlElement xRoot = null;
             XmlDocument response = null;
 
-            Console.WriteLine("Getting response...");
+            //Console.WriteLine("Getting response...");
             int triesCount =10;
             for (int i = 0; i < 10; i++)
             {

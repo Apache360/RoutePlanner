@@ -1,6 +1,7 @@
 ﻿using RoutePlanner.ResponseHandling;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
@@ -51,14 +52,19 @@ namespace RoutePlanner
         RouteOptimization routeOptimization;
         ResponseHandler responseHandler;
 
+        public Stopwatch stopwatch;
+        TimeSpan estimatedTime;
+
         public List<DepartureTimeRule> departureTimeRules;
 
         private async void ButtonSearch_Click(object sender, EventArgs e)
         {
             Console.WriteLine("*************************Test***********************");
-            richTextBox1.Clear();
+            richTextBoxDebug.Clear();
             dataGridViewProfitMatrix.Rows.Clear();
             dataGridViewProfitMatrix.Refresh();
+            StartStopwatch();
+            estimatedTime = new TimeSpan();
 
             buttonSearch.Enabled = false;
             buttonSearch.Text = "Wait...";
@@ -118,23 +124,27 @@ namespace RoutePlanner
                 //    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
                 //    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}");
 
-                richTextBox1.Text += $"TravelDurationTraffic #{i}: " +
-                    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
-                    $"{responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
+                richTextBoxDebug.Text += $"#{i} Travel duration (raw): " +
+                    $"{Environment.NewLine}   {dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
+                    $"{Environment.NewLine}   {responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
                     $"{Environment.NewLine}";
-                richTextBox1.Refresh();
+                richTextBoxDebug.Refresh();
+                richTextBoxDebug.SelectionStart = richTextBoxDebug.Text.Length;
+                richTextBoxDebug.ScrollToCaret();
 
                 altVariantsListRaw[i].evaluationTravelTime = responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
                 altVariantsListRaw[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
 
                 ResponseHandling.ResponseNodes.Response responseOptz;
                 responseOptz = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
-                responseOptz = routeOptimization.Optimize(responseRaw);
-                richTextBox1.Text += $"OPTZ TravelDurationTraffic #{i}: " +
-                    $"{dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
-                    $"{responseOptz.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
-                    $"{Environment.NewLine}";
-                richTextBox1.Refresh();
+                responseOptz = routeOptimization.Optimize(responseRaw, this);
+                richTextBoxDebug.Text += $"#{i} Travel duration (optimized): " +
+                    $"{Environment.NewLine}   {dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
+                    $"{Environment.NewLine}   {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
+                    $"{Environment.NewLine}{Environment.NewLine}";
+                richTextBoxDebug.Refresh();
+                richTextBoxDebug.SelectionStart = richTextBoxDebug.Text.Length;
+                richTextBoxDebug.ScrollToCaret();
                 Console.WriteLine($"evaluationTravelTime {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.ToString("c")}");
 
                 altVariantsList[i].evaluationTravelTime = responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
@@ -142,11 +152,15 @@ namespace RoutePlanner
                 altVariantsListRawOptz[i].evaluationTravelTime = responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
                 altVariantsListRawOptz[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptz);
 
-
-                Console.WriteLine("Done!"+i);
+                estimatedTime = TimeSpan.FromMilliseconds((stopwatch.Elapsed.TotalMilliseconds/(i+1))* (alternativeVariantsCount-i));
+                metroLabelTimeLeft.Text = $"Time left: {estimatedTime.ToString(@"hh\:mm\:ss", CultureInfo.GetCultureInfo("en-US"))}";
+                metroLabelTimeLeft.Refresh();
+                Console.WriteLine($"Done! {i}");
             }
 
-
+            StopStopwatch();
+            metroLabelTimeLeft.Text = $"Time left: 00:00:00";
+            metroLabelTimeLeft.Refresh();
             UpdateAltVariantsList();
             altVariantsList = DepartureTimeRuleHandler.CalculateDepartureTimeRules(altVariantsList, departureTimeRules);
             UpdateRawMatrixDataGridView();
@@ -489,6 +503,29 @@ namespace RoutePlanner
         {
             departureTimeRules.Add(departureTimeRule);
             UpdateRulesDataGridView();
+        }
+
+        private void StartStopwatch()
+        {
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+        }
+
+        private void StopStopwatch()
+        {
+            stopwatch.Stop();
+        }
+
+        public void UpdateElapsedTime()
+        {
+
+            metroLabelElapsedTime.Text = $"Elapsed time: {stopwatch.Elapsed.ToString(@"hh\:mm\:ss", CultureInfo.GetCultureInfo("en-US"))}";
+            metroLabelElapsedTime.Refresh();
+        }
+
+        public void UpdateEstimatedTime()
+        {
+
         }
     }
 }

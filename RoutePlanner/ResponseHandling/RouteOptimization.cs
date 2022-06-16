@@ -11,10 +11,11 @@ namespace RoutePlanner.ResponseHandling
 {
     class RouteOptimization
     {
-        public Response Optimize(Response response)
+        public Response Optimize(Response response, MainForm mainForm)
         {
             Route route = response.resourceSets.resourseSet.resources.route;
             ResponseHandling.ResponseNodes.Response responseRaw;
+            mainForm.UpdateElapsedTime();
             //route leg rewrite
 
             string wp0;
@@ -73,6 +74,7 @@ namespace RoutePlanner.ResponseHandling
                     //Console.WriteLine("travelDurationTemp: " + travelDurationTemp);
                 }
                 //Console.WriteLine($"responseRaw #{i}: {response}");
+                mainForm.UpdateElapsedTime();
             }
 
             return response;
