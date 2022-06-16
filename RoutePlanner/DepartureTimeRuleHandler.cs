@@ -30,8 +30,8 @@ namespace RoutePlanner
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
                                     if (departureTimeRule.daysOfWeek.Contains(alternativeVariant.deparuteTime.DayOfWeek)
-                                        && alternativeVariant.deparuteTime.TimeOfDay> departureTimeRule.ruleTimeSpanInterval.startTime
-                                        && alternativeVariant.deparuteTime.TimeOfDay < departureTimeRule.ruleTimeSpanInterval.endTime)
+                                        && alternativeVariant.deparuteTime.TimeOfDay>= departureTimeRule.ruleTimeSpanInterval.startTime
+                                        && alternativeVariant.deparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
                                     {
                                         alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
@@ -47,8 +47,8 @@ namespace RoutePlanner
                             case RuleTimeType.WholeDay:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (alternativeVariant.deparuteTime > departureTimeRule.ruleDateTimeInterval.startDateTime
-                                        && alternativeVariant.deparuteTime < departureTimeRule.ruleDateTimeInterval.endDateTime)
+                                    if (alternativeVariant.deparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
+                                        && alternativeVariant.deparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime)
                                     {
                                         alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
@@ -57,10 +57,10 @@ namespace RoutePlanner
                             case RuleTimeType.SpecialTime:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (alternativeVariant.deparuteTime > departureTimeRule.ruleDateTimeInterval.startDateTime
-                                        && alternativeVariant.deparuteTime < departureTimeRule.ruleDateTimeInterval.endDateTime
-                                        && alternativeVariant.deparuteTime.TimeOfDay > departureTimeRule.ruleTimeSpanInterval.startTime
-                                        && alternativeVariant.deparuteTime.TimeOfDay < departureTimeRule.ruleTimeSpanInterval.endTime)
+                                    if (alternativeVariant.deparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
+                                        && alternativeVariant.deparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime
+                                        && alternativeVariant.deparuteTime.TimeOfDay >= departureTimeRule.ruleTimeSpanInterval.startTime
+                                        && alternativeVariant.deparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
                                     {
                                         alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }

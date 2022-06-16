@@ -1,20 +1,9 @@
-﻿using BingMapsRESTToolkit;
-using Microsoft.PowerBI.Api.Models;
-using Newtonsoft.Json;
-using RoutePlanner.ResponseHandling;
+﻿using RoutePlanner.ResponseHandling;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace RoutePlanner
@@ -167,99 +156,6 @@ namespace RoutePlanner
 
             buttonSearch.Enabled = true;
             buttonSearch.Text = "Search";
-
-
-
-
-            //////responseList = new List<Location>();
-            //responseList = new List<Route>();
-
-            //var request = new RouteRequest()
-            //{
-
-            //    Waypoints = new List<SimpleWaypoint>() {
-            //        new SimpleWaypoint(39.951916,-75.150118),
-            //        new SimpleWaypoint(40.745702,-73.847184)
-            //        //new SimpleWaypoint(50.485068, 30.457412),
-            //        //new SimpleWaypoint(49.832458, 23.978329)
-            //        //new SimpleWaypoint(41.915423, -83.406422),
-            //        //new SimpleWaypoint(42.979566, -78.868626)
-            //    },
-            //    WaypointOptimization = BingMapsRESTToolkit.Extensions.TspOptimizationType.TravelDistance,
-            //    RouteOptions = new RouteOptions()
-            //    {
-            //        TravelMode = TravelModeType.Driving,
-            //        TimeType = RouteTimeType.Departure,
-            //        //DateTime = new DateTime(2022, 07, 04, 8, 45, 0, DateTimeKind.Local)
-            //        //DateTime = new DateTime(2022, 07, 04, 8, 45, 0)
-            //        DateTime = new DateTime(637925211000000000)
-            //    },
-            //    BingMapsKey = key,
-            //    //Culture = "en-US"
-            //    Culture = "ua"
-            //};
-
-
-            //Console.WriteLine(request.GetRequestUrl());
-            //Console.WriteLine(request.Culture);
-            //Console.WriteLine(request.Domain);
-            //Console.WriteLine(request.BatchSize);
-            ////Console.WriteLine(request.RouteOptions.DateTime.Value.TimeOfDay.ToString());
-            //Console.WriteLine(request.RouteOptions.TravelMode.ToString());
-            //Console.WriteLine(request.RouteOptions.TimeType.ToString());
-            //Console.WriteLine(request.RouteOptions.DistanceUnits);
-            //Console.WriteLine(request.UserRegion);
-            //Console.WriteLine(request.UserIp);
-            //Console.WriteLine(request.UserLocation);
-            //Console.WriteLine(request.Waypoints.Count);
-            //Console.WriteLine(request.Waypoints[0].Address);
-            //Console.WriteLine(request.Waypoints[1].Address);
-
-            //var response = await request.Execute();
-
-            //if (response != null &&
-            //    response.ResourceSets != null &&
-            //    response.ResourceSets.Length > 0 &&
-            //    response.ResourceSets[0].Resources != null &&
-            //    response.ResourceSets[0].Resources.Length > 0)
-            //{
-            //    responseList.Add(response.ResourceSets[0].Resources[0] as BingMapsRESTToolkit.Route);
-
-            //    Console.WriteLine(responseList[0].ToString());
-            //    Console.WriteLine("*************************Test2***********************");
-
-            //    richTextBox1.Text += "ActualStart.Coordinates[0]: " + responseList[0].RouteLegs[0].ActualStart.Coordinates[0]+Environment.NewLine;
-            //    richTextBox1.Text += "ActualStart.Coordinates[1]: " + responseList[0].RouteLegs[0].ActualStart.Coordinates[1] + Environment.NewLine;
-
-            //    richTextBox1.Text += "StartTime: " + responseList[0].RouteLegs[0].StartTime + Environment.NewLine;
-            //    richTextBox1.Text += "StartTimeUtc.TimeOfDay.ToString(): " + responseList[0].RouteLegs[0].StartTimeUtc.TimeOfDay.ToString() + Environment.NewLine;
-            //    //richTextBox1.Text += "StartLocation.Address.FormattedAddress: " + responseList[0].RouteLegs[0].StartLocation.Address.AddressLine;
-
-            //    richTextBox1.Text += "EndTime: " + responseList[0].RouteLegs[0].EndTime + Environment.NewLine;
-            //    richTextBox1.Text += "EndTimeUtc.TimeOfDay.ToString(): " + responseList[0].RouteLegs[0].EndTimeUtc.TimeOfDay.ToString() + Environment.NewLine;
-            //    //richTextBox1.Text += "EndLocation.Address.FormattedAddress: " + responseList[0].RouteLegs[0].EndLocation.Address.AddressLine;
-
-            //    richTextBox1.Text += "TravelDistance: " + responseList[0].RouteLegs[0].TravelDistance + Environment.NewLine;
-            //    richTextBox1.Text += "TravelDuration: " + responseList[0].RouteLegs[0].TravelDuration + Environment.NewLine;
-
-            //    //richTextBox1.Text += "AddressLine: " + responseList[0].Address.AddressLine +Environment.NewLine;
-            //    //richTextBox1.Text += "AdminDistrict: " + responseList[0].Address.AdminDistrict + Environment.NewLine;
-            //    //richTextBox1.Text += "AdminDistrict2: " + responseList[0].Address.AdminDistrict2 + Environment.NewLine;
-            //    //richTextBox1.Text += "CountryRegion: " + responseList[0].Address.CountryRegion + Environment.NewLine;
-            //    //richTextBox1.Text += "CountryRegionIso2: " + responseList[0].Address.CountryRegionIso2 + Environment.NewLine;
-            //    //richTextBox1.Text += "FormattedAddress: " + responseList[0].Address.FormattedAddress + Environment.NewLine;
-            //    //richTextBox1.Text += "Landmark: " + responseList[0].Address.Landmark + Environment.NewLine;
-            //    //richTextBox1.Text += "Locality: " + responseList[0].Address.Locality + Environment.NewLine;
-            //    //richTextBox1.Text += "Neighborhood: " + responseList[0].Address.Neighborhood + Environment.NewLine;
-            //    //richTextBox1.Text += "PostalCode: " + responseList[0].Address.PostalCode + Environment.NewLine;
-            //    //richTextBox1.Text += "Point.Coordinates[0]: " + responseList[0].Point.Coordinates[0] + Environment.NewLine;
-            //    //richTextBox1.Text += "Point.Coordinates[1]: " + responseList[0].Point.Coordinates[1] + Environment.NewLine;
-            //    //Do something with the result.
-            //}
-
-
-
-
         }
 
 
@@ -351,11 +247,20 @@ namespace RoutePlanner
 
             foreach (DepartureTimeRule rule in departureTimeRules)
             {
-                //rowRaw = new DataGridViewRow();
                 rowRaw = (DataGridViewRow)dataGridViewRules.Rows[0].Clone();
 
                 rowRaw.Cells[0].Value = rule.id;
-                rowRaw.Cells[1].Value = $"c:{rule.ruleCoefficient}, etc";
+                string daysOfWeekStr = "Days of week: ";
+                foreach (DayOfWeek dayOfWeek in rule.daysOfWeek)
+                {
+                    daysOfWeekStr += $"{dayOfWeek.ToString().Substring(0,3)} ";
+                }
+                rowRaw.Cells[1].Value = $"Rule coefficient: {rule.ruleCoefficient}, {Environment.NewLine}" +
+                    $"Day type: {rule.ruleDayType}, {Environment.NewLine}" +
+                    $"{daysOfWeekStr}, {Environment.NewLine}" +
+                    $"Date interval: {rule.ruleDateTimeInterval.startDateTime.ToString("d")} {rule.ruleDateTimeInterval.endDateTime.ToString("d")}, {Environment.NewLine}" +
+                    $"Time type: {rule.ruleTimeType}, {Environment.NewLine}" +
+                    $"Time interval: {rule.ruleTimeSpanInterval.startTime} {rule.ruleTimeSpanInterval.endTime}";
                 dataGridViewRules.Rows.Add(rowRaw);
             }
         }
@@ -463,41 +368,6 @@ namespace RoutePlanner
 
         }
 
-
-        /// <summary>  
-        /// Display each "entry" in the Bing Spatial Data Services Atom (XML) response.  
-        /// </summary>  
-        /// <param name="entryElements"></param>  
-        private void ProcessEntityElements(XmlDocument response)
-        {
-            XmlNodeList entryElements = response.GetElementsByTagName("entry");
-            for (int i = 0; i <= entryElements.Count - 1; i++)
-            {
-                XmlElement element = (XmlElement)entryElements[i];
-                XmlElement contentElement = (XmlElement)element.GetElementsByTagName(
-                  "content")[0];
-                XmlElement propElement = (XmlElement)
-                  contentElement.GetElementsByTagName("m:properties")[0];
-                XmlNode nameElement = propElement.GetElementsByTagName("d:Name")[0];
-                if (nameElement == null)
-                    throw new Exception("Name not found");
-                XmlNode latElement = propElement.GetElementsByTagName("d:Latitude")[0];
-                if (latElement == null)
-                    throw new Exception("Latitude not found");
-                XmlNode longElement = propElement.GetElementsByTagName("d:Longitude")
-                  [0];
-                if (longElement == null)
-                    throw new Exception("Longitude not found");
-                string name = nameElement.InnerText;
-                double latitude = 0;
-                Double.TryParse(latElement.InnerText, out latitude);
-                double longitude = 0;
-                Double.TryParse(longElement.InnerText, out longitude);
-                Console.WriteLine("Coordinates of '{0}': {1}, {2}", name, latitude,
-                  longitude);
-            }
-        }
-
         //Departure End
         private void numericUpDownDepEndHr_ValueChanged(object sender, EventArgs e)
         {
@@ -580,17 +450,17 @@ namespace RoutePlanner
 
         private void dataGridViewRules_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //Edit
+            //Remove
+            if (departureTimeRules.Count==0)
+            {
+                return;
+            }
             if (e.ColumnIndex == dataGridViewRules.Columns[2].Index)
             {
                 //Do something with your button. e.RowIndex
-                Console.WriteLine($"rule edited {e.RowIndex}");
-            }
-            //Remove
-            if (e.ColumnIndex == dataGridViewRules.Columns[3].Index)
-            {
-                //Do something with your button. e.RowIndex
-                Console.WriteLine($"rule deleted {e.RowIndex}");
+                Console.WriteLine($"rule removed {e.RowIndex}");
+                departureTimeRules.RemoveAt(e.RowIndex);
+                UpdateRulesDataGridView();
             }
         }
 
