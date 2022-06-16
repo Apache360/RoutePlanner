@@ -15,11 +15,11 @@ namespace RoutePlanner
         {
             InitializeComponent();
             metroDateTimeDepartureStart.Value = new DateTime(2022, 07, 04, 0, 0, 0);
-            numericUpDownDepStartHr.Value = 0;
+            numericUpDownDepStartHr.Value = 6;
             numericUpDownDepStartMin.Value = 0;
             numericUpDownDepStartSec.Value = 0;
-            metroDateTimeDepartureEnd.Value = new DateTime(2022, 07, 05, 0, 0, 0);
-            numericUpDownDepEndHr.Value = 0;
+            metroDateTimeDepartureEnd.Value = new DateTime(2022, 07, 04, 0, 0, 0);
+            numericUpDownDepEndHr.Value = 12;
             numericUpDownDepEndMin.Value = 0;
             numericUpDownDepEndSec.Value = 0;
             //metroTextBoxW0.Text = "3835 Luna Pier Rd, Erie, Мічиган 48133, Сполучені Штати";
@@ -42,6 +42,8 @@ namespace RoutePlanner
         AltVariantsCollection altVariantsListRaw;
         AltVariantsCollection altVariantsListRawOptz;
         AltVariantsCollection altVariantsList;
+        List<ResponseHandling.ResponseNodes.Response> responseOptzList;
+        ResponseHandling.ResponseNodes.Response responseOptz;
 
         string wp0;
         string wp1;
@@ -68,6 +70,7 @@ namespace RoutePlanner
             altVariantsListRaw = new AltVariantsCollection();
             altVariantsListRawOptz = new AltVariantsCollection();
             altVariantsList = new AltVariantsCollection();
+            responseOptzList = new List<ResponseHandling.ResponseNodes.Response>();
 
             responseHandler = new ResponseHandler();
 
@@ -127,9 +130,9 @@ namespace RoutePlanner
                 altVariantsListRaw[i].evaluationTravelTime = responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
                 altVariantsListRaw[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
 
-                ResponseHandling.ResponseNodes.Response responseOptz;
                 responseOptz = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
                 responseOptz = routeOptimization.Optimize(responseRaw, this);
+                responseOptzList.Add(responseOptz);
                 richTextBoxDebug.Text += $"#{i} Travel duration (optimized): " +
                     $"{Environment.NewLine}   {dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
                     $"{Environment.NewLine}   {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
@@ -154,7 +157,8 @@ namespace RoutePlanner
             metroLabelTimeLeft.Refresh();
             UpdateAltVariantsList();
             altVariantsList = DepartureTimeRuleHandler.CalculateDepartureTimeRules(altVariantsList, departureTimeRules);
-            UpdateRawMatrixDataGridView();
+            UpdateRawMatrixDataGridViewAltVar();
+            UpdateRawMatrixDataGridViewRawOptz();
             altVarBest = altVariantsList.FindBest();
             metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             UpdateMapView(altVarBest, wp0, wp1);
@@ -276,8 +280,9 @@ namespace RoutePlanner
             altVariantsList = altVariantsList.EvaluateTotal(trackBarF1.Value, trackBarF2.Value, trackBarF3.Value);
         }
 
-        public void UpdateRawMatrixDataGridView()
+        public void UpdateRawMatrixDataGridViewAltVar()
         {
+
             DataGridViewRow rowProfit;
             for (int i = 0; i < altVariantsList.Count; i++)
             {
@@ -290,7 +295,11 @@ namespace RoutePlanner
                 rowProfit.Cells[5].Value = altVariantsList[i].evaluationTotal;
                 dataGridViewProfitMatrix.Rows.Add(rowProfit);
             }
-            
+
+        }
+
+        public void UpdateRawMatrixDataGridViewRawOptz()
+        {
             DataGridViewRow rowRaw;
             altVariantsListRawOptz = altVariantsListRawOptz.GetDelayTime();
             altVariantsListRaw = altVariantsListRaw.GetDelayTime();
@@ -517,9 +526,24 @@ namespace RoutePlanner
             metroLabelElapsedTime.Refresh();
         }
 
-        public void UpdateEstimatedTime()
+        private void buttonUpdateCoefs_Click(object sender, EventArgs e)
         {
+            altVariantsList = new AltVariantsCollection();
 
+            for (int i = 0; i < alternativeVariantsCount; i++)
+            {
+                DateTime dateTimeDepartureTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
+                altVariantsList.Add(new AlternativeVariant(i, dateTimeDepartureTemp, i, 0, 0));
+                altVariantsList[i].evaluationTravelTime = responseOptzList[i].resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
+                altVariantsList[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptzList[i]);
+            }
+            UpdateAltVariantsList();
+            altVariantsList = DepartureTimeRuleHandler.CalculateDepartureTimeRules(altVariantsList, departureTimeRules);
+            dataGridViewProfitMatrix.Rows.Clear();
+            UpdateRawMatrixDataGridViewAltVar();
+            altVarBest = altVariantsList.FindBest();
+            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            UpdateMapView(altVarBest, wp0, wp1);
         }
     }
 }

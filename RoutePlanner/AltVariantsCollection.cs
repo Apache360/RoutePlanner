@@ -58,17 +58,17 @@ namespace RoutePlanner
                 if (evaluationDepartureTimeMax!=0)
                 {
                     altVar.evaluationDeparuteTime *= (max / evaluationDepartureTimeMax);
-                    altVar.evaluationDeparuteTime = max-altVar.evaluationDeparuteTime;
+                    altVar.evaluationDeparuteTime = Math.Round( max-altVar.evaluationDeparuteTime,2);
                 }
                 if (evaluationDelayTimeMax != 0)
                 {
                     altVar.evaluationDelayTime *= (max / evaluationDelayTimeMax);
-                    altVar.evaluationDelayTime = max - altVar.evaluationDelayTime;
+                    altVar.evaluationDelayTime = Math.Round(max - altVar.evaluationDelayTime,2);
                 }
                 if (evaluationCoutryChangeMax!=0)
                 {
                     altVar.evaluationCoutryChange *= (max / evaluationCoutryChangeMax);
-                    altVar.evaluationCoutryChange = max - altVar.evaluationCoutryChange;
+                    altVar.evaluationCoutryChange = Math.Round(max - altVar.evaluationCoutryChange,2);
                 }
             }
 

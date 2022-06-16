@@ -29,7 +29,7 @@ namespace RoutePlanner
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.richTextBoxDebug = new System.Windows.Forms.RichTextBox();
             this.panelLeft = new System.Windows.Forms.Panel();
@@ -56,6 +56,7 @@ namespace RoutePlanner
             this.metroTextBoxW0 = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.tabPageLeftPaneWeight = new System.Windows.Forms.TabPage();
+            this.buttonUpdate1 = new System.Windows.Forms.Button();
             this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
             this.numericUpDownF3 = new System.Windows.Forms.NumericUpDown();
             this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
@@ -69,8 +70,12 @@ namespace RoutePlanner
             this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
             this.trackBarF1 = new System.Windows.Forms.TrackBar();
             this.tabPageLeftPaneExtra = new System.Windows.Forms.TabPage();
+            this.buttonUpdate2 = new System.Windows.Forms.Button();
             this.buttonAddRule = new System.Windows.Forms.Button();
             this.dataGridViewRules = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelRight = new System.Windows.Forms.Panel();
             this.metroLabelTimeLeft = new MetroFramework.Controls.MetroLabel();
             this.metroLabelElapsedTime = new MetroFramework.Controls.MetroLabel();
@@ -85,9 +90,6 @@ namespace RoutePlanner
             this.dataGridViewProfitMatrix = new System.Windows.Forms.DataGridView();
             this.tabPageCentralRawMatrix = new System.Windows.Forms.TabPage();
             this.dataGridViewRawMatrix = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelLeft.SuspendLayout();
             this.tabControlLeftPane.SuspendLayout();
             this.tabPageLeftPaneGeneral.SuspendLayout();
@@ -463,6 +465,7 @@ namespace RoutePlanner
             // tabPageLeftPaneWeight
             // 
             this.tabPageLeftPaneWeight.BackColor = System.Drawing.Color.White;
+            this.tabPageLeftPaneWeight.Controls.Add(this.buttonUpdate1);
             this.tabPageLeftPaneWeight.Controls.Add(this.metroLabel15);
             this.tabPageLeftPaneWeight.Controls.Add(this.numericUpDownF3);
             this.tabPageLeftPaneWeight.Controls.Add(this.metroLabel16);
@@ -481,6 +484,16 @@ namespace RoutePlanner
             this.tabPageLeftPaneWeight.Size = new System.Drawing.Size(275, 410);
             this.tabPageLeftPaneWeight.TabIndex = 1;
             this.tabPageLeftPaneWeight.Text = "Conditions weight";
+            // 
+            // buttonUpdate1
+            // 
+            this.buttonUpdate1.Location = new System.Drawing.Point(153, 378);
+            this.buttonUpdate1.Name = "buttonUpdate1";
+            this.buttonUpdate1.Size = new System.Drawing.Size(119, 29);
+            this.buttonUpdate1.TabIndex = 17;
+            this.buttonUpdate1.Text = "🔄 Update    ";
+            this.buttonUpdate1.UseVisualStyleBackColor = true;
+            this.buttonUpdate1.Click += new System.EventHandler(this.buttonUpdateCoefs_Click);
             // 
             // metroLabel15
             // 
@@ -611,6 +624,7 @@ namespace RoutePlanner
             // tabPageLeftPaneExtra
             // 
             this.tabPageLeftPaneExtra.BackColor = System.Drawing.Color.White;
+            this.tabPageLeftPaneExtra.Controls.Add(this.buttonUpdate2);
             this.tabPageLeftPaneExtra.Controls.Add(this.buttonAddRule);
             this.tabPageLeftPaneExtra.Controls.Add(this.dataGridViewRules);
             this.tabPageLeftPaneExtra.Location = new System.Drawing.Point(4, 26);
@@ -619,11 +633,21 @@ namespace RoutePlanner
             this.tabPageLeftPaneExtra.TabIndex = 2;
             this.tabPageLeftPaneExtra.Text = "Extra properties";
             // 
+            // buttonUpdate2
+            // 
+            this.buttonUpdate2.Location = new System.Drawing.Point(153, 378);
+            this.buttonUpdate2.Name = "buttonUpdate2";
+            this.buttonUpdate2.Size = new System.Drawing.Size(119, 29);
+            this.buttonUpdate2.TabIndex = 16;
+            this.buttonUpdate2.Text = "🔄 Update    ";
+            this.buttonUpdate2.UseVisualStyleBackColor = true;
+            this.buttonUpdate2.Click += new System.EventHandler(this.buttonUpdateCoefs_Click);
+            // 
             // buttonAddRule
             // 
             this.buttonAddRule.Location = new System.Drawing.Point(153, 346);
             this.buttonAddRule.Name = "buttonAddRule";
-            this.buttonAddRule.Size = new System.Drawing.Size(119, 33);
+            this.buttonAddRule.Size = new System.Drawing.Size(119, 29);
             this.buttonAddRule.TabIndex = 1;
             this.buttonAddRule.Text = "Add";
             this.buttonAddRule.UseVisualStyleBackColor = true;
@@ -641,6 +665,26 @@ namespace RoutePlanner
             this.dataGridViewRules.Name = "dataGridViewRules";
             this.dataGridViewRules.Size = new System.Drawing.Size(267, 301);
             this.dataGridViewRules.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Id";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 30;
+            // 
+            // Column2
+            // 
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Column2.HeaderText = "Rule";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 155;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "🗑️";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 35;
             // 
             // panelRight
             // 
@@ -805,26 +849,6 @@ namespace RoutePlanner
             this.dataGridViewRawMatrix.Size = new System.Drawing.Size(694, 406);
             this.dataGridViewRawMatrix.TabIndex = 1;
             // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 30;
-            // 
-            // Column2
-            // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Column2.HeaderText = "Rule";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 155;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "🗑️";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 35;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -934,6 +958,8 @@ namespace RoutePlanner
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewButtonColumn Column4;
+        private System.Windows.Forms.Button buttonUpdate1;
+        private System.Windows.Forms.Button buttonUpdate2;
     }
 }
 
