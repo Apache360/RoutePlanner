@@ -52,6 +52,7 @@ namespace RoutePlanner.ResponseHandling
                     $"&key={key}";
                 //Console.WriteLine(url);
 
+                Console.WriteLine($"#{i} Getting response...") ;
                 XmlElement xRoot = ResponseHandler.GetResponse(url);
                 responseRaw = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
 
