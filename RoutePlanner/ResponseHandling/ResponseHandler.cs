@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace RoutePlanner.ResponseHandling
@@ -14,7 +11,6 @@ namespace RoutePlanner.ResponseHandling
     {
         public static XmlElement GetResponse(string url)
         {
-            XmlElement xRoot = null;
             XmlDocument response = null;
 
             int triesCount =10;
@@ -27,14 +23,14 @@ namespace RoutePlanner.ResponseHandling
                 }
                 Console.WriteLine($"Error. Getting response again... Try {i+1}/{triesCount}");
             }
-            xRoot = response.DocumentElement;
+            XmlElement xRoot = response.DocumentElement;
             return xRoot;
         }
 
         public int GetCountryChangeCount(Response response)
         {
             int countryChangeCount = 0;
-            foreach (ItineraryItem itineraryItem in response.resourceSets.resourseSet.resources.route.routeLeg.itineraryItems)
+            foreach (ItineraryItem itineraryItem in response.ResourceSets.ResourseSet.Resources.Route.routeLeg.itineraryItems)
             {
                 countryChangeCount += itineraryItem.countryChangeCount;
             }
@@ -65,8 +61,10 @@ namespace RoutePlanner.ResponseHandling
         public static Response ReadResponse(XmlElement xRoot, DateTime departureTime)
         {
             Response response = new Response();
-            NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberDecimalSeparator = ".";
+            NumberFormatInfo provider = new NumberFormatInfo
+            {
+                NumberDecimalSeparator = "."
+            };
 
             if (xRoot != null)
             {
@@ -76,85 +74,89 @@ namespace RoutePlanner.ResponseHandling
                     if (nodeInRoot.Name == "ResourceSets")
                     {
                         XmlNode resourceSets = nodeInRoot;
-                        response.resourceSets = new ResourceSets();
+                        response.ResourceSets = new ResourceSets();
                         foreach (XmlNode nodeInResourceSets in resourceSets.ChildNodes)
                         {
                             if (nodeInResourceSets.Name == "ResourceSet")
                             {
                                 XmlNode resourceSet = nodeInResourceSets;
-                                response.resourceSets.resourseSet = new ResourseSet();
+                                response.ResourceSets.ResourseSet = new ResourseSet();
                                 foreach (XmlNode nodeInResourceSet in resourceSet.ChildNodes)
                                 {
                                     if (nodeInResourceSet.Name == "Resources")
                                     {
                                         XmlNode resources = nodeInResourceSet;
-                                        response.resourceSets.resourseSet.resources = new Resources();
+                                        response.ResourceSets.ResourseSet.Resources = new Resources();
                                         foreach (XmlNode nodeInResources in resources.ChildNodes)
                                         {
                                             if (nodeInResources.Name == "Route")
                                             {
                                                 XmlNode route = nodeInResources;
-                                                response.resourceSets.resourseSet.resources.route = new Route();
-                                                response.resourceSets.resourseSet.resources.route.departureTime = departureTime;
+                                                response.ResourceSets.ResourseSet.Resources.Route = new Route
+                                                {
+                                                    departureTime = departureTime
+                                                };
                                                 foreach (XmlNode nodeInRoute in route.ChildNodes)
                                                 {
                                                     if (nodeInRoute.Name == "DistanceUnit")
                                                     {
-                                                        response.resourceSets.resourseSet.resources.route.distanceUnit = nodeInRoute.InnerText;
+                                                        response.ResourceSets.ResourseSet.Resources.Route.distanceUnit = nodeInRoute.InnerText;
                                                     }
                                                     if (nodeInRoute.Name == "DurationUnit")
                                                     {
-                                                        response.resourceSets.resourseSet.resources.route.durationUnit = nodeInRoute.InnerText;
+                                                        response.ResourceSets.ResourseSet.Resources.Route.durationUnit = nodeInRoute.InnerText;
                                                     }
                                                     if (nodeInRoute.Name == "TravelDistance")
                                                     {
-                                                        response.resourceSets.resourseSet.resources.route.travelDistance = Double.Parse( nodeInRoute.InnerText, provider);
+                                                        response.ResourceSets.ResourseSet.Resources.Route.travelDistance = Double.Parse( nodeInRoute.InnerText, provider);
                                                     }
                                                     if (nodeInRoute.Name == "TravelDuration")
                                                     {
                                                         TimeSpan travelDuration = TimeSpan.FromSeconds(Convert.ToInt32(nodeInRoute.InnerText));
-                                                        response.resourceSets.resourseSet.resources.route.travelDuration = travelDuration;
+                                                        response.ResourceSets.ResourseSet.Resources.Route.travelDuration = travelDuration;
                                                     }
                                                     if (nodeInRoute.Name == "TravelDurationTraffic")
                                                     {
                                                         XmlNode travelDurationTrafficNode = nodeInRoute;
                                                         TimeSpan travelDurationTraffic = TimeSpan.FromSeconds(Convert.ToInt32(travelDurationTrafficNode.InnerText));
-                                                        response.resourceSets.resourseSet.resources.route.travelDurationTraffic = travelDurationTraffic;
+                                                        response.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic = travelDurationTraffic;
 
                                                         string travelDurationTrafficStr = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
                                                                         travelDurationTraffic.Hours,
                                                                         travelDurationTraffic.Minutes,
                                                                         travelDurationTraffic.Seconds);
-                                                        response.resourceSets.resourseSet.resources.route.travelDurationTrafficStr = travelDurationTrafficStr;
+                                                        response.ResourceSets.ResourseSet.Resources.Route.travelDurationTrafficStr = travelDurationTrafficStr;
                                                     }
                                                     if (nodeInRoute.Name == "TravelMode")
                                                     {
-                                                        response.resourceSets.resourseSet.resources.route.travelMode = nodeInRoute.InnerText;
+                                                        response.ResourceSets.ResourseSet.Resources.Route.travelMode = nodeInRoute.InnerText;
                                                     }
 
                                                     if (nodeInRoute.Name == "RouteLeg")
                                                     {
                                                         XmlNode routeLeg = nodeInRoute;
-                                                        response.resourceSets.resourseSet.resources.route.routeLeg = new RouteLeg();
-                                                        response.resourceSets.resourseSet.resources.route.routeLeg.itineraryItems = new List<ItineraryItem>();
+                                                        response.ResourceSets.ResourseSet.Resources.Route.routeLeg = new RouteLeg
+                                                        {
+                                                            itineraryItems = new List<ItineraryItem>()
+                                                        };
 
                                                         foreach (XmlNode nodeInRouteLeg in routeLeg.ChildNodes)
                                                         {
                                                             if (nodeInRouteLeg.Name == "TravelDistance")
                                                             {
-                                                                response.resourceSets.resourseSet.resources.route.routeLeg.travelDistance = Double.Parse(nodeInRouteLeg.InnerText, provider);
+                                                                response.ResourceSets.ResourseSet.Resources.Route.routeLeg.travelDistance = Double.Parse(nodeInRouteLeg.InnerText, provider);
                                                             }
                                                             if (nodeInRouteLeg.Name == "TravelDuration")
                                                             {
-                                                                response.resourceSets.resourseSet.resources.route.routeLeg.travelDuration = Convert.ToInt32(nodeInRouteLeg.InnerText);
+                                                                response.ResourceSets.ResourseSet.Resources.Route.routeLeg.travelDuration = Convert.ToInt32(nodeInRouteLeg.InnerText);
                                                             }
                                                             if (nodeInRouteLeg.Name == "TravelMode")
                                                             {
-                                                                response.resourceSets.resourseSet.resources.route.routeLeg.travelMode = nodeInRouteLeg.InnerText;
+                                                                response.ResourceSets.ResourseSet.Resources.Route.routeLeg.travelMode = nodeInRouteLeg.InnerText;
                                                             }
                                                             if (nodeInRouteLeg.Name == "ActualStart")
                                                             {
-                                                                response.resourceSets.resourseSet.resources.route.routeLeg.actualStart = 
+                                                                response.ResourceSets.ResourseSet.Resources.Route.routeLeg.actualStart = 
                                                                     new BingMapsRESTToolkit.Coordinate(
                                                                         Double.Parse(nodeInRouteLeg.ChildNodes.Item(0).InnerText, provider),
                                                                         Double.Parse(nodeInRouteLeg.ChildNodes.Item(1).InnerText, provider)
@@ -162,7 +164,7 @@ namespace RoutePlanner.ResponseHandling
                                                             }
                                                             if (nodeInRouteLeg.Name == "ActualEnd")
                                                             {
-                                                                response.resourceSets.resourseSet.resources.route.routeLeg.actualEnd = 
+                                                                response.ResourceSets.ResourseSet.Resources.Route.routeLeg.actualEnd = 
                                                                     new BingMapsRESTToolkit.Coordinate(
                                                                         Double.Parse(nodeInRouteLeg.ChildNodes.Item(0).InnerText, provider),
                                                                         Double.Parse(nodeInRouteLeg.ChildNodes.Item(1).InnerText, provider)
@@ -204,7 +206,7 @@ namespace RoutePlanner.ResponseHandling
                                                                         //Console.WriteLine("CountryChange!");
                                                                     }
                                                                 }
-                                                                response.resourceSets.resourseSet.resources.route.routeLeg.itineraryItems.Add(itineraryItemTemp);
+                                                                response.ResourceSets.ResourseSet.Resources.Route.routeLeg.itineraryItems.Add(itineraryItemTemp);
                                                             }
                                                         }
                                                     }

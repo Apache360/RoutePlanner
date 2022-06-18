@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RoutePlanner
+namespace RoutePlanner.DepartureTimeRulesHandling
 {
     public class DepartureTimeRule
     {
@@ -69,42 +66,6 @@ namespace RoutePlanner
                 $"\n\truleDateTimeInterval: {ruleDateTimeInterval.startDateTime} {ruleDateTimeInterval.endDateTime}" +
                 $"\n\truleTimeType: {ruleTimeType}" +
                 $"\n\truleTimeSpanInterval: {ruleTimeSpanInterval.startTime} {ruleTimeSpanInterval.endTime}";
-        }
-    }
-
-    public enum RuleDayType
-    {
-        DaysOfWeek = 0,
-        SpecialDays = 1
-    }
-
-    public enum RuleTimeType
-    {
-        WholeDay = 0,
-        SpecialTime = 1
-    }
-
-    public class RuleTimeSpanInterval
-    {
-        public TimeSpan startTime;
-        public TimeSpan endTime;
-
-        public RuleTimeSpanInterval(TimeSpan startTime, TimeSpan endTime)
-        {
-            this.startTime = startTime;
-            this.endTime = endTime;
-        }
-    } 
-
-    public class RuleDateTimeInterval
-    {
-        public DateTime startDateTime;
-        public DateTime endDateTime;
-
-        public RuleDateTimeInterval(DateTime startDateTime, DateTime endDateTime)
-        {
-            this.startDateTime = startDateTime;
-            this.endDateTime = endDateTime;
         }
     }
 }

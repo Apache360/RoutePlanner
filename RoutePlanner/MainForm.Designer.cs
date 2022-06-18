@@ -243,7 +243,7 @@ namespace RoutePlanner
             0,
             0,
             0});
-            this.numericUpDownInterval.ValueChanged += new System.EventHandler(this.numericUpDownInterval_ValueChanged);
+            this.numericUpDownInterval.ValueChanged += new System.EventHandler(this.NumericUpDownInterval_ValueChanged);
             // 
             // numericUpDownDepEndSec
             // 
@@ -257,7 +257,7 @@ namespace RoutePlanner
             this.numericUpDownDepEndSec.Name = "numericUpDownDepEndSec";
             this.numericUpDownDepEndSec.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownDepEndSec.TabIndex = 13;
-            this.numericUpDownDepEndSec.ValueChanged += new System.EventHandler(this.numericUpDownDepEndSec_ValueChanged);
+            this.numericUpDownDepEndSec.ValueChanged += new System.EventHandler(this.NumericUpDownDepEndSec_ValueChanged);
             // 
             // metroLabel5
             // 
@@ -280,7 +280,7 @@ namespace RoutePlanner
             this.numericUpDownDepEndHr.Name = "numericUpDownDepEndHr";
             this.numericUpDownDepEndHr.Size = new System.Drawing.Size(59, 25);
             this.numericUpDownDepEndHr.TabIndex = 9;
-            this.numericUpDownDepEndHr.ValueChanged += new System.EventHandler(this.numericUpDownDepEndHr_ValueChanged);
+            this.numericUpDownDepEndHr.ValueChanged += new System.EventHandler(this.NumericUpDownDepEndHr_ValueChanged);
             // 
             // numericUpDownDepEndMin
             // 
@@ -294,7 +294,7 @@ namespace RoutePlanner
             this.numericUpDownDepEndMin.Name = "numericUpDownDepEndMin";
             this.numericUpDownDepEndMin.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownDepEndMin.TabIndex = 10;
-            this.numericUpDownDepEndMin.ValueChanged += new System.EventHandler(this.numericUpDownDepEndMin_ValueChanged);
+            this.numericUpDownDepEndMin.ValueChanged += new System.EventHandler(this.NumericUpDownDepEndMin_ValueChanged);
             // 
             // metroDateTimeDepartureEnd
             // 
@@ -303,7 +303,7 @@ namespace RoutePlanner
             this.metroDateTimeDepartureEnd.Name = "metroDateTimeDepartureEnd";
             this.metroDateTimeDepartureEnd.Size = new System.Drawing.Size(200, 29);
             this.metroDateTimeDepartureEnd.TabIndex = 11;
-            this.metroDateTimeDepartureEnd.ValueChanged += new System.EventHandler(this.metroDateTimeDepartureEnd_ValueChanged);
+            this.metroDateTimeDepartureEnd.ValueChanged += new System.EventHandler(this.MetroDateTimeDepartureEnd_ValueChanged);
             // 
             // numericUpDownDepStartSec
             // 
@@ -317,7 +317,7 @@ namespace RoutePlanner
             this.numericUpDownDepStartSec.Name = "numericUpDownDepStartSec";
             this.numericUpDownDepStartSec.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownDepStartSec.TabIndex = 8;
-            this.numericUpDownDepStartSec.ValueChanged += new System.EventHandler(this.numericUpDownDepStartSec_ValueChanged);
+            this.numericUpDownDepStartSec.ValueChanged += new System.EventHandler(this.NumericUpDownDepStartSec_ValueChanged);
             // 
             // metroLabel4
             // 
@@ -340,7 +340,7 @@ namespace RoutePlanner
             this.numericUpDownDepStartHr.Name = "numericUpDownDepStartHr";
             this.numericUpDownDepStartHr.Size = new System.Drawing.Size(59, 25);
             this.numericUpDownDepStartHr.TabIndex = 3;
-            this.numericUpDownDepStartHr.ValueChanged += new System.EventHandler(this.numericUpDownDepStartHr_ValueChanged);
+            this.numericUpDownDepStartHr.ValueChanged += new System.EventHandler(this.NumericUpDownDepStartHr_ValueChanged);
             // 
             // numericUpDownDepStartMin
             // 
@@ -354,7 +354,7 @@ namespace RoutePlanner
             this.numericUpDownDepStartMin.Name = "numericUpDownDepStartMin";
             this.numericUpDownDepStartMin.Size = new System.Drawing.Size(56, 25);
             this.numericUpDownDepStartMin.TabIndex = 5;
-            this.numericUpDownDepStartMin.ValueChanged += new System.EventHandler(this.numericUpDownDepStartMin_ValueChanged);
+            this.numericUpDownDepStartMin.ValueChanged += new System.EventHandler(this.NumericUpDownDepStartMin_ValueChanged);
             // 
             // metroLabel3
             // 
@@ -493,7 +493,7 @@ namespace RoutePlanner
             this.buttonUpdate1.TabIndex = 17;
             this.buttonUpdate1.Text = "🔄 Update    ";
             this.buttonUpdate1.UseVisualStyleBackColor = true;
-            this.buttonUpdate1.Click += new System.EventHandler(this.buttonUpdateCoefs_Click);
+            this.buttonUpdate1.Click += new System.EventHandler(this.ButtonUpdateCoefs_Click);
             // 
             // metroLabel15
             // 
@@ -516,7 +516,7 @@ namespace RoutePlanner
             0,
             0,
             0});
-            this.numericUpDownF3.ValueChanged += new System.EventHandler(this.numericUpDownF3_ValueChanged);
+            this.numericUpDownF3.ValueChanged += new System.EventHandler(this.NumericUpDownF3_ValueChanged);
             // 
             // metroLabel16
             // 
@@ -535,7 +535,7 @@ namespace RoutePlanner
             this.trackBarF3.Size = new System.Drawing.Size(230, 45);
             this.trackBarF3.TabIndex = 10;
             this.trackBarF3.Value = 100;
-            this.trackBarF3.ValueChanged += new System.EventHandler(this.trackBarF3_ValueChanged);
+            this.trackBarF3.ValueChanged += new System.EventHandler(this.TrackBarF3_ValueChanged);
             // 
             // metroLabel13
             // 
@@ -558,7 +558,7 @@ namespace RoutePlanner
             0,
             0,
             0});
-            this.numericUpDownF2.ValueChanged += new System.EventHandler(this.numericUpDownF2_ValueChanged);
+            this.numericUpDownF2.ValueChanged += new System.EventHandler(this.NumericUpDownF2_ValueChanged);
             // 
             // metroLabel14
             // 
@@ -577,7 +577,7 @@ namespace RoutePlanner
             this.trackBarF2.Size = new System.Drawing.Size(230, 45);
             this.trackBarF2.TabIndex = 6;
             this.trackBarF2.Value = 100;
-            this.trackBarF2.ValueChanged += new System.EventHandler(this.trackBarF2_ValueChanged);
+            this.trackBarF2.ValueChanged += new System.EventHandler(this.TrackBarF2_ValueChanged);
             // 
             // metroLabel12
             // 
@@ -600,7 +600,7 @@ namespace RoutePlanner
             0,
             0,
             0});
-            this.numericUpDownF1.ValueChanged += new System.EventHandler(this.numericUpDownF1_ValueChanged);
+            this.numericUpDownF1.ValueChanged += new System.EventHandler(this.NumericUpDownF1_ValueChanged);
             // 
             // metroLabel11
             // 
@@ -619,7 +619,7 @@ namespace RoutePlanner
             this.trackBarF1.Size = new System.Drawing.Size(230, 45);
             this.trackBarF1.TabIndex = 2;
             this.trackBarF1.Value = 100;
-            this.trackBarF1.ValueChanged += new System.EventHandler(this.trackBarF1_ValueChanged);
+            this.trackBarF1.ValueChanged += new System.EventHandler(this.TrackBarF1_ValueChanged);
             // 
             // tabPageLeftPaneExtra
             // 
@@ -641,7 +641,7 @@ namespace RoutePlanner
             this.buttonUpdate2.TabIndex = 16;
             this.buttonUpdate2.Text = "🔄 Update    ";
             this.buttonUpdate2.UseVisualStyleBackColor = true;
-            this.buttonUpdate2.Click += new System.EventHandler(this.buttonUpdateCoefs_Click);
+            this.buttonUpdate2.Click += new System.EventHandler(this.ButtonUpdateCoefs_Click);
             // 
             // buttonAddRule
             // 
@@ -651,7 +651,7 @@ namespace RoutePlanner
             this.buttonAddRule.TabIndex = 1;
             this.buttonAddRule.Text = "Add";
             this.buttonAddRule.UseVisualStyleBackColor = true;
-            this.buttonAddRule.Click += new System.EventHandler(this.buttonAddRule_Click);
+            this.buttonAddRule.Click += new System.EventHandler(this.ButtonAddRule_Click);
             // 
             // dataGridViewRules
             // 

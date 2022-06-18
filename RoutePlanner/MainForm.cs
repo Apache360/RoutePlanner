@@ -1,4 +1,5 @@
-﻿using RoutePlanner.ResponseHandling;
+﻿using RoutePlanner.DepartureTimeRulesHandling;
+using RoutePlanner.ResponseHandling;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,7 +57,7 @@ namespace RoutePlanner
 
         public List<DepartureTimeRule> departureTimeRules;
 
-        private async void ButtonSearch_Click(object sender, EventArgs e)
+        private void ButtonSearch_Click(object sender, EventArgs e)
         {
             richTextBoxDebug.Clear();
             dataGridViewProfitMatrix.Rows.Clear();
@@ -121,31 +122,31 @@ namespace RoutePlanner
 
                 richTextBoxDebug.Text += $"#{i} Travel duration (raw): " +
                     $"{Environment.NewLine}   {dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
-                    $"{Environment.NewLine}   {responseRaw.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
+                    $"{Environment.NewLine}   {responseRaw.ResourceSets.ResourseSet.Resources.Route.travelDurationTrafficStr}" +
                     $"{Environment.NewLine}";
                 richTextBoxDebug.Refresh();
                 richTextBoxDebug.SelectionStart = richTextBoxDebug.Text.Length;
                 richTextBoxDebug.ScrollToCaret();
 
-                altVariantsListRaw[i].evaluationTravelTime = responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
-                altVariantsListRaw[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
+                altVariantsListRaw[i].EvaluationTravelTime = responseRaw.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic.Ticks / 10000000;
+                altVariantsListRaw[i].EvaluationCoutryChange = responseHandler.GetCountryChangeCount(responseRaw);
 
                 responseOptz = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
                 responseOptz = routeOptimization.Optimize(responseRaw, this);
                 responseOptzList.Add(responseOptz);
                 richTextBoxDebug.Text += $"#{i} Travel duration (optimized): " +
                     $"{Environment.NewLine}   {dateTimeDepartureTemp.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}: " +
-                    $"{Environment.NewLine}   {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTrafficStr}" +
+                    $"{Environment.NewLine}   {responseOptz.ResourceSets.ResourseSet.Resources.Route.travelDurationTrafficStr}" +
                     $"{Environment.NewLine}{Environment.NewLine}";
                 richTextBoxDebug.Refresh();
                 richTextBoxDebug.SelectionStart = richTextBoxDebug.Text.Length;
                 richTextBoxDebug.ScrollToCaret();
-                Console.WriteLine($"#{i} evaluationTravelTime (optimized): {responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.ToString("c")}");
+                Console.WriteLine($"#{i} evaluationTravelTime (optimized): {responseOptz.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic:c}");
 
-                altVariantsList[i].evaluationTravelTime = responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
-                altVariantsList[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptz);
-                altVariantsListRawOptz[i].evaluationTravelTime = responseOptz.resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
-                altVariantsListRawOptz[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptz);
+                altVariantsList[i].EvaluationTravelTime = responseOptz.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic.Ticks / 10000000;
+                altVariantsList[i].EvaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptz);
+                altVariantsListRawOptz[i].EvaluationTravelTime = responseOptz.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic.Ticks / 10000000;
+                altVariantsListRawOptz[i].EvaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptz);
 
                 estimatedTime = TimeSpan.FromMilliseconds((stopwatch.Elapsed.TotalMilliseconds/(i+1))* (alternativeVariantsCount-i));
                 metroLabelTimeLeft.Text = $"Time left: {estimatedTime.ToString(@"hh\:mm\:ss", CultureInfo.GetCultureInfo("en-US"))}";
@@ -160,7 +161,7 @@ namespace RoutePlanner
             UpdateRawMatrixDataGridViewAltVar();
             UpdateRawMatrixDataGridViewRawOptz();
             altVarBest = altVariantsList.FindBest();
-            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             UpdateMapView(altVarBest, wp0, wp1);
 
             buttonSearch.Enabled = true;
@@ -246,7 +247,7 @@ namespace RoutePlanner
         public void SetUpRulesDataGridView()
         {
             departureTimeRules = new List<DepartureTimeRule>();
-            dataGridViewRules.CellClick += dataGridViewRules_CellClick;
+            dataGridViewRules.CellClick += DataGridViewRules_CellClick;
         }
 
         public void UpdateRulesDataGridView()
@@ -267,7 +268,7 @@ namespace RoutePlanner
                 rowRaw.Cells[1].Value = $"Rule coefficient: {rule.ruleCoefficient}, {Environment.NewLine}" +
                     $"Day type: {rule.ruleDayType}, {Environment.NewLine}" +
                     $"{daysOfWeekStr}, {Environment.NewLine}" +
-                    $"Date interval: {rule.ruleDateTimeInterval.startDateTime.ToString("d")} {rule.ruleDateTimeInterval.endDateTime.ToString("d")}, {Environment.NewLine}" +
+                    $"Date interval: {rule.ruleDateTimeInterval.startDateTime:d} {rule.ruleDateTimeInterval.endDateTime:d}, {Environment.NewLine}" +
                     $"Time type: {rule.ruleTimeType}, {Environment.NewLine}" +
                     $"Time interval: {rule.ruleTimeSpanInterval.startTime} {rule.ruleTimeSpanInterval.endTime}";
                 dataGridViewRules.Rows.Add(rowRaw);
@@ -288,11 +289,11 @@ namespace RoutePlanner
             {
                 rowProfit = (DataGridViewRow)dataGridViewProfitMatrix.Rows[i].Clone();
                 rowProfit.Cells[0].Value = altVariantsList[i].id;
-                rowProfit.Cells[1].Value = altVariantsList[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
-                rowProfit.Cells[2].Value = altVariantsList[i].evaluationDeparuteTime;
-                rowProfit.Cells[3].Value = altVariantsList[i].evaluationDelayTime;
-                rowProfit.Cells[4].Value = altVariantsList[i].evaluationCoutryChange;
-                rowProfit.Cells[5].Value = altVariantsList[i].evaluationTotal;
+                rowProfit.Cells[1].Value = altVariantsList[i].DeparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                rowProfit.Cells[2].Value = altVariantsList[i].EvaluationDeparuteTime;
+                rowProfit.Cells[3].Value = altVariantsList[i].EvaluationDelayTime;
+                rowProfit.Cells[4].Value = altVariantsList[i].EvaluationCoutryChange;
+                rowProfit.Cells[5].Value = altVariantsList[i].EvaluationTotal;
                 dataGridViewProfitMatrix.Rows.Add(rowProfit);
             }
 
@@ -306,19 +307,19 @@ namespace RoutePlanner
             for (int i = 0; i < altVariantsListRawOptz.Count; i++)
             {
                 double differenceTravelTimePercent = Math.Round(
-                    ((altVariantsListRawOptz[i].evaluationTravelTime/altVariantsListRaw[i].evaluationTravelTime)-1)*100, 1);
-                string differenceTravelTime = TimeSpan.FromSeconds(altVariantsListRawOptz[i].evaluationTravelTime
-                    - altVariantsListRaw[i].evaluationTravelTime).ToString(@"hh\:mm\:ss");
+                    ((altVariantsListRawOptz[i].EvaluationTravelTime/altVariantsListRaw[i].EvaluationTravelTime)-1)*100, 1);
+                string differenceTravelTime = TimeSpan.FromSeconds(altVariantsListRawOptz[i].EvaluationTravelTime
+                    - altVariantsListRaw[i].EvaluationTravelTime).ToString(@"hh\:mm\:ss");
                 rowRaw = (DataGridViewRow)dataGridViewRawMatrix.Rows[i].Clone();
                 rowRaw.Cells[0].Value = altVariantsListRawOptz[i].id;
-                rowRaw.Cells[1].Value = altVariantsListRawOptz[i].deparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
-                rowRaw.Cells[2].Value = TimeSpan.FromSeconds( altVariantsListRaw[i].evaluationTravelTime).ToString(@"hh\:mm\:ss");
-                rowRaw.Cells[3].Value = TimeSpan.FromSeconds( altVariantsListRawOptz[i].evaluationTravelTime).ToString(@"hh\:mm\:ss");
-                rowRaw.Cells[4].Value = TimeSpan.FromSeconds( altVariantsListRaw[i].evaluationDelayTime).ToString(@"hh\:mm\:ss");
-                rowRaw.Cells[5].Value = TimeSpan.FromSeconds( altVariantsListRawOptz[i].evaluationDelayTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[1].Value = altVariantsListRawOptz[i].DeparuteTime.ToString("yyyy'/'MM'/'dd' 'H':'mm':'ss");
+                rowRaw.Cells[2].Value = TimeSpan.FromSeconds( altVariantsListRaw[i].EvaluationTravelTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[3].Value = TimeSpan.FromSeconds( altVariantsListRawOptz[i].EvaluationTravelTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[4].Value = TimeSpan.FromSeconds( altVariantsListRaw[i].EvaluationDelayTime).ToString(@"hh\:mm\:ss");
+                rowRaw.Cells[5].Value = TimeSpan.FromSeconds( altVariantsListRawOptz[i].EvaluationDelayTime).ToString(@"hh\:mm\:ss");
                 rowRaw.Cells[6].Value = differenceTravelTime;
                 rowRaw.Cells[7].Value = differenceTravelTimePercent;
-                rowRaw.Cells[8].Value = altVariantsListRawOptz[i].evaluationCoutryChange;
+                rowRaw.Cells[8].Value = altVariantsListRawOptz[i].EvaluationCoutryChange;
                 dataGridViewRawMatrix.Rows.Add(rowRaw);
             }
         }
@@ -372,7 +373,7 @@ namespace RoutePlanner
             else mapHeight = 400;
             if (altVarBest != null)
             {
-                string dateTimeDeparture = altVarBest.deparuteTime.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
+                string dateTimeDeparture = altVarBest.DeparuteTime.ToString("yyyy'/'MM'/'dd'%20'H':'mm':'ss");
                 pictureBoxMapView.Load($"https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Routes/Driving?" +
                 $"wp.0={wp0}" +
                 $"&wp.1={wp1}" +
@@ -386,86 +387,86 @@ namespace RoutePlanner
         }
 
         //Departure End
-        private void numericUpDownDepEndHr_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownDepEndHr_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
-        private void numericUpDownDepEndMin_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownDepEndMin_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
-        private void numericUpDownDepEndSec_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownDepEndSec_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
         //Departure Start
-        private void numericUpDownDepStartHr_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownDepStartHr_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
-        private void numericUpDownDepStartMin_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownDepStartMin_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
-        private void numericUpDownDepStartSec_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownDepStartSec_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
         //Date Time picker
-        private void metroDateTimeDepartureEnd_ValueChanged(object sender, EventArgs e)
+        private void MetroDateTimeDepartureEnd_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
-        private void metroDateTimeDepartureStart_ValueChanged(object sender, EventArgs e)
+        private void MetroDateTimeDepartureStart_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
         //interval
-        private void numericUpDownInterval_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownInterval_ValueChanged(object sender, EventArgs e)
         {
             UpdateEstimatedAltVariantsCount();
         }
 
         //coefficients
-        private void numericUpDownF1_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownF1_ValueChanged(object sender, EventArgs e)
         {
             trackBarF1.Value = Convert.ToInt32( numericUpDownF1.Value);
         }
 
-        private void numericUpDownF2_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownF2_ValueChanged(object sender, EventArgs e)
         {
             trackBarF2.Value = Convert.ToInt32(numericUpDownF2.Value);
         }
 
-        private void numericUpDownF3_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownF3_ValueChanged(object sender, EventArgs e)
         {
             trackBarF3.Value = Convert.ToInt32(numericUpDownF3.Value);
         }
 
-        private void trackBarF1_ValueChanged(object sender, EventArgs e)
+        private void TrackBarF1_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownF1.Value = trackBarF1.Value;
         }
 
-        private void trackBarF2_ValueChanged(object sender, EventArgs e)
+        private void TrackBarF2_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownF2.Value = trackBarF2.Value;
         }
 
-        private void trackBarF3_ValueChanged(object sender, EventArgs e)
+        private void TrackBarF3_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownF3.Value = trackBarF3.Value;
         }
 
-        private void dataGridViewRules_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridViewRules_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //Remove
             if (departureTimeRules.Count==0)
@@ -496,7 +497,7 @@ namespace RoutePlanner
 
         }
 
-        private void buttonAddRule_Click(object sender, EventArgs e)
+        private void ButtonAddRule_Click(object sender, EventArgs e)
         {
             DepartureTimeRuleWindow departureTimeRuleWindow = new DepartureTimeRuleWindow(this);
             departureTimeRuleWindow.ShowDialog();
@@ -526,7 +527,7 @@ namespace RoutePlanner
             metroLabelElapsedTime.Refresh();
         }
 
-        private void buttonUpdateCoefs_Click(object sender, EventArgs e)
+        private void ButtonUpdateCoefs_Click(object sender, EventArgs e)
         {
             altVariantsList = new AltVariantsCollection();
 
@@ -534,15 +535,16 @@ namespace RoutePlanner
             {
                 DateTime dateTimeDepartureTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
                 altVariantsList.Add(new AlternativeVariant(i, dateTimeDepartureTemp, i, 0, 0));
-                altVariantsList[i].evaluationTravelTime = responseOptzList[i].resourceSets.resourseSet.resources.route.travelDurationTraffic.Ticks / 10000000;
-                altVariantsList[i].evaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptzList[i]);
+                altVariantsList[i].EvaluationTravelTime = responseOptzList[i].ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic.Ticks / 10000000;
+                altVariantsList[i].EvaluationCoutryChange = responseHandler.GetCountryChangeCount(responseOptzList[i]);
             }
             UpdateAltVariantsList();
             altVariantsList = DepartureTimeRuleHandler.CalculateDepartureTimeRules(altVariantsList, departureTimeRules);
             dataGridViewProfitMatrix.Rows.Clear();
+            dataGridViewRawMatrix.Rows.Clear();
             UpdateRawMatrixDataGridViewAltVar();
             altVarBest = altVariantsList.FindBest();
-            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.deparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             UpdateMapView(altVarBest, wp0, wp1);
         }
     }

@@ -1,11 +1,6 @@
-﻿using System;
+﻿using RoutePlanner.DepartureTimeRulesHandling;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RoutePlanner
@@ -15,11 +10,9 @@ namespace RoutePlanner
         public DepartureTimeRuleWindow()
         {
             InitializeComponent();
-            //metroDateTimeSpecialDaysStart.Value=metroDateTimeSpecialDaysStart.Value.AddDays(1);
-            //metroDateTimeSpecialDaysEnd.Value=metroDateTimeSpecialDaysEnd.Value.AddDays(2);
         }
 
-        MainForm mainForm;
+        readonly MainForm mainForm;
 
         public DepartureTimeRuleWindow(MainForm _mainForm)
         {
@@ -32,7 +25,7 @@ namespace RoutePlanner
 
         }
 
-        private void buttonOk_Click(object sender, EventArgs e)
+        private void ButtonOk_Click(object sender, EventArgs e)
         {
             RuleDayType ruleDayType= RuleDayType.DaysOfWeek;
             if (metroRadioButtonDaysOfWeek.Checked) ruleDayType = RuleDayType.DaysOfWeek;
@@ -80,24 +73,24 @@ namespace RoutePlanner
             this.Close();
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void metroRadioButtonDaysOfWeek_CheckedChanged(object sender, EventArgs e)
+        private void MetroRadioButtonDaysOfWeek_CheckedChanged(object sender, EventArgs e)
         {
             groupBoxSpecialDays.Enabled = false;
             groupBoxDaysOfWeek.Enabled = true;
         }
 
-        private void metroRadioButtonSpecialDays_CheckedChanged(object sender, EventArgs e)
+        private void MetroRadioButtonSpecialDays_CheckedChanged(object sender, EventArgs e)
         {
             groupBoxSpecialDays.Enabled = true;
             groupBoxDaysOfWeek.Enabled = false;
         }
 
-        private void metroRadioButtonWholeDay_CheckedChanged(object sender, EventArgs e)
+        private void MetroRadioButtonWholeDay_CheckedChanged(object sender, EventArgs e)
         {
             numericUpDownTimeHrEnd.Enabled = false;
             numericUpDownTimeHrStart.Enabled = false;
@@ -107,7 +100,7 @@ namespace RoutePlanner
             numericUpDownTimeSecStart.Enabled = false;
         }
 
-        private void metroRadioButtonSpecialTime_CheckedChanged(object sender, EventArgs e)
+        private void MetroRadioButtonSpecialTime_CheckedChanged(object sender, EventArgs e)
         {
             numericUpDownTimeHrEnd.Enabled = true;
             numericUpDownTimeHrStart.Enabled = true;
@@ -117,48 +110,48 @@ namespace RoutePlanner
             numericUpDownTimeSecStart.Enabled = true;
         }
 
-        private void trackBarCoef_ValueChanged(object sender, EventArgs e)
+        private void TrackBarCoef_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownCoef.Value = trackBarCoef.Value;
         }
 
-        private void numericUpDownCoef_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownCoef_ValueChanged(object sender, EventArgs e)
         {
             trackBarCoef.Value = Convert.ToInt32(numericUpDownCoef.Value);
 
         }
 
-        private void numericUpDownTimeHrStart_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownTimeHrStart_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightTimeInterval();
+            buttonOk.Enabled = IsRightTimeInterval();
         }
 
-        private void numericUpDownTimeMinStart_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownTimeMinStart_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightTimeInterval();
+            buttonOk.Enabled = IsRightTimeInterval();
         }
 
-        private void numericUpDownTimeSecStart_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownTimeSecStart_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightTimeInterval();
+            buttonOk.Enabled = IsRightTimeInterval();
         }
 
-        private void numericUpDownTimeHrEnd_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownTimeHrEnd_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightTimeInterval();
+            buttonOk.Enabled = IsRightTimeInterval();
         }
 
-        private void numericUpDownTimeMinEnd_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownTimeMinEnd_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightTimeInterval();
+            buttonOk.Enabled = IsRightTimeInterval();
         }
 
-        private void numericUpDownTimeSecEnd_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDownTimeSecEnd_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightTimeInterval();
+            buttonOk.Enabled = IsRightTimeInterval();
         }
 
-        private bool isRightTimeInterval()
+        private bool IsRightTimeInterval()
         {
             TimeSpan timeSpanStart = new TimeSpan(
                 Convert.ToInt32( numericUpDownTimeHrStart.Value),
@@ -180,17 +173,17 @@ namespace RoutePlanner
             return !result;
         }
 
-        private void metroDateTimeSpecialDaysStart_ValueChanged(object sender, EventArgs e)
+        private void MetroDateTimeSpecialDaysStart_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightSpecialDaysInterval();
+            buttonOk.Enabled = IsRightSpecialDaysInterval();
         }
 
-        private void metroDateTimeSpecialDaysEnd_ValueChanged(object sender, EventArgs e)
+        private void MetroDateTimeSpecialDaysEnd_ValueChanged(object sender, EventArgs e)
         {
-            buttonOk.Enabled = isRightSpecialDaysInterval();
+            buttonOk.Enabled = IsRightSpecialDaysInterval();
         }
 
-        private bool isRightSpecialDaysInterval()
+        private bool IsRightSpecialDaysInterval()
         {
             bool result = metroDateTimeSpecialDaysEnd.Value >= metroDateTimeSpecialDaysStart.Value;
             if (result)

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace RoutePlanner
+namespace RoutePlanner.DepartureTimeRulesHandling
 {
     public class DepartureTimeRuleHandler
     {
@@ -20,20 +16,20 @@ namespace RoutePlanner
                             case RuleTimeType.WholeDay:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (departureTimeRule.daysOfWeek.Contains(alternativeVariant.deparuteTime.DayOfWeek))
+                                    if (departureTimeRule.daysOfWeek.Contains(alternativeVariant.DeparuteTime.DayOfWeek))
                                     {
-                                        alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
+                                        alternativeVariant.EvaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
                                 }
                                 break;
                             case RuleTimeType.SpecialTime:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (departureTimeRule.daysOfWeek.Contains(alternativeVariant.deparuteTime.DayOfWeek)
-                                        && alternativeVariant.deparuteTime.TimeOfDay>= departureTimeRule.ruleTimeSpanInterval.startTime
-                                        && alternativeVariant.deparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
+                                    if (departureTimeRule.daysOfWeek.Contains(alternativeVariant.DeparuteTime.DayOfWeek)
+                                        && alternativeVariant.DeparuteTime.TimeOfDay>= departureTimeRule.ruleTimeSpanInterval.startTime
+                                        && alternativeVariant.DeparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
                                     {
-                                        alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
+                                        alternativeVariant.EvaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
                                 }
                                 break;
@@ -47,22 +43,22 @@ namespace RoutePlanner
                             case RuleTimeType.WholeDay:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (alternativeVariant.deparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
-                                        && alternativeVariant.deparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime)
+                                    if (alternativeVariant.DeparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
+                                        && alternativeVariant.DeparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime)
                                     {
-                                        alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
+                                        alternativeVariant.EvaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
                                 }
                                 break;
                             case RuleTimeType.SpecialTime:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (alternativeVariant.deparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
-                                        && alternativeVariant.deparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime
-                                        && alternativeVariant.deparuteTime.TimeOfDay >= departureTimeRule.ruleTimeSpanInterval.startTime
-                                        && alternativeVariant.deparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
+                                    if (alternativeVariant.DeparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
+                                        && alternativeVariant.DeparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime
+                                        && alternativeVariant.DeparuteTime.TimeOfDay >= departureTimeRule.ruleTimeSpanInterval.startTime
+                                        && alternativeVariant.DeparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
                                     {
-                                        alternativeVariant.evaluationTotal *= departureTimeRule.ruleCoefficient;
+                                        alternativeVariant.EvaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
                                 }
                                 break;

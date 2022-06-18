@@ -1,9 +1,0 @@
-﻿<UserControl x:Class="RoutePlanner.UserControl1"
-   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-   xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF">
-    <Grid>
-        <m:Map CredentialsProvider="ApNf4cdMo33Rss3h5mOCtQYIYgEsonbD4PatMfaq8-9RPSQ-orq8vnk3lMuEcMx9" x:Name="myMap" Margin="0,0,0,0" />
-    </Grid>
-    
-</UserControl >

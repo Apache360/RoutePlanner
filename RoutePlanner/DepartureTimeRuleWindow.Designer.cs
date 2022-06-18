@@ -84,7 +84,7 @@ namespace RoutePlanner
             this.buttonOk.TabIndex = 0;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
             // buttonCancel
             // 
@@ -95,7 +95,7 @@ namespace RoutePlanner
             this.buttonCancel.TabIndex = 1;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // groupBoxDaysOfWeek
             // 
@@ -138,7 +138,7 @@ namespace RoutePlanner
             this.metroDateTimeSpecialDaysStart.Name = "metroDateTimeSpecialDaysStart";
             this.metroDateTimeSpecialDaysStart.Size = new System.Drawing.Size(192, 29);
             this.metroDateTimeSpecialDaysStart.TabIndex = 0;
-            this.metroDateTimeSpecialDaysStart.ValueChanged += new System.EventHandler(this.metroDateTimeSpecialDaysStart_ValueChanged);
+            this.metroDateTimeSpecialDaysStart.ValueChanged += new System.EventHandler(this.MetroDateTimeSpecialDaysStart_ValueChanged);
             // 
             // metroDateTimeSpecialDaysEnd
             // 
@@ -148,7 +148,7 @@ namespace RoutePlanner
             this.metroDateTimeSpecialDaysEnd.Name = "metroDateTimeSpecialDaysEnd";
             this.metroDateTimeSpecialDaysEnd.Size = new System.Drawing.Size(192, 29);
             this.metroDateTimeSpecialDaysEnd.TabIndex = 1;
-            this.metroDateTimeSpecialDaysEnd.ValueChanged += new System.EventHandler(this.metroDateTimeSpecialDaysEnd_ValueChanged);
+            this.metroDateTimeSpecialDaysEnd.ValueChanged += new System.EventHandler(this.MetroDateTimeSpecialDaysEnd_ValueChanged);
             // 
             // numericUpDownCoef
             // 
@@ -157,7 +157,7 @@ namespace RoutePlanner
             this.numericUpDownCoef.Name = "numericUpDownCoef";
             this.numericUpDownCoef.Size = new System.Drawing.Size(65, 25);
             this.numericUpDownCoef.TabIndex = 6;
-            this.numericUpDownCoef.ValueChanged += new System.EventHandler(this.numericUpDownCoef_ValueChanged);
+            this.numericUpDownCoef.ValueChanged += new System.EventHandler(this.NumericUpDownCoef_ValueChanged);
             // 
             // trackBarCoef
             // 
@@ -167,7 +167,7 @@ namespace RoutePlanner
             this.trackBarCoef.Name = "trackBarCoef";
             this.trackBarCoef.Size = new System.Drawing.Size(260, 45);
             this.trackBarCoef.TabIndex = 7;
-            this.trackBarCoef.ValueChanged += new System.EventHandler(this.trackBarCoef_ValueChanged);
+            this.trackBarCoef.ValueChanged += new System.EventHandler(this.TrackBarCoef_ValueChanged);
             // 
             // metroLabel1
             // 
@@ -208,7 +208,7 @@ namespace RoutePlanner
             this.metroRadioButtonDaysOfWeek.TabStop = true;
             this.metroRadioButtonDaysOfWeek.Text = "Every day of week";
             this.metroRadioButtonDaysOfWeek.UseSelectable = true;
-            this.metroRadioButtonDaysOfWeek.CheckedChanged += new System.EventHandler(this.metroRadioButtonDaysOfWeek_CheckedChanged);
+            this.metroRadioButtonDaysOfWeek.CheckedChanged += new System.EventHandler(this.MetroRadioButtonDaysOfWeek_CheckedChanged);
             // 
             // metroRadioButtonSpecialDays
             // 
@@ -220,7 +220,7 @@ namespace RoutePlanner
             this.metroRadioButtonSpecialDays.TabIndex = 10;
             this.metroRadioButtonSpecialDays.Text = "Special days";
             this.metroRadioButtonSpecialDays.UseSelectable = true;
-            this.metroRadioButtonSpecialDays.CheckedChanged += new System.EventHandler(this.metroRadioButtonSpecialDays_CheckedChanged);
+            this.metroRadioButtonSpecialDays.CheckedChanged += new System.EventHandler(this.MetroRadioButtonSpecialDays_CheckedChanged);
             // 
             // metroRadioButtonWholeDay
             // 
@@ -234,7 +234,7 @@ namespace RoutePlanner
             this.metroRadioButtonWholeDay.TabStop = true;
             this.metroRadioButtonWholeDay.Text = "Whole day 0-24";
             this.metroRadioButtonWholeDay.UseSelectable = true;
-            this.metroRadioButtonWholeDay.CheckedChanged += new System.EventHandler(this.metroRadioButtonWholeDay_CheckedChanged);
+            this.metroRadioButtonWholeDay.CheckedChanged += new System.EventHandler(this.MetroRadioButtonWholeDay_CheckedChanged);
             // 
             // groupBoxTime
             // 
@@ -265,7 +265,7 @@ namespace RoutePlanner
             this.metroRadioButtonSpecialTime.TabIndex = 12;
             this.metroRadioButtonSpecialTime.Text = "Special time";
             this.metroRadioButtonSpecialTime.UseSelectable = true;
-            this.metroRadioButtonSpecialTime.CheckedChanged += new System.EventHandler(this.metroRadioButtonSpecialTime_CheckedChanged);
+            this.metroRadioButtonSpecialTime.CheckedChanged += new System.EventHandler(this.MetroRadioButtonSpecialTime_CheckedChanged);
             // 
             // metroLabelSpecialTimeState
             // 
@@ -384,7 +384,7 @@ namespace RoutePlanner
             this.numericUpDownTimeHrStart.Name = "numericUpDownTimeHrStart";
             this.numericUpDownTimeHrStart.Size = new System.Drawing.Size(71, 25);
             this.numericUpDownTimeHrStart.TabIndex = 15;
-            this.numericUpDownTimeHrStart.ValueChanged += new System.EventHandler(this.numericUpDownTimeHrStart_ValueChanged);
+            this.numericUpDownTimeHrStart.ValueChanged += new System.EventHandler(this.NumericUpDownTimeHrStart_ValueChanged);
             // 
             // numericUpDownTimeMinStart
             // 
@@ -399,7 +399,7 @@ namespace RoutePlanner
             this.numericUpDownTimeMinStart.Name = "numericUpDownTimeMinStart";
             this.numericUpDownTimeMinStart.Size = new System.Drawing.Size(71, 25);
             this.numericUpDownTimeMinStart.TabIndex = 16;
-            this.numericUpDownTimeMinStart.ValueChanged += new System.EventHandler(this.numericUpDownTimeMinStart_ValueChanged);
+            this.numericUpDownTimeMinStart.ValueChanged += new System.EventHandler(this.NumericUpDownTimeMinStart_ValueChanged);
             // 
             // numericUpDownTimeSecStart
             // 
@@ -414,7 +414,7 @@ namespace RoutePlanner
             this.numericUpDownTimeSecStart.Name = "numericUpDownTimeSecStart";
             this.numericUpDownTimeSecStart.Size = new System.Drawing.Size(71, 25);
             this.numericUpDownTimeSecStart.TabIndex = 17;
-            this.numericUpDownTimeSecStart.ValueChanged += new System.EventHandler(this.numericUpDownTimeSecStart_ValueChanged);
+            this.numericUpDownTimeSecStart.ValueChanged += new System.EventHandler(this.NumericUpDownTimeSecStart_ValueChanged);
             // 
             // numericUpDownTimeHrEnd
             // 
@@ -434,7 +434,7 @@ namespace RoutePlanner
             0,
             0,
             0});
-            this.numericUpDownTimeHrEnd.ValueChanged += new System.EventHandler(this.numericUpDownTimeHrEnd_ValueChanged);
+            this.numericUpDownTimeHrEnd.ValueChanged += new System.EventHandler(this.NumericUpDownTimeHrEnd_ValueChanged);
             // 
             // numericUpDownTimeMinEnd
             // 
@@ -449,7 +449,7 @@ namespace RoutePlanner
             this.numericUpDownTimeMinEnd.Name = "numericUpDownTimeMinEnd";
             this.numericUpDownTimeMinEnd.Size = new System.Drawing.Size(71, 25);
             this.numericUpDownTimeMinEnd.TabIndex = 19;
-            this.numericUpDownTimeMinEnd.ValueChanged += new System.EventHandler(this.numericUpDownTimeMinEnd_ValueChanged);
+            this.numericUpDownTimeMinEnd.ValueChanged += new System.EventHandler(this.NumericUpDownTimeMinEnd_ValueChanged);
             // 
             // numericUpDownTimeSecEnd
             // 
@@ -464,7 +464,7 @@ namespace RoutePlanner
             this.numericUpDownTimeSecEnd.Name = "numericUpDownTimeSecEnd";
             this.numericUpDownTimeSecEnd.Size = new System.Drawing.Size(71, 25);
             this.numericUpDownTimeSecEnd.TabIndex = 20;
-            this.numericUpDownTimeSecEnd.ValueChanged += new System.EventHandler(this.numericUpDownTimeSecEnd_ValueChanged);
+            this.numericUpDownTimeSecEnd.ValueChanged += new System.EventHandler(this.NumericUpDownTimeSecEnd_ValueChanged);
             // 
             // metroLabelSpecialDaysState
             // 

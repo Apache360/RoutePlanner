@@ -1,10 +1,5 @@
 ﻿using RoutePlanner.ResponseHandling.ResponseNodes;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace RoutePlanner.ResponseHandling
@@ -13,7 +8,7 @@ namespace RoutePlanner.ResponseHandling
     {
         public Response Optimize(Response response, MainForm mainForm)
         {
-            Route route = response.resourceSets.resourseSet.resources.route;
+            Route route = response.ResourceSets.ResourseSet.Resources.Route;
             ResponseHandling.ResponseNodes.Response responseRaw;
             mainForm.UpdateElapsedTime();
             //route leg rewrite
@@ -27,7 +22,7 @@ namespace RoutePlanner.ResponseHandling
 
                 wp0 = $"{route.routeLeg.itineraryItems[i].maneuverPoint.Latitude}, {route.routeLeg.itineraryItems[i].maneuverPoint.Longitude}";
                 wp1 = $"{route.routeLeg.itineraryItems[i + 1].maneuverPoint.Latitude}, {route.routeLeg.itineraryItems[i+1].maneuverPoint.Longitude}";
-                DateTime dateTimeDepartureTemp=new DateTime();
+                DateTime dateTimeDepartureTemp;
                 if (i == 0)
                 {
                     dateTimeDepartureTemp = route.departureTime;
@@ -56,8 +51,8 @@ namespace RoutePlanner.ResponseHandling
                 XmlElement xRoot = ResponseHandler.GetResponse(url);
                 responseRaw = ResponseHandler.ReadResponse(xRoot, dateTimeDepartureTemp);
 
-                responseRaw.resourceSets.resourseSet.resources.route.routeLeg.itineraryItems[0].localDepartureTime = dateTimeDepartureTemp;
-                route.travelDurationTraffic += responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic;
+                responseRaw.ResourceSets.ResourseSet.Resources.Route.routeLeg.itineraryItems[0].localDepartureTime = dateTimeDepartureTemp;
+                route.travelDurationTraffic += responseRaw.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic;
 
                 string travelDurationTrafficStr = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
                     route.travelDurationTraffic.Hours,
@@ -66,7 +61,7 @@ namespace RoutePlanner.ResponseHandling
                 route.travelDurationTrafficStr = travelDurationTrafficStr;
 
                 route.routeLeg.itineraryItems[i].localDepartureTime = dateTimeDepartureTemp;
-                route.routeLeg.itineraryItems[i].travelDurationTraffic = Convert.ToInt32(responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic.TotalSeconds);
+                route.routeLeg.itineraryItems[i].travelDurationTraffic = Convert.ToInt32(responseRaw.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic.TotalSeconds);
                 if (i == route.routeLeg.itineraryItems.Count - 2)
                 {
                     //for the total changes
