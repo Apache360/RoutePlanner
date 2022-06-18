@@ -33,11 +33,7 @@ namespace RoutePlanner
 
             foreach (AlternativeVariant altVar in this)
             {
-                if (evaluationTravelTimeMax != 0)
-                {
-
-                    altVar.EvaluationDelayTime = altVar.EvaluationTravelTime - evaluationTravelTimeMin;
-                }
+                if (evaluationTravelTimeMax != 0) altVar.EvaluationDelayTime = altVar.EvaluationTravelTime - evaluationTravelTimeMin;
             }
             double evaluationDelayTimeMax = double.MinValue;
 
@@ -76,10 +72,7 @@ namespace RoutePlanner
             }
             foreach (AlternativeVariant altVar in this)
             {
-                if (evaluationTravelTimeMin != 0)
-                {
-                    altVar.EvaluationDelayTime = altVar.EvaluationTravelTime- evaluationTravelTimeMin;
-                }
+                if (evaluationTravelTimeMin != 0) altVar.EvaluationDelayTime = altVar.EvaluationTravelTime - evaluationTravelTimeMin;
             }
             return this;
         }
