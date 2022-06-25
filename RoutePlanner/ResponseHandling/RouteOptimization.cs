@@ -9,9 +9,8 @@ namespace RoutePlanner.ResponseHandling
         public Response Optimize(Response response, MainForm mainForm)
         {
             Route route = response.ResourceSets.ResourseSet.Resources.Route;
-            ResponseHandling.ResponseNodes.Response responseRaw;
+            Response responseRaw;
             mainForm.UpdateElapsedTime();
-            //route leg rewrite
 
             string wp0;
             string wp1;
@@ -63,16 +62,8 @@ namespace RoutePlanner.ResponseHandling
                 route.routeLeg.itineraryItems[i].localDepartureTime = dateTimeDepartureTemp;
                 route.routeLeg.itineraryItems[i].travelDurationTraffic = Convert.ToInt32(responseRaw.ResourceSets.ResourseSet.Resources.Route.travelDurationTraffic.TotalSeconds);
                 if (i == route.routeLeg.itineraryItems.Count - 2)
-                {
-                    //for the total changes
-                    //route.travelDurationTraffic = responseRaw.resourceSets.resourseSet.resources.route.travelDurationTraffic;
-                    //string travelDurationTemp = route.travelDurationTraffic.ToString("c");
-                    //Console.WriteLine("travelDurationTemp: " + travelDurationTemp);
-                }
-                //Console.WriteLine($"responseRaw #{i}: {response}");
                 mainForm.UpdateElapsedTime();
             }
-
             return response;
         }   
     }

@@ -24,5 +24,16 @@ namespace RoutePlanner
             this.EvaluationTravelTime = evaluationDelayTime; // in raw: seconds for delay time
             this.EvaluationCoutryChange = evaluationCoutryChange; // in raw: count of crossing the country border
         }
+
+        public override string ToString()
+        {
+            return $"AlternativeVariant - id: {id}" +
+                $"\nDeparuteTime: {DeparuteTime}" +
+                $"\nEvaluationDeparuteTime: {EvaluationDeparuteTime}" +
+                $"\nEvaluationDelayTime: {EvaluationDelayTime}" +
+                $"\nEvaluationTravelTime: {EvaluationTravelTime}" +
+                $"\nEvaluationCoutryChange: {EvaluationCoutryChange}" +
+                $"\nEvaluationTotal: {EvaluationTotal}";
+        }
     }
 }

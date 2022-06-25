@@ -105,6 +105,7 @@ namespace RoutePlanner
                     altVarBest = altVar;
                 }
             }
+            Console.WriteLine("altVarBest:" +altVarBest.id);
             return altVarBest;
         }
 
@@ -126,6 +127,16 @@ namespace RoutePlanner
                 collection.Add(altVariant);
             }
             return collection;
+        }
+
+        public override string ToString()
+        {
+            string str = "AltVariantsCollection:";
+            foreach (AlternativeVariant alternativeVariant in this)
+            {
+                str += $"\n{alternativeVariant}";
+            }
+            return str;
         }
     }
 }

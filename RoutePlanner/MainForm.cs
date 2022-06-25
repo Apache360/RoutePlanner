@@ -16,11 +16,15 @@ namespace RoutePlanner
         {
             InitializeComponent();
             metroDateTimeDepartureStart.Value = new DateTime(2022, 07, 04, 0, 0, 0);
-            numericUpDownDepStartHr.Value = 6;
+            metroDateTimeDepartureStart.Value = DateTime.Now.AddDays(1);
+            //numericUpDownDepStartHr.Value = 6;
+            numericUpDownDepStartHr.Value = 0;
             numericUpDownDepStartMin.Value = 0;
             numericUpDownDepStartSec.Value = 0;
             metroDateTimeDepartureEnd.Value = new DateTime(2022, 07, 04, 0, 0, 0);
-            numericUpDownDepEndHr.Value = 12;
+            metroDateTimeDepartureEnd.Value = DateTime.Now.AddDays(1);
+            //numericUpDownDepEndHr.Value = 12;
+            numericUpDownDepEndHr.Value = 4;
             numericUpDownDepEndMin.Value = 0;
             numericUpDownDepEndSec.Value = 0;
             //metroTextBoxW0.Text = "3835 Luna Pier Rd, Erie, Мічиган 48133, Сполучені Штати";
@@ -46,6 +50,8 @@ namespace RoutePlanner
         List<ResponseHandling.ResponseNodes.Response> responseOptzList;
         ResponseHandling.ResponseNodes.Response responseOptz;
 
+
+
         string wp0;
         string wp1;
         AlternativeVariant altVarBest;
@@ -62,6 +68,8 @@ namespace RoutePlanner
             richTextBoxDebug.Clear();
             dataGridViewProfitMatrix.Rows.Clear();
             dataGridViewProfitMatrix.Refresh();
+            dataGridViewRawMatrix.Rows.Clear();
+            dataGridViewRawMatrix.Refresh();
             StartStopwatch();
             estimatedTime = new TimeSpan();
 
@@ -113,7 +121,7 @@ namespace RoutePlanner
                     $"&dateTime={dateTimeTempStr}" +
                     $"&output=xml" +
                     $"&key={key}";
-                //Console.WriteLine($"URL: {url}");
+                Console.WriteLine($"URL: {url}");
 
                 XmlElement xRoot =ResponseHandler.GetResponse(url);
                 ResponseHandling.ResponseNodes.Response responseRaw;
@@ -161,7 +169,8 @@ namespace RoutePlanner
             UpdateRawMatrixDataGridViewAltVar();
             UpdateRawMatrixDataGridViewRawOptz();
             altVarBest = altVariantsList.FindBest();
-            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            //metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime}";
             UpdateMapView(altVarBest, wp0, wp1);
 
             buttonSearch.Enabled = true;
@@ -172,20 +181,7 @@ namespace RoutePlanner
         public void SetUpDataGridView()
         {
             dataGridViewProfitMatrix.ColumnCount = 6;
-
-            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
-            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridViewProfitMatrix.ColumnHeadersDefaultCellStyle.Font =new Font(dataGridViewProfitMatrix.Font, FontStyle.Bold);
-
-            //dataGridViewCostMatrix.Name = "altVarDataGridView";
-            //dataGridViewCostMatrix.Location = new System.Drawing.Point(8, 8);
-            //dataGridViewCostMatrix.Size = new Size(400, 250);
-            //dataGridViewCostMatrix.AutoSizeRowsMode =DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            //dataGridViewCostMatrix.ColumnHeadersBorderStyle =DataGridViewHeaderBorderStyle.Single;
-            //dataGridViewCostMatrix.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            //dataGridViewCostMatrix.GridColor = Color.Black;
-            //dataGridViewCostMatrix.RowHeadersVisible = false;
-
             dataGridViewProfitMatrix.Columns[0].Name = "Id";
             dataGridViewProfitMatrix.Columns[1].Name = "Departure Time";
             dataGridViewProfitMatrix.Columns[2].Name = "F1 Evaluation (Departure Time)";
@@ -203,25 +199,8 @@ namespace RoutePlanner
                 dataGridViewProfitMatrix.Columns[i].Width = 80;
             }
 
-
-            //dataGridViewCostMatrix.Dock = DockStyle.Fill;
-
-            //
             dataGridViewRawMatrix.ColumnCount = 9;
-
-            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
-            //dataGridViewCostMatrix.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridViewRawMatrix.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewRawMatrix.Font, FontStyle.Bold);
-
-            //dataGridViewCostMatrix.Name = "altVarDataGridView";
-            //dataGridViewCostMatrix.Location = new System.Drawing.Point(8, 8);
-            //dataGridViewCostMatrix.Size = new Size(400, 250);
-            //dataGridViewCostMatrix.AutoSizeRowsMode =DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            //dataGridViewCostMatrix.ColumnHeadersBorderStyle =DataGridViewHeaderBorderStyle.Single;
-            //dataGridViewCostMatrix.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            //dataGridViewCostMatrix.GridColor = Color.Black;
-            //dataGridViewCostMatrix.RowHeadersVisible = false;
-
             dataGridViewRawMatrix.Columns[0].Name = "Id";
             dataGridViewRawMatrix.Columns[1].Name = "Departure Time";
             dataGridViewRawMatrix.Columns[2].Name = "Travel Time (Raw)";
@@ -238,10 +217,6 @@ namespace RoutePlanner
             {
                 dataGridViewRawMatrix.Columns[i].Width = 100;
             }
-
-
-            //dataGridViewCostMatrix.Dock = DockStyle.Fill;
-
         }
 
         public void SetUpRulesDataGridView()
@@ -283,7 +258,6 @@ namespace RoutePlanner
 
         public void UpdateRawMatrixDataGridViewAltVar()
         {
-
             DataGridViewRow rowProfit;
             for (int i = 0; i < altVariantsList.Count; i++)
             {
@@ -296,7 +270,6 @@ namespace RoutePlanner
                 rowProfit.Cells[5].Value = altVariantsList[i].EvaluationTotal;
                 dataGridViewProfitMatrix.Rows.Add(rowProfit);
             }
-
         }
 
         public void UpdateRawMatrixDataGridViewRawOptz()
@@ -337,7 +310,6 @@ namespace RoutePlanner
             dateTimeEnd = dateTimeEnd.AddHours(Convert.ToDouble(numericUpDownDepEndHr.Value));
             dateTimeEnd = dateTimeEnd.AddMinutes(Convert.ToDouble(numericUpDownDepEndMin.Value));
             dateTimeEnd = dateTimeEnd.AddSeconds(Convert.ToDouble(numericUpDownDepEndSec.Value));
-
             //Console.WriteLine($"{dateTimeStart.ToString("G", CultureInfo.GetCultureInfo("es-ES"))}");
 
             dateTimeDelta = dateTimeEnd.Subtract(dateTimeStart);
@@ -360,7 +332,6 @@ namespace RoutePlanner
                 metroLabelEstimatedAltVariantsCount.Text = "Should be more than 0";
                 buttonSearch.Enabled = false;
             }
-
         }
 
         public void UpdateMapView(AlternativeVariant altVarBest, string wp0, string wp1)
@@ -383,7 +354,6 @@ namespace RoutePlanner
                 $"&dateTime={dateTimeDeparture}" +
                 $"&key={key}");
             }
-
         }
 
         //Departure End
@@ -494,7 +464,6 @@ namespace RoutePlanner
             metroLabelBestTime.Location = new System.Drawing.Point(7, tabControlCentral.Height+15);
             metroTextBoxBestDeparture.Location = new System.Drawing.Point(7, tabControlCentral.Height+32);
             UpdateMapView(altVarBest, wp0, wp1);
-
         }
 
         private void ButtonAddRule_Click(object sender, EventArgs e)
@@ -522,7 +491,6 @@ namespace RoutePlanner
 
         public void UpdateElapsedTime()
         {
-
             metroLabelElapsedTime.Text = $"Elapsed time: {stopwatch.Elapsed.ToString(@"hh\:mm\:ss", CultureInfo.GetCultureInfo("en-US"))}";
             metroLabelElapsedTime.Refresh();
         }
@@ -531,6 +499,7 @@ namespace RoutePlanner
         {
             altVariantsList = new AltVariantsCollection();
 
+            dataGridViewProfitMatrix.Rows.Clear();
             for (int i = 0; i < alternativeVariantsCount; i++)
             {
                 DateTime dateTimeDepartureTemp = dateTimeStart.AddMinutes(i * Convert.ToDouble(numericUpDownInterval.Value));
@@ -540,11 +509,10 @@ namespace RoutePlanner
             }
             UpdateAltVariantsList();
             altVariantsList = DepartureTimeRuleHandler.CalculateDepartureTimeRules(altVariantsList, departureTimeRules);
-            dataGridViewProfitMatrix.Rows.Clear();
-            dataGridViewRawMatrix.Rows.Clear();
             UpdateRawMatrixDataGridViewAltVar();
             altVarBest = altVariantsList.FindBest();
-            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
+            metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime}";
+            //metroTextBoxBestDeparture.Text = $"#{altVarBest.id}: {altVarBest.DeparuteTime.ToLocalTime().ToString("U", CultureInfo.GetCultureInfo("en-US"))}";
             UpdateMapView(altVarBest, wp0, wp1);
         }
     }

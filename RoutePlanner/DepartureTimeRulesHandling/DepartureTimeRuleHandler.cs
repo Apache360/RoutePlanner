@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RoutePlanner.DepartureTimeRulesHandling
 {
@@ -43,8 +44,8 @@ namespace RoutePlanner.DepartureTimeRulesHandling
                             case RuleTimeType.WholeDay:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (alternativeVariant.DeparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
-                                        && alternativeVariant.DeparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime)
+                                    if (alternativeVariant.DeparuteTime.Date >= departureTimeRule.ruleDateTimeInterval.startDateTime.Date
+                                        && alternativeVariant.DeparuteTime.Date <= departureTimeRule.ruleDateTimeInterval.endDateTime.Date)
                                     {
                                         alternativeVariant.EvaluationTotal *= departureTimeRule.ruleCoefficient;
                                     }
@@ -53,8 +54,8 @@ namespace RoutePlanner.DepartureTimeRulesHandling
                             case RuleTimeType.SpecialTime:
                                 foreach (AlternativeVariant alternativeVariant in alternativeVariants)
                                 {
-                                    if (alternativeVariant.DeparuteTime >= departureTimeRule.ruleDateTimeInterval.startDateTime
-                                        && alternativeVariant.DeparuteTime <= departureTimeRule.ruleDateTimeInterval.endDateTime
+                                    if (alternativeVariant.DeparuteTime.Date >= departureTimeRule.ruleDateTimeInterval.startDateTime.Date
+                                        && alternativeVariant.DeparuteTime.Date <= departureTimeRule.ruleDateTimeInterval.endDateTime.Date
                                         && alternativeVariant.DeparuteTime.TimeOfDay >= departureTimeRule.ruleTimeSpanInterval.startTime
                                         && alternativeVariant.DeparuteTime.TimeOfDay <= departureTimeRule.ruleTimeSpanInterval.endTime)
                                     {
